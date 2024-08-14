@@ -4,13 +4,20 @@ import Login from "../components/Admin/pages/Login";
 import OpenRoute from "../components/Admin/auth/OpenRoute";
 import Navbar from "../components/common/Navbar/Navbar";
 import Home from "../pages/Home";
+import SubNavbar from "../components/common/Navbar/SubNavbar";
+import BreakingNews from "../components/core/Home/BreakingNews";
+
 import Error from "../pages/Error";
-import SingleNews from "../pages/SingleNews";
+import ScrollToTop from "../components/common/ScrollToTop";
+import Whatsapp from "../components/common/Whatsapp";
+import Footer from "../components/common/Footer";
 
 function RegualerRoutes() {
   return (
     <>
+      <SubNavbar />
       <Navbar />
+      <BreakingNews />
       {/* <div className="h-screen w-screen bg-white"></div> */}
       <Routes>
         <Route path="/" element={<Home />} />
@@ -26,6 +33,9 @@ function RegualerRoutes() {
           }
         />
       </Routes>
+      <Footer />
+      <Whatsapp />
+      <ScrollToTop />
     </>
   );
 }
