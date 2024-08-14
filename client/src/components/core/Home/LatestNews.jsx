@@ -7,13 +7,12 @@ import { DiCodeigniter } from "react-icons/di";
 function LatestNews() {
   const { allNews } = useSelector((state) => state.news);
 
-  const latestNews = [...allNews]
-    .sort((a, b) => new Date(b.date) - new Date(a.date))
-    .slice(0, 6);
+  const latestNews =allNews
+  .filter((news) => news.type === "big-news")
+  .sort((a, b) => new Date(b.date) - new Date(a.date))
+  .slice(0, 5);
 
-  useEffect(() => {
-    console.log(latestNews);
-  }, []);
+
 
   const truncateText = (text, wordLimit) => {
     const words = text.split(" ");
@@ -33,7 +32,7 @@ function LatestNews() {
               <Link to={`/${latestNews[0]?.slug}`} className=" relative">
                 <img src={latestNews[0]?.images[0]?.url} alt="" className="" />
                 <p className="font-semibold absolute bottom-0 text-white text-center bg-black bg-opacity-60 w-full py-5">
-                  {truncateText(latestNews[0]?.title, 20)}
+                  {truncateText(latestNews[0]?.title, 10)}
                   <p>{latestNews[0]?.createAt}</p>
                 </p>
               </Link>
@@ -43,7 +42,7 @@ function LatestNews() {
           <div className="col-span-2 ">
             <div className=" hidden lg:grid grid-cols-2   max-h-[200px] lg:max-w-[1200px] ">
               <div className=" flex lg:block">
-                {latestNews.slice(2, 4).map((news) => (
+                {latestNews.slice(1, 3).map((news) => (
                   <Link
                     to={`/${news?.slug}`}
                     key={news._id}
@@ -62,7 +61,7 @@ function LatestNews() {
               </div>
 
               <div className="flex lg:block ">
-                {latestNews.slice(4, 6).map((news) => (
+                {latestNews.slice(3, 5).map((news) => (
                   <Link
                     to={`/${news?.slug}`}
                     key={news._id}

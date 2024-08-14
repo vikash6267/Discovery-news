@@ -5,6 +5,7 @@ import OpenRoute from "../components/Admin/auth/OpenRoute";
 import Navbar from "../components/common/Navbar/Navbar";
 import Home from "../pages/Home";
 import Error from "../pages/Error";
+import SingleNews from "../pages/SingleNews";
 
 function RegualerRoutes() {
   return (
@@ -14,6 +15,7 @@ function RegualerRoutes() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="*" element={<Error />} />
+        <Route path="/:id" element={<SingleNews />} />
 
         <Route
           path="/login"
