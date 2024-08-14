@@ -11,6 +11,7 @@ import Error from "../pages/Error";
 import ScrollToTop from "../components/common/ScrollToTop";
 import Whatsapp from "../components/common/Whatsapp";
 import Footer from "../components/common/Footer";
+import SingleNews from "../pages/SingleNews";
 
 function RegualerRoutes() {
   return (
