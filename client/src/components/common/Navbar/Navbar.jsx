@@ -80,28 +80,28 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-red-600">
+    <nav className="bg-black lg:bg-red-600">
       <div className=" max-w-7xl mx-auto flex items-center justify-between py-2 px-4">
         <div className="flex ">
-          <div className="text-white">
+          <div className="text-white lg:mr-3">
             <FaHome size={22} />
           </div>
-          <div className="hidden lg:flex ">
+          <div className="hidden lg:flex lg:mt-[2px]">
             {navLinks.map((link, index) => (
-              <div key={index} className="group relative">
+              <div key={index} className="group relative z-50">
                 <Link
                   to={link.path}
-                  className="text-white hover:bg-red-700 px-3 py-2 rounded-md"
+                  className="text-white hover:bg-gray-100 hover:text-black px-3 py-4"
                 >
                   {link.title}
                 </Link>
                 {link.sublinks && (
-                  <div className="absolute left-0 top-full bg-red-600 py-2 hidden group-hover:block">
+                  <div className="absolute left-0 top-8 bg-red-600 py-2 w-32 hidden group-hover:block text-start">
                     {link.sublinks.map((sublink, subIndex) => (
                       <Link
                         key={subIndex}
                         to={sublink.path}
-                        className="block text-white px-4 py-2 hover:bg-red-700"
+                        className="block text-white hover:bg-gray-100 hover:text-black px-3 py-2"
                       >
                         {sublink.title}
                       </Link>
@@ -175,7 +175,7 @@ const Navbar = () => {
                 )}
               </div>
               {openDropdown === index && link.sublinks && (
-                <div className="bg-red-600 pl-4">
+                <div className="bg-black pl-4">
                   {link.sublinks.map((sublink, subIndex) => (
                     <Link
                       key={subIndex}
