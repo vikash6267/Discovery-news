@@ -37,6 +37,7 @@ function LatestNews() {
                 <img src={latestNews[0]?.images[0]?.url} alt="" className="" />
                 <p className="font-semibold absolute bottom-0 text-white text-center bg-black bg-opacity-60 w-full py-5">
                   {truncateText(latestNews[0]?.title, 20)}
+                  <p>{latestNews[0]?.createAt}</p>
                 </p>
               </Link>
             )}
@@ -44,21 +45,60 @@ function LatestNews() {
           
           </div>
 
-          <div>
-            <div>
+          <div className='col-span-2 '>
+        <div className=' hidden lg:grid grid-cols-2   max-h-[200px] lg:max-w-[1200px] '>
+        <div className=' flex lg:block'>
               {latestNews.slice(2,4).map((news) => (
                 <Link
                 to={`/${news?.slug}`}
                 
                  key={news._id} className="mb-4 flex gap-2 relative">
-                  <img src={news?.images[0]?.url} alt="" className="max-h-[160px]" />
-                  <p className="font-semibold text-[12px] font-semibold absolute bottom-0 text-white text-center bg-black bg-opacity-60 w-full py-2">
+                  <img src={news?.images[0]?.url} alt="" className="max-h-[160px] min-[150px]" />
+                  <p className="text-[10px] font-semibold absolute bottom-0 text-white text-center bg-black bg-opacity-60 w-full py-2">
                     {truncateText(news?.title, 10)}
                   </p>
                 </Link>
               ))}
             </div>
+
+            <div className='flex lg:block '>
+            {latestNews.slice(4,6).map((news) => (
+                <Link
+                to={`/${news?.slug}`}
+                
+                 key={news._id} className="mb-4 flex gap-2 relative">
+                  <img src={news?.images[0]?.url} alt="" className="max-h-[160px]" />
+                  <p className="text-[10px] font-semibold absolute bottom-0 text-white text-center bg-black bg-opacity-60 w-full py-2">
+                    {truncateText(news?.title, 10)}
+                  </p>
+                </Link>
+              ))}
+            </div>
+        </div>
+
           </div>
+
+
+
+          <div className='flex gap-4 overflow-x-auto max-h-[190px] whitespace-nowrap lg:hidden'>
+  {latestNews.slice(2).map((news) => (
+    <Link
+      to={`/${news?.slug}`}
+      key={news._id}
+      className="mb-4  gap-2 relative inline-block"
+    >
+      <img
+        src={news?.images[0]?.url}
+        alt=""
+        className=" min-w-[150px]"
+      />
+      <p className="text-[10px] font-semibold absolute bottom-0 text-white text-center bg-black bg-opacity-60 w-full py-2 px-2">
+        {truncateText(news?.title, 5)}
+      </p>
+    </Link>
+  ))}
+</div>
+
         </div>
       </div>
     </div>

@@ -1,28 +1,33 @@
 import { Route, Routes } from "react-router-dom";
-
-import Navbar from "./components/common/Navbar/Navbar";
-import Home from "./pages/Home";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getAllNews } from "./services/operations/admin";
+import PrivateRoute from "./components/Admin/auth/PrivateRoute";
+import AdminRoutes from "./routes/AdminRoutes";
+import RegualerRoutes from "./routes/RegualerRoutes";
 
 function App() {
   const dispatch = useDispatch();
 
-  useEffect(()=>{
-
+  useEffect(() => {
     dispatch(getAllNews());
-
-  },[])
+  }, []);
   return (
-    <div className="App">
-    
-   <Navbar />
-   <Routes>
-   <Route path="/" element={<Home />} />
+    <div className="">
+ 
+      <Routes>
+        {/* <Route path="/" element={<H />}  /> */}
+        <Route path="/*" element={<RegualerRoutes />} />
 
-
-</Routes>
+        <Route
+          path="/*"
+          element={
+            <PrivateRoute>
+              <AdminRoutes />
+            </PrivateRoute>
+          }
+        />
+      </Routes>
     </div>
   );
 }

@@ -6,7 +6,7 @@ import { AiOutlineUser } from "react-icons/ai";
 import { MdLogout } from "react-icons/md";
 import { FaHome } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import logo from "../../../assest/logo.jpg"
+// import logo from "../../../assest/logo.jpg"
 import {logout} from "../../../services/operations/user"
 import { FcStart } from "react-icons/fc";
 
@@ -109,11 +109,12 @@ const Sidebar = () => {
             isCollapsed ? "hidden" : "block"
           } text-white font-bold text-xl`}
         >
-          <img
+          {/* <img
             src={logo}
             alt=""
             className="w-[50px] h-[50px] lg:w-12 lg:h-12 object-cover rounded-full"
-          />
+          /> */}
+          <h2>NEWS</h2>
         </div>
         {/* Toggle button */}
         <button
