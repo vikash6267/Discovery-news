@@ -10,8 +10,13 @@ import {
   FaWhatsapp,
   FaEnvelope,
 } from "react-icons/fa";
+import Contact from "../components/core/singleNews/Contact";
+import NewsActive from "../components/core/Home/RightSide/NewsActive";
+import { useSelector } from "react-redux";
 
 function SingleNews() {
+  const { allNews } = useSelector((state) => state.news);
+
   const [news, setNews] = useState({});
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
@@ -40,7 +45,7 @@ function SingleNews() {
   };
   return (
     <div className=" max-w-7xl mx-auto p-4">
-      <div className=" flex ">
+      <div className=" flex flex-col lg:flex-row gap-5 ">
         {/* News Details */}
         <div className=" lg:w-[75%]  w-full ">
           {/* UP */}
@@ -122,10 +127,14 @@ function SingleNews() {
               ></span>
             </div>
           </div>
+
+          <Contact />
         </div>
 
         {/* New News */}
-        <div className=" lg:w-[23%]"></div>
+        <div className=" lg:w-[30%]">
+          <NewsActive realted={allNews} />
+        </div>
       </div>
     </div>
   );
