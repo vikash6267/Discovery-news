@@ -40,7 +40,7 @@ function LatestNews() {
           </div>
 
           <div className="col-span-2 ">
-            <div className=" hidden lg:grid grid-cols-2   max-h-[200px] lg:max-w-[1200px] ">
+            <div className=" hidden lg:grid grid-cols-2 gap-5  max-h-[200px] lg:max-w-[1200px] ">
               <div className=" flex lg:block">
                 {latestNews.slice(1, 3).map((news) => (
                   <Link
@@ -51,7 +51,7 @@ function LatestNews() {
                     <img
                       src={news?.images[0]?.url}
                       alt=""
-                      className="max-h-[160px] min-[150px]"
+                      className="max-h-[160px] min-[150px] w-full object-cover"
                     />
                     <p className="text-[10px] font-semibold absolute bottom-0 text-white text-center bg-black bg-opacity-60 w-full py-2">
                       {truncateText(news?.title, 10)}
@@ -70,7 +70,7 @@ function LatestNews() {
                     <img
                       src={news?.images[0]?.url}
                       alt=""
-                      className="max-h-[160px]"
+                      className="max-h-[160px]  w-full object-cover"
                     />
                     <p className="text-[10px] font-semibold absolute bottom-0 text-white text-center bg-black bg-opacity-60 w-full py-2">
                       {truncateText(news?.title, 10)}
@@ -82,7 +82,7 @@ function LatestNews() {
           </div>
 
           <div className="flex gap-4 overflow-x-auto max-h-[190px] whitespace-nowrap lg:hidden">
-            {latestNews.slice(2).map((news) => (
+            {latestNews.slice(1).map((news) => (
               <Link
                 to={`/${news?.slug}`}
                 key={news._id}
@@ -91,7 +91,7 @@ function LatestNews() {
                 <img
                   src={news?.images[0]?.url}
                   alt=""
-                  className=" min-w-[150px]"
+                  className=" min-w-[150px]  w-full object-cover"
                 />
                 <p className="text-[10px] font-semibold absolute bottom-0 text-white text-center bg-black bg-opacity-60 w-full py-2 px-2">
                   {truncateText(news?.title, 5)}
