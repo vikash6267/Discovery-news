@@ -10,7 +10,7 @@ function RegualerRoutes() {
   return (
     <>
       <Navbar />
-      <div className="h-screen w-screen bg-white"></div>
+      {/* <div className="h-screen w-screen bg-white"></div> */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="*" element={<Error />} />
