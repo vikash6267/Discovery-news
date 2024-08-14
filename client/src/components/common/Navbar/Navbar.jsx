@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { FaBars, FaSearch } from "react-icons/fa";
+import { FaBars, FaHome, FaSearch } from "react-icons/fa";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 
 const navLinks = [
@@ -81,10 +81,12 @@ const Navbar = () => {
 
   return (
     <nav className="bg-red-600">
-      <div className="container mx-auto flex items-center justify-between py-2 px-4">
-        <div className="flex space-x-4">
-          <div className="text-white text-xl font-bold">Brand</div>
-          <div className="hidden lg:flex space-x-4">
+      <div className=" max-w-7xl mx-auto flex items-center justify-between py-2 px-4">
+        <div className="flex ">
+          <div className="text-white">
+            <FaHome size={22} />
+          </div>
+          <div className="hidden lg:flex ">
             {navLinks.map((link, index) => (
               <div key={index} className="group relative">
                 <Link
@@ -127,12 +129,15 @@ const Navbar = () => {
 
       {/* Search Input Field */}
       {isSearchOpen && (
-        <div className="bg-white py-2 px-4">
-          <input
-            type="text"
-            placeholder="Search..."
-            className="w-full p-2 border rounded-md focus:outline-none"
-          />
+        <div className="bg-white py-2 px-4 flex justify-end lg:pr-36">
+          <div className="bg-white shadow-lg px-5 py-2 border-b-2 relative border-b-black">
+            <input
+              type="text"
+              placeholder="Search..."
+              className="w-fit p-2  border rounded-md focus:outline-none"
+            />
+            <FaSearch size={18} className="absolute  right-7 top-4" />
+          </div>
         </div>
       )}
 
