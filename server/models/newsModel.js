@@ -53,7 +53,7 @@ const newsSchema = new Schema({
   subcategory: {
     type: Schema.Types.ObjectId,
     ref: 'SubCategory',
-    required: true,
+    // required: true,
   },
   expire: {
     type: Date,

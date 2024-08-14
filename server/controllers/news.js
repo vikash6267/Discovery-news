@@ -21,7 +21,6 @@ const validateRequiredFields = (req) => {
     // subtitle,
     location,
     category,
-    subcategory,
     type,
     description,
     language,
@@ -34,7 +33,7 @@ const validateRequiredFields = (req) => {
 console.log(req.body)
 
 
-  if (!type || !title  || !language || !location || !category || !subcategory || !description || !images  || !slug ) {
+  if (!type || !title  || !language || !location || !category ||  !description || !images  || !slug ) {
     return false;
   }
   return true;
@@ -85,11 +84,14 @@ const createNews = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Invalid category ID' });
     }
 
-    // Validate subcategory ID
-    const isValidSubCategory = await validateSubCategory(subcategory);
-    if (!isValidSubCategory) {
-      return res.status(400).json({ success: false, message: 'Invalid subcategory ID' });
+    if(subcategory){
+      const isValidSubCategory = await validateSubCategory(subcategory);
+      if (!isValidSubCategory) {
+        return res.status(400).json({ success: false, message: 'Invalid subcategory ID' });
+      }
     }
+    // Validate subcategory ID
+  
 
     let active = true
     if(authDetails.role === "Admin"){
@@ -102,7 +104,7 @@ const createNews = async (req, res) => {
       subtitle,
       location,
       category,
-      subcategory,
+    subcategory: subcategory || null,
       language,
       type,
       active:active,
@@ -126,15 +128,19 @@ const createNews = async (req, res) => {
       },
       { new: true }
     )
-    const categoryDetails3 = await SubCategory.findByIdAndUpdate(
-      { _id: subcategory },
-      {
-        $push: {
-          news: newNews._id,
+
+    if(subcategory){
+      const categoryDetails3 = await SubCategory.findByIdAndUpdate(
+        { _id: subcategory },
+        {
+          $push: {
+            news: newNews._id,
+          },
         },
-      },
-      { new: true }
-    )
+        { new: true }
+      )
+    }
+  
 
 
     if (notificationSend) {

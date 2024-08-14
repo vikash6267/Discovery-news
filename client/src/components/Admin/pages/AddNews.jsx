@@ -154,7 +154,7 @@ const[newsID,setNewsID]= useState("")
     location: Yup.string().required("Location is required"),
     language: Yup.string().required("Language is required"),
     category: Yup.string().required("Category is required"),
-    subcategory: Yup.string().required("Subcategory is required"),
+    // subcategory: Yup.string().required("Subcategory is required"),
     type: Yup.string().required("Type is required"),
     slug: Yup.string()
     .matches(/^[a-zA-Z0-9-_]+$/, 'Slug can only contain letters, numbers, hyphens, and underscores, and no spaces')
@@ -190,7 +190,7 @@ const[newsID,setNewsID]= useState("")
     formData.append("description", editorHtml);
     formData.append("slug", values.slug);
     formData.append("tag", JSON.stringify(values.tag));
-    // formData.append("subtitle", values.subtitle);
+    formData.append("subtitle", values.subtitle);
     formData.append("category", values.category);
     formData.append("language", values.language);
     formData.append("subcategory", values.subcategory);

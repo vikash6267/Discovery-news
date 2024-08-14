@@ -9,7 +9,7 @@ function LatestNews() {
 
   const latestNews =allNews
   .filter((news) => news.type === "big-news")
-  .sort((a, b) => new Date(b.date) - new Date(a.date))
+  .sort((a, b) => new Date(b.publish) - new Date(a.publish))
   .slice(0, 5);
 
 
@@ -30,7 +30,7 @@ function LatestNews() {
           <div className=" col-span-2">
             {latestNews[0] && (
               <Link to={`/${latestNews[0]?.slug}`} className=" relative">
-                <img src={latestNews[0]?.images[0]?.url} alt="" className="" />
+                <img src={latestNews[0]?.images[0]?.url} alt="" className=" max-h-[340px] w-full object-cover" />
                 <p className="font-semibold absolute bottom-0 text-white text-center bg-black bg-opacity-60 w-full py-5">
                   {truncateText(latestNews[0]?.title, 10)}
                   <p>{latestNews[0]?.createAt}</p>
