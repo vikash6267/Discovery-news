@@ -1,18 +1,19 @@
-import React from 'react'
-import { Route, Routes } from 'react-router-dom'
-import Login from '../components/Admin/pages/Login'
-import OpenRoute from '../components/Admin/auth/OpenRoute'
-import Navbar from '../components/common/Navbar/Navbar'
-import Home from '../pages/Home'
+import React from "react";
+import { Route, Routes } from "react-router-dom";
+import Login from "../components/Admin/pages/Login";
+import OpenRoute from "../components/Admin/auth/OpenRoute";
+import Navbar from "../components/common/Navbar/Navbar";
+import Home from "../pages/Home";
 
 function RegualerRoutes() {
   return (
     <>
-             <Navbar />
-    <Routes>
-    <Route path="/" element={<Home />} />
+      <Navbar />
+      <div className="h-screen w-screen bg-white"></div>
+      <Routes>
+        <Route path="/" element={<Home />} />
 
-      <Route
+        <Route
           path="/login"
           element={
             <OpenRoute>
@@ -20,10 +21,9 @@ function RegualerRoutes() {
             </OpenRoute>
           }
         />
-
-    </Routes>
+      </Routes>
     </>
-  )
+  );
 }
 
-export default RegualerRoutes
+export default RegualerRoutes;
