@@ -8,6 +8,9 @@ import SubNavbar from "../components/common/Navbar/SubNavbar";
 import BreakingNews from "../components/core/Home/BreakingNews";
 
 import Error from "../pages/Error";
+import ScrollToTop from "../components/common/ScrollToTop";
+import Whatsapp from "../components/common/Whatsapp";
+import Footer from "../components/common/Footer";
 
 function RegualerRoutes() {
   return (
@@ -29,6 +32,9 @@ function RegualerRoutes() {
           }
         />
       </Routes>
+      <Footer />
+      <Whatsapp />
+      <ScrollToTop />
     </>
   );
 }

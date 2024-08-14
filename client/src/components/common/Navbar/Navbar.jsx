@@ -83,9 +83,9 @@ const Navbar = () => {
     <nav className="bg-black lg:bg-red-600">
       <div className=" max-w-7xl mx-auto flex items-center justify-between py-2 px-4">
         <div className="flex ">
-          <div className="text-white lg:mr-3">
+          <Link to="/" className="text-white lg:mr-3">
             <FaHome size={22} />
-          </div>
+          </Link>
           <div className="hidden lg:flex lg:mt-[2px]">
             {navLinks.map((link, index) => (
               <div key={index} className="group relative z-50">
