@@ -35,22 +35,22 @@ function AdminRoutes() {
   > 
 {(user?.role === "Admin" || user?.role === "SuperAdmin") && (
       <>
-        <Route path="/admin/dashboard" element={<DashBoard />} />
-        <Route path="admin/addnews" element={<AddNews />} />
-        <Route path="admin/addnews/:id" element={<AddNews />} />
-        <Route path="admin/allnews" element={<AllNews />} />
+        <Route path="/dashboard" element={<DashBoard />} />
+        <Route path="/addnews" element={<AddNews />} />
+        <Route path="/addnews/:id" element={<AddNews />} />
+        <Route path="/allnews" element={<AllNews />} />
 
-        <Route path="admin/poll" element={<Poll />} />
-        <Route path="admin/breaking" element={<Breaking />} />
-        <Route path="admin/category" element={<Category />} />
-        <Route path="admin/subcategory" element={<Subcategory />} />
-        <Route path="admin/livestriming" element={<Livestreming />} />
-        <Route path="admin/ads" element={<CreateAdd />} />
-        <Route path="admin/yt" element={<CreateYtVideo />} />
-        <Route path="admin/users" element={<UsersTable />} />
+        <Route path="/poll" element={<Poll />} />
+        <Route path="/breaking" element={<Breaking />} />
+        <Route path="/category" element={<Category />} />
+        <Route path="/subcategory" element={<Subcategory />} />
+        <Route path="/livestriming" element={<Livestreming />} />
+        <Route path="/ads" element={<CreateAdd />} />
+        <Route path="/yt" element={<CreateYtVideo />} />
+        <Route path="/users" element={<UsersTable />} />
 
         {user?.role === "SuperAdmin" && (
-          <Route path="admin/manageadmin" element={<AdminManage />} />
+          <Route path="/manageadmin" element={<AdminManage />} />
         )}
       </>
     )}
