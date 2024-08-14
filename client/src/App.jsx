@@ -5,8 +5,11 @@ import { getAllNews } from "./services/operations/admin";
 import PrivateRoute from "./components/Admin/auth/PrivateRoute";
 import AdminRoutes from "./routes/AdminRoutes";
 import RegualerRoutes from "./routes/RegualerRoutes";
+import Error from "./pages/Error";
 
 function App() {
+  const { user } = useSelector((state) => state.auth);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -14,21 +17,27 @@ function App() {
   }, []);
   return (
     <div className="">
- 
-      <Routes>
-        {/* <Route path="/" element={<H />}  /> */}
-        <Route path="/*" element={<RegualerRoutes />} />
+    <Routes>
+      {/* Regular routes accessible to everyone, including admins */}
+      <Route path="/*" element={<RegualerRoutes />} />
 
+      {/* Admin-specific routes protected by PrivateRoute */}
+      {(user?.role === "Admin" || user?.role === "SuperAdmin") && (
         <Route
-          path="/*"
+          path="/admin/*"
           element={
             <PrivateRoute>
               <AdminRoutes />
             </PrivateRoute>
           }
         />
-      </Routes>
-    </div>
+      )}
+
+      {/* Catch-all route for unmatched paths (404) */}
+      <Route path="*" element={<Error />} />
+    </Routes>
+  </div>
+
   );
 }
 

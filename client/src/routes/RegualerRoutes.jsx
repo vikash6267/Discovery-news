@@ -7,6 +7,8 @@ import Home from "../pages/Home";
 import SubNavbar from "../components/common/Navbar/SubNavbar";
 import BreakingNews from "../components/core/Home/BreakingNews";
 
+import Error from "../pages/Error";
+
 function RegualerRoutes() {
   return (
     <>
@@ -16,6 +18,7 @@ function RegualerRoutes() {
       {/* <div className="h-screen w-screen bg-white"></div> */}
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="*" element={<Error />} />
 
         <Route
           path="/login"
