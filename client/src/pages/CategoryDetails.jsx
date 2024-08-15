@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { format } from 'date-fns';
-import { fetchSingleCategory } from '../services/operations/admin';
-import CricketLive from '../components/core/Home/RightSide/CricketLive';
-import NewsActive from '../components/core/Home/RightSide/NewsActive';
-import Contact from '../components/core/singleNews/Contact';
+import React, { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+import { format } from "date-fns";
+import { fetchSingleCategory } from "../services/operations/admin";
+import CricketLive from "../components/core/Home/RightSide/CricketLive";
+import NewsActive from "../components/core/Home/RightSide/NewsActive";
+import Contact from "../components/core/singleNews/Contact";
 
 const CategoryPage = () => {
   const [category, setCategory] = useState(null);
@@ -21,7 +21,7 @@ const CategoryPage = () => {
       setNews(response.news);
       setTotalPages(Math.ceil(response.pagination.total / itemsPerPage));
     } catch (error) {
-      console.error('Error fetching category data:', error);
+      console.error("Error fetching category data:", error);
     }
   };
 
@@ -30,19 +30,23 @@ const CategoryPage = () => {
   }, [id, currentPage]);
 
   const truncateText = (text, wordLimit) => {
-    const words = text.split(' ');
-    return words.length > wordLimit ? words.slice(0, wordLimit).join(' ') + '...' : text;
+    const words = text.split(" ");
+    return words.length > wordLimit
+      ? words.slice(0, wordLimit).join(" ") + "..."
+      : text;
   };
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return isNaN(date.getTime()) ? 'Invalid date' : format(date, 'MMMM d, yyyy h:mm a');
+    return isNaN(date.getTime())
+      ? "Invalid date"
+      : format(date, "MMMM d, yyyy h:mm a");
   };
 
   const stripHtmlTags = (html) => {
-    const div = document.createElement('div');
+    const div = document.createElement("div");
     div.innerHTML = html;
-    return div.textContent || div.innerText || '';
+    return div.textContent || div.innerText || "";
   };
 
   const handlePageChange = (page) => {
@@ -62,7 +66,9 @@ const CategoryPage = () => {
             key={i}
             onClick={() => handlePageChange(i)}
             className={`px-4 py-2 mx-1 border ${
-              i === currentPage ? 'bg-red-500 text-white' : 'bg-white text-black'
+              i === currentPage
+                ? "bg-red-500 text-white"
+                : "bg-white text-black"
             }`}
           >
             {i}
@@ -77,7 +83,9 @@ const CategoryPage = () => {
             key={i}
             onClick={() => handlePageChange(i)}
             className={`px-4 py-2 mx-1 border ${
-              i === currentPage ? 'bg-red-500 text-white' : 'bg-white text-black'
+              i === currentPage
+                ? "bg-red-500 text-white"
+                : "bg-white text-black"
             }`}
           >
             {i}
@@ -87,7 +95,11 @@ const CategoryPage = () => {
 
       // Ellipsis in between
       if (currentPage > 5) {
-        pageNumbers.push(<span key="ellipsis1" className="px-2">...</span>);
+        pageNumbers.push(
+          <span key="ellipsis1" className="px-2">
+            ...
+          </span>
+        );
       }
 
       // Last 3 pages
@@ -97,7 +109,9 @@ const CategoryPage = () => {
             key={i}
             onClick={() => handlePageChange(i)}
             className={`px-4 py-2 mx-1 border ${
-              i === currentPage ? 'bg-red-500 text-white' : 'bg-white text-black'
+              i === currentPage
+                ? "bg-red-500 text-white"
+                : "bg-white text-black"
             }`}
           >
             {i}
@@ -126,33 +140,44 @@ const CategoryPage = () => {
               {/* News */}
               <div>
                 <div className="flex gap-3 grid-cols-1 mt-8 p-2 flex-col">
-                  {news?.map((currElem) => {
-                    const strippedDescription = stripHtmlTags(currElem.description);
-                    const truncatedDescription = truncateText(strippedDescription, 25);
+                  {news.length > 0 ? (
+                    news?.map((currElem) => {
+                      const strippedDescription = stripHtmlTags(
+                        currElem.description
+                      );
+                      const truncatedDescription = truncateText(
+                        strippedDescription,
+                        25
+                      );
 
-                    return (
-                      <Link to={`/${currElem?.slug}`} key={currElem._id}>
-                        <div className="flex gap-3">
-                          <img
-                            src={currElem?.images[0]?.url}
-                            alt={currElem.title}
-                            className="w-[125px]"
-                          />
-                          <div>
-                            <p className="text-wrap mt-2 text-[20px]">
-                              {truncateText(currElem.title, 10)}
-                            </p>
-                            <p className="text-xs text-gray-500">
-                              {formatDate(currElem.createdAt)}
-                            </p>
-                            <p className="text-wrap mt-2 text-[16px] leading-8 lg:block hidden">
-                              {truncatedDescription}
-                            </p>
+                      return (
+                        <Link to={`/${currElem?.slug}`} key={currElem._id}>
+                          <div className="flex gap-3">
+                            <img
+                              src={currElem?.images[0]?.url}
+                              alt={currElem.title}
+                              className="w-[125px]"
+                            />
+                            <div>
+                              <p className="text-wrap mt-2 text-[20px]">
+                                {truncateText(currElem.title, 10)}
+                              </p>
+                              <p className="text-xs text-gray-500">
+                                {formatDate(currElem.createdAt)}
+                              </p>
+                              <p className="text-wrap mt-2 text-[16px] leading-8 lg:block hidden">
+                                {truncatedDescription}
+                              </p>
+                            </div>
                           </div>
-                        </div>
-                      </Link>
-                    );
-                  })}
+                        </Link>
+                      );
+                    })
+                  ) : (
+                    <p className="text-center font-bold text-xl">
+                      No news found...
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -163,7 +188,9 @@ const CategoryPage = () => {
                   onClick={() => handlePageChange(currentPage + 1)}
                   disabled={currentPage === totalPages}
                   className={`px-4 py-2 mx-1 border ${
-                    currentPage === totalPages ? 'bg-gray-300 text-white cursor-not-allowed' : 'bg-white text-black'
+                    currentPage === totalPages
+                      ? "bg-gray-300 text-white cursor-not-allowed"
+                      : "bg-white text-black"
                   }`}
                 >
                   Next
@@ -172,7 +199,9 @@ const CategoryPage = () => {
                   onClick={() => handlePageChange(totalPages)}
                   disabled={currentPage === totalPages}
                   className={`px-4 py-2 mx-1 border ${
-                    currentPage === totalPages ? 'bg-gray-300 text-white cursor-not-allowed' : 'bg-white text-black'
+                    currentPage === totalPages
+                      ? "bg-gray-300 text-white cursor-not-allowed"
+                      : "bg-white text-black"
                   }`}
                 >
                   Last
