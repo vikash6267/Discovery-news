@@ -12,7 +12,7 @@ function CategoryWise() {
   const [newsActive, setNewsActive] = useState(0);
 
   const rajneeti = allNews
-    .filter((news) => news.category._id === "669644aa69a6d788e2c6770d")
+    .filter((news) => news?.category?._id === "669644aa69a6d788e2c6770d")
     .sort((a, b) => new Date(b.publish) - new Date(a.publish))
     .slice(0, 5);
 

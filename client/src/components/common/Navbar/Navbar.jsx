@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaBars, FaHome, FaSearch } from "react-icons/fa";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCategory } from "../../../services/operations/admin";
 
 const navLinks = [
   { title: "होम", path: "/" },
@@ -52,10 +54,13 @@ const navLinks = [
   { title: "लाइव टीवी", path: "/livetv" },
 ];
 
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const { category } = useSelector((state) => state.news);
+  const [categories, setCategories] = useState([]);
 
   const handleDropdownToggle = (index, hasSublinks) => {
     if (hasSublinks) {
@@ -79,6 +84,23 @@ const Navbar = () => {
     setIsSearchOpen(!isSearchOpen);
   };
 
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const categoriesData = await fetchCategory();
+        console.log(categoriesData)
+        setCategories(categoriesData?.categories || []);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    if (category.length !== 0) {
+      setCategories(category);
+    } else fetchCategories();
+  }, []);
+
   return (
     <nav className="bg-black lg:bg-red-600">
       <div className=" max-w-7xl mx-auto flex items-center justify-between py-2 px-4">
@@ -87,23 +109,24 @@ const Navbar = () => {
             <FaHome size={22} />
           </Link>
           <div className="hidden lg:flex lg:mt-[2px]">
-            {navLinks.map((link, index) => (
+            {categories?.map((link, index) => (
               <div key={index} className="group relative z-50">
                 <Link
-                  to={link.path}
+                                       to={`/category/${link?._id}`}
+
                   className="text-white hover:bg-gray-100 hover:text-black px-3 py-4"
                 >
-                  {link.title}
+                  {link?.name}
                 </Link>
-                {link.sublinks && (
+                {link?.subCategories && link?.subCategories?.length > 0 && (
                   <div className="absolute left-0 top-8 bg-red-600 py-2 w-32 hidden group-hover:block text-start">
-                    {link.sublinks.map((sublink, subIndex) => (
+                    {link?.subCategories.map((sublink, subIndex) => (
                       <Link
                         key={subIndex}
-                        to={sublink.path}
+                        to={`/subcategory/${sublink?._id}`}
                         className="block text-white hover:bg-gray-100 hover:text-black px-3 py-2"
                       >
-                        {sublink.title}
+                        {sublink?.name}
                       </Link>
                     ))}
                   </div>
@@ -144,46 +167,48 @@ const Navbar = () => {
       {/* Mobile Menu */}
       {isOpen && (
         <div className="lg:hidden">
-          {navLinks.map((link, index) => (
+          {categories.map((link, index) => (
             <div key={index} className="border-b border-gray-200">
               <div className="flex justify-between items-center px-4 py-2 cursor-pointer">
                 <Link
-                  to={link.path}
+                                         to={`/category/${link?._id}`}
+
                   className="text-white"
                   onClick={handleLinkClick}
                 >
-                  {link.title}
+                  {link?.name}
                 </Link>
-                {link.sublinks && (
+                {link.subCategories  && link?.subCategories?.length > 0 && (
                   <>
                     {openDropdown === index ? (
                       <AiOutlineMinus
                         className="text-white cursor-pointer"
                         onClick={() =>
-                          handleDropdownToggle(index, link.sublinks)
+                          handleDropdownToggle(index, link.subCategories)
                         }
                       />
                     ) : (
                       <AiOutlinePlus
                         className="text-white cursor-pointer"
                         onClick={() =>
-                          handleDropdownToggle(index, link.sublinks)
+                          handleDropdownToggle(index, link.subCategories)
                         }
                       />
                     )}
                   </>
                 )}
               </div>
-              {openDropdown === index && link.sublinks && (
+              {openDropdown === index && link.subCategories && (
                 <div className="bg-black pl-4">
-                  {link.sublinks.map((sublink, subIndex) => (
+                  {link.subCategories.map((sublink, subIndex) => (
                     <Link
                       key={subIndex}
-                      to={sublink.path}
+                      to={`/subcategory/${sublink?._id}`}
+
                       className="block text-white px-4 py-2"
                       onClick={handleLinkClick}
                     >
-                      {sublink.title}
+                      {sublink.name}
                     </Link>
                   ))}
                 </div>
