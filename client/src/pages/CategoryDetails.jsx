@@ -5,6 +5,7 @@ import { fetchSingleCategory } from "../services/operations/admin";
 import CricketLive from "../components/core/Home/RightSide/CricketLive";
 import NewsActive from "../components/core/Home/RightSide/NewsActive";
 import Contact from "../components/core/singleNews/Contact";
+import { useSelector } from "react-redux";
 
 const CategoryPage = () => {
   const [category, setCategory] = useState(null);
@@ -35,6 +36,20 @@ const CategoryPage = () => {
       ? words.slice(0, wordLimit).join(" ") + "..."
       : text;
   };
+
+
+  const { allNews } = useSelector((state) => state.news);
+
+  const dharm = allNews
+  .filter((news) => news?.category?._id === "66bdc954433ab78f130e4a0b")
+  .sort((a, b) => new Date(b.publish) - new Date(a.publish))
+  .slice(0, 9);
+const vyapar = allNews
+  .filter((news) => news?.category?._id === "66bdc944433ab78f130e4a02")
+  .sort((a, b) => new Date(b.publish) - new Date(a.publish))
+  .slice(0, 9);
+
+
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -229,6 +244,13 @@ const CategoryPage = () => {
               <CricketLive />
             </div>
           </div>
+
+
+
+
+
+
+
         </div>
       </div>
     </div>

@@ -7,6 +7,16 @@ function NewsActive() {
   const [activIndex, setNewsActive] = useState(0);
   const { allNews } = useSelector((state) => state.news);
 
+  const recentNews = allNews
+  .filter((news) => news?.type === "recent-news")
+  .sort((a, b) => new Date(b.publish) - new Date(a.publish))
+  .slice(0, 25);
+
+  const top = allNews
+  .filter((news) => news?.type === "top-news")
+  .sort((a, b) => new Date(b.publish) - new Date(a.publish))
+  .slice(0, 25);
+
   const truncateText = (text, wordLimit) => {
     const words = text.split(" ");
     if (words.length > wordLimit) {
@@ -53,7 +63,7 @@ function NewsActive() {
     <div className=" max-h-[80vh] overflow-y-scroll min-h-[80vh]">
       {activIndex == 0 && (
         <div className="flex gap-3 grid-cols-1 max-h-[50px] mt-8 p-2 flex-col">
-          {allNews?.map((currElem, index) => (
+          {recentNews?.map((currElem, index) => (
             <Link to={`/${currElem?.slug}`} key={currElem._id}>
               <div className="flex gap-3">
                 <img
@@ -72,7 +82,7 @@ function NewsActive() {
 
       {activIndex == 1 && (
         <div className="flex gap-3 grid-cols-1 max-h-[50px] mt-8 p-2 flex-col">
-          {allNews?.map((currElem, index) => (
+          {top?.map((currElem, index) => (
             <Link to={`/${currElem?.slug}`} key={currElem._id}>
               <div className="flex gap-3 flex-col">
                 <p className="text-wrap mt-2 text-sm underline text-blue-700  ">

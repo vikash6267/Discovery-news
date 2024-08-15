@@ -7,7 +7,7 @@ import { format } from "date-fns";
 import NewsActive from "./RightSide/NewsActive";
 import CricketLive from "./RightSide/CricketLive";
 
-function CategoryWise() {
+function  CategoryWise() {
   const { allNews } = useSelector((state) => state.news);
   const [newsActive, setNewsActive] = useState(0);
 
@@ -16,9 +16,42 @@ function CategoryWise() {
     .sort((a, b) => new Date(b.publish) - new Date(a.publish))
     .slice(0, 5);
 
-  useEffect(() => {
-    console.log(rajneeti);
-  }, []);
+  const desh = allNews
+    .filter((news) => news?.category?._id === "66bdc90f433ab78f130e49f0")
+    .sort((a, b) => new Date(b.publish) - new Date(a.publish))
+    .slice(0, 5);
+  const videsh = allNews
+    .filter((news) => news?.category?._id === "66bdc8f0433ab78f130e49c1")
+    .sort((a, b) => new Date(b.publish) - new Date(a.publish))
+    .slice(0, 5);
+  const mp = allNews
+    .filter((news) => news?.category?._id === "66bc6c8fa9f5ed6d84a4211f")
+    .sort((a, b) => new Date(b.publish) - new Date(a.publish))
+    .slice(0, 10);
+  const cg = allNews
+    .filter((news) => news?.category?._id === "66bdc92c433ab78f130e49f9")
+    .sort((a, b) => new Date(b.publish) - new Date(a.publish))
+    .slice(0, 10);
+  const khel = allNews
+    .filter((news) => news?.category?._id === "66839e5b2335677cc35702eb")
+    .sort((a, b) => new Date(b.publish) - new Date(a.publish))
+    .slice(0, 5);
+  const manoranjan = allNews
+    .filter((news) => news?.category?._id === "66839e1c2335677cc35702e8")
+    .sort((a, b) => new Date(b.publish) - new Date(a.publish))
+    .slice(0, 5);
+
+
+  const dharm = allNews
+    .filter((news) => news?.category?._id === "66bdc954433ab78f130e4a0b")
+    .sort((a, b) => new Date(b.publish) - new Date(a.publish))
+    .slice(0, 9);
+  const vyapar = allNews
+    .filter((news) => news?.category?._id === "66bdc944433ab78f130e4a02")
+    .sort((a, b) => new Date(b.publish) - new Date(a.publish))
+    .slice(0, 9);
+
+  
 
   const truncateText = (text, wordLimit) => {
     const words = text.split(" ");
@@ -146,18 +179,18 @@ function CategoryWise() {
               <div className=" grid  grid-cols-1 gap-6 ">
                 {/* //top */}
                 <div className=" col-span-2">
-                  {rajneeti[0] && (
-                    <Link to={`/${rajneeti[0]?.slug}`} className=" relative">
+                  {desh[0] && (
+                    <Link to={`/${desh[0]?.slug}`} className=" relative">
                       <img
-                        src={rajneeti[0]?.images[0]?.url}
+                        src={desh[0]?.images[0]?.url}
                         alt=""
                         className="lg:h-[320px] h-[250px] lg:w-full w-[80%] object-cover border-r-[1px] border-l-[1px] border-red-500 pr-3 pl-3"
                       />
                       <p className="font-semibold  bottom-0  text- text-gray-500 bg-opacity-60 w-full py-5">
-                        {truncateText(rajneeti[0]?.title, 10)}
+                        {truncateText(desh[0]?.title, 10)}
                         <p className="text-gray-400 text-[12px]">
-                          {rajneeti[0]?.createdAt
-                            ? formatDate(rajneeti[0]?.createdAt)
+                          {desh[0]?.createdAt
+                            ? formatDate(desh[0]?.createdAt)
                             : "Date not available"}
                         </p>
                       </p>
@@ -167,7 +200,7 @@ function CategoryWise() {
 
                 <div>
                   <div>
-                    {rajneeti.slice(1).map((news) => (
+                    {desh.slice(1).map((news) => (
                       <Link
                         to={`/${news?.slug}`}
                         key={news._id}
@@ -216,17 +249,17 @@ function CategoryWise() {
               <div className=" grid  grid-cols-1 gap-6 ">
                 {/* //top */}
                 <div className=" col-span-2">
-                  {rajneeti[0] && (
-                    <Link to={`/${rajneeti[0]?.slug}`} className=" relative">
+                  {videsh[0] && (
+                    <Link to={`/${videsh[0]?.slug}`} className=" relative">
                       <img
-                        src={rajneeti[0]?.images[0]?.url}
+                        src={videsh[0]?.images[0]?.url}
                         alt=""
                         className="lg:h-[320px] h-[250px] lg:w-full w-[80%] object-cover border-r-[1px] border-l-[1px] border-red-500 pr-3 pl-3"
                       />
                       <p className="font-semibold  bottom-0  text- text-gray-500 bg-opacity-60 w-full py-5">
-                        {truncateText(rajneeti[0]?.title, 10)}
+                        {truncateText(videsh[0]?.title, 10)}
                         <p className="text-gray-400 text-[12px]">
-                          {rajneeti[0]?.createdAt
+                          {videsh[0]?.createdAt
                             ? formatDate(rajneeti[0]?.createdAt)
                             : "Date not available"}
                         </p>
@@ -237,7 +270,7 @@ function CategoryWise() {
 
                 <div>
                   <div>
-                    {rajneeti.slice(1).map((news) => (
+                    {videsh.slice(1).map((news) => (
                       <Link
                         to={`/${news?.slug}`}
                         key={news._id}
@@ -285,7 +318,7 @@ function CategoryWise() {
           </div>
 
           <div className="grid lg:grid-cols-3 gap-4">
-            {allNews.map((news) => (
+            {mp?.map((news) => (
               <div className=" " key={news._id}>
                 {news && (
                   <Link to={`/${news?.slug}`} className=" relative">
@@ -329,7 +362,7 @@ function CategoryWise() {
           </div>
 
           <div className="grid lg:grid-cols-3 gap-4">
-            {allNews.map((news) => (
+            {cg.map((news) => (
               <div className=" " key={news._id}>
                 {news && (
                   <Link to={`/${news?.slug}`} className=" relative">
@@ -376,18 +409,18 @@ function CategoryWise() {
               <div className=" grid  grid-cols-1 gap-6 ">
                 {/* //top */}
                 <div className=" col-span-2">
-                  {rajneeti[0] && (
-                    <Link to={`/${rajneeti[0]?.slug}`} className=" relative">
+                  {khel[0] && (
+                    <Link to={`/${khel[0]?.slug}`} className=" relative">
                       <img
-                        src={rajneeti[0]?.images[0]?.url}
+                        src={khel[0]?.images[0]?.url}
                         alt=""
                         className="lg:h-[320px] h-[250px] lg:w-full w-[80%] object-cover border-r-[1px] border-l-[1px] border-red-500 pr-3 pl-3"
                       />
                       <p className="font-semibold  bottom-0  text- text-gray-500 bg-opacity-60 w-full py-5">
-                        {truncateText(rajneeti[0]?.title, 10)}
+                        {truncateText(khel[0]?.title, 10)}
                         <p className="text-gray-400 text-[12px]">
-                          {rajneeti[0]?.createdAt
-                            ? formatDate(rajneeti[0]?.createdAt)
+                          {khel[0]?.createdAt
+                            ? formatDate(khel[0]?.createdAt)
                             : "Date not available"}
                         </p>
                       </p>
@@ -397,7 +430,7 @@ function CategoryWise() {
 
                 <div>
                   <div>
-                    {rajneeti.slice(1).map((news) => (
+                    {khel.slice(1).map((news) => (
                       <Link
                         to={`/${news?.slug}`}
                         key={news._id}
@@ -446,18 +479,18 @@ function CategoryWise() {
               <div className=" grid  grid-cols-1 gap-6 ">
                 {/* //top */}
                 <div className=" col-span-2">
-                  {rajneeti[0] && (
-                    <Link to={`/${rajneeti[0]?.slug}`} className=" relative">
+                  {manoranjan[0] && (
+                    <Link to={`/${manoranjan[0]?.slug}`} className=" relative">
                       <img
-                        src={rajneeti[0]?.images[0]?.url}
+                        src={manoranjan[0]?.images[0]?.url}
                         alt=""
                         className="lg:h-[320px] h-[250px] lg:w-full w-[80%] object-cover border-r-[1px] border-l-[1px] border-red-500 pr-3 pl-3"
                       />
                       <p className="font-semibold  bottom-0  text- text-gray-500 bg-opacity-60 w-full py-5">
-                        {truncateText(rajneeti[0]?.title, 10)}
+                        {truncateText(manoranjan[0]?.title, 10)}
                         <p className="text-gray-400 text-[12px]">
-                          {rajneeti[0]?.createdAt
-                            ? formatDate(rajneeti[0]?.createdAt)
+                          {manoranjan[0]?.createdAt
+                            ? formatDate(manoranjan[0]?.createdAt)
                             : "Date not available"}
                         </p>
                       </p>
@@ -467,7 +500,7 @@ function CategoryWise() {
 
                 <div>
                   <div>
-                    {rajneeti.slice(1).map((news) => (
+                    {manoranjan.slice(1).map((news) => (
                       <Link
                         to={`/${news?.slug}`}
                         key={news._id}
@@ -524,6 +557,41 @@ function CategoryWise() {
 
 
 
+        {/* Vyapar*/}
+
+        <div>
+        <div className="mt-[50px]">
+        <div className=" flex justify-between mb-4 relative">
+                <p className=" min-w-full min-h-[2px] bg-[#ed0302] absolute bottom-0 "></p>
+                <p className=" flex items-center gap-2 font-bold text-lg bg-[#ed0302] text-white p-2 relative wf">
+                  {" "}
+                  व्यापार
+                </p>
+            
+              </div>
+
+          <div>
+          
+
+          <div className="flex gap-3 grid-cols-1  mt-8 p-2 flex-col">
+          {vyapar?.map((currElem, index) => (
+            <Link to={`/${currElem?.slug}`} key={currElem._id}>
+              <div className="flex gap-3">
+                <img
+                  src={currElem?.images[0]?.url}
+                  alt=""
+                  className="w-[105px]"
+                />
+                <p className="text-wrap mt-2 text-sm">
+                  {truncateText(currElem.title, 10)}
+                </p>
+              </div>
+            </Link>
+          ))}
+        </div>
+          </div>
+        </div>
+        </div>
         {/* Dharm And JYotishi */}
 
         <div>
@@ -540,8 +608,8 @@ function CategoryWise() {
           <div>
           
 
-          <div className="flex gap-3 grid-cols-1 max-h-[50px] mt-8 p-2 flex-col">
-          {rajneeti?.map((currElem, index) => (
+          <div className="flex gap-3 grid-cols-1  mt-8 p-2 flex-col">
+          {dharm?.map((currElem, index) => (
             <Link to={`/${currElem?.slug}`} key={currElem._id}>
               <div className="flex gap-3">
                 <img

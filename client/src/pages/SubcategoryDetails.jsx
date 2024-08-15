@@ -5,6 +5,7 @@ import { fetchSingleSubCategory } from "../services/operations/admin";
 import CricketLive from "../components/core/Home/RightSide/CricketLive";
 import NewsActive from "../components/core/Home/RightSide/NewsActive";
 import Contact from "../components/core/singleNews/Contact";
+import { useSelector } from "react-redux";
 
 const SubCategoryPage = () => {
   const [category, setCategory] = useState(null);
@@ -32,6 +33,18 @@ const SubCategoryPage = () => {
   useEffect(() => {
     fetchCategoryData(id, currentPage, itemsPerPage);
   }, [id, currentPage]);
+
+
+  const { allNews } = useSelector((state) => state.news);
+
+  const dharm = allNews
+  .filter((news) => news?.category?._id === "66bdc954433ab78f130e4a0b")
+  .sort((a, b) => new Date(b.publish) - new Date(a.publish))
+  .slice(0, 9);
+const vyapar = allNews
+  .filter((news) => news?.category?._id === "66bdc944433ab78f130e4a02")
+  .sort((a, b) => new Date(b.publish) - new Date(a.publish))
+  .slice(0, 9);
 
   const truncateText = (text, wordLimit) => {
     const words = text.split(" ");
@@ -233,6 +246,82 @@ const SubCategoryPage = () => {
               <CricketLive />
             </div>
           </div>
+
+
+
+
+
+
+          
+             {/* <div>
+        <div className="mt-[50px]">
+        <div className=" flex justify-between mb-4 relative">
+                <p className=" min-w-full min-h-[2px] bg-[#ed0302] absolute bottom-0 "></p>
+                <p className=" flex items-center gap-2 font-bold text-lg bg-[#ed0302] text-white p-2 relative wf">
+                  {" "}
+                  व्यापार
+                </p>
+            
+              </div>
+
+          <div>
+          
+
+          <div className="flex gap-3 grid-cols-1  mt-8 p-2 flex-col">
+          {vyapar?.map((currElem, index) => (
+            <Link to={`/${currElem?.slug}`} key={currElem._id}>
+              <div className="flex gap-3">
+                <img
+                  src={currElem?.images[0]?.url}
+                  alt=""
+                  className="w-[105px]"
+                />
+                <p className="text-wrap mt-2 text-sm">
+                  {truncateText(currElem.title, 10)}
+                </p>
+              </div>
+            </Link>
+          ))}
+        </div>
+          </div>
+        </div>
+        </div> */}
+        {/* Dharm And JYotishi */}
+
+        <div>
+        <div className="mt-[50px]">
+        <div className=" flex justify-between mb-4 relative">
+                <p className=" min-w-full min-h-[2px] bg-[#ed0302] absolute bottom-0 "></p>
+                <p className=" flex items-center gap-2 font-bold text-lg bg-[#ed0302] text-white p-2 relative wf">
+                  {" "}
+                  धर्म एवं ज्योतिष
+                </p>
+            
+              </div>
+
+          <div>
+          
+
+          <div className="flex gap-3 grid-cols-1  mt-8 p-2 flex-col">
+          {dharm?.map((currElem, index) => (
+            <Link to={`/${currElem?.slug}`} key={currElem._id}>
+              <div className="flex gap-3">
+                <img
+                  src={currElem?.images[0]?.url}
+                  alt=""
+                  className="w-[105px]"
+                />
+                <p className="text-wrap mt-2 text-sm">
+                  {truncateText(currElem.title, 10)}
+                </p>
+              </div>
+            </Link>
+          ))}
+        </div>
+          </div>
+        </div>
+        </div>
+        
         </div>
       </div>
     </div>
