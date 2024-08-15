@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
+import { useSelector } from "react-redux";
 
-function NewsActive({ realted}) {
+function NewsActive() {
   const [activIndex, setNewsActive] = useState(0);
+  const { allNews } = useSelector((state) => state.news);
 
   const truncateText = (text, wordLimit) => {
     const words = text.split(" ");
@@ -51,7 +53,7 @@ function NewsActive({ realted}) {
     <div className=" max-h-[80vh] overflow-y-scroll min-h-[80vh]">
       {activIndex == 0 && (
         <div className="flex gap-3 grid-cols-1 max-h-[50px] mt-8 p-2 flex-col">
-          {realted?.map((currElem, index) => (
+          {allNews?.map((currElem, index) => (
             <Link to={`/${currElem?.slug}`} key={currElem._id}>
               <div className="flex gap-3">
                 <img
@@ -70,7 +72,7 @@ function NewsActive({ realted}) {
 
       {activIndex == 1 && (
         <div className="flex gap-3 grid-cols-1 max-h-[50px] mt-8 p-2 flex-col">
-          {realted?.map((currElem, index) => (
+          {allNews?.map((currElem, index) => (
             <Link to={`/${currElem?.slug}`} key={currElem._id}>
               <div className="flex gap-3 flex-col">
                 <p className="text-wrap mt-2 text-sm underline text-blue-700  ">

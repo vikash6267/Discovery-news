@@ -13,6 +13,7 @@ import {
 import Contact from "../components/core/singleNews/Contact";
 import NewsActive from "../components/core/Home/RightSide/NewsActive";
 import { useSelector } from "react-redux";
+import CricketLive from "../components/core/Home/RightSide/CricketLive";
 
 function SingleNews() {
   const { allNews } = useSelector((state) => state.news);
@@ -131,10 +132,29 @@ function SingleNews() {
           <Contact />
         </div>
 
+
         {/* New News */}
         <div className=" lg:w-[30%]">
           <NewsActive realted={allNews} />
+
+
+          <div className="mt-[50px]">
+        <div className=" flex justify-between mb-4 relative">
+                <p className=" min-w-full min-h-[2px] bg-[#ed0302] absolute bottom-0 "></p>
+                <p className=" flex items-center gap-2 font-bold text-lg bg-[#ed0302] text-white p-2 relative wf">
+                  {" "}
+                  Cricket Score
+                </p>
+            
+              </div>
+
+          <div>
+            <CricketLive   />
+          </div>
         </div>
+        </div>
+
+      
       </div>
     </div>
   );

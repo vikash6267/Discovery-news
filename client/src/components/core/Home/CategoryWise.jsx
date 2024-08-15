@@ -499,15 +499,14 @@ function CategoryWise() {
       {/* Right */}
       <div className=" mt-[40px] col-span-4 lg:col-span-1">
         {/* New News */}
-        <div className=" ">
   
 
           <div>
             <NewsActive  realted={allNews} />
           </div>
-        </div>
+  
       
-      
+      {/* //Cricket newa */}
         <div className="mt-[50px]">
         <div className=" flex justify-between mb-4 relative">
                 <p className=" min-w-full min-h-[2px] bg-[#ed0302] absolute bottom-0 "></p>
@@ -521,6 +520,44 @@ function CategoryWise() {
           <div>
             <CricketLive   />
           </div>
+        </div>
+
+
+
+        {/* Dharm And JYotishi */}
+
+        <div>
+        <div className="mt-[50px]">
+        <div className=" flex justify-between mb-4 relative">
+                <p className=" min-w-full min-h-[2px] bg-[#ed0302] absolute bottom-0 "></p>
+                <p className=" flex items-center gap-2 font-bold text-lg bg-[#ed0302] text-white p-2 relative wf">
+                  {" "}
+                  धर्म एवं ज्योतिष
+                </p>
+            
+              </div>
+
+          <div>
+          
+
+          <div className="flex gap-3 grid-cols-1 max-h-[50px] mt-8 p-2 flex-col">
+          {rajneeti?.map((currElem, index) => (
+            <Link to={`/${currElem?.slug}`} key={currElem._id}>
+              <div className="flex gap-3">
+                <img
+                  src={currElem?.images[0]?.url}
+                  alt=""
+                  className="w-[105px]"
+                />
+                <p className="text-wrap mt-2 text-sm">
+                  {truncateText(currElem.title, 10)}
+                </p>
+              </div>
+            </Link>
+          ))}
+        </div>
+          </div>
+        </div>
         </div>
 
 

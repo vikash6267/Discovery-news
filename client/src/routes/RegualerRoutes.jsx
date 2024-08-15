@@ -12,6 +12,8 @@ import ScrollToTop from "../components/common/ScrollToTop";
 import Whatsapp from "../components/common/Whatsapp";
 import Footer from "../components/common/Footer";
 import SingleNews from "../pages/SingleNews";
+import CategoryPage from "../pages/CategoryDetails";
+import SubCategoryPage from "../pages/SubcategoryDetails";
 
 function RegualerRoutes() {
   return (
@@ -24,6 +26,8 @@ function RegualerRoutes() {
         <Route path="/" element={<Home />} />
         <Route path="*" element={<Error />} />
         <Route path="/:id" element={<SingleNews />} />
+        <Route path="category/:id" element={<CategoryPage />} />
+        <Route path="subcategory/:id" element={<SubCategoryPage />} />
 
         <Route
           path="/login"

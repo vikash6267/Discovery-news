@@ -1,7 +1,7 @@
 // controllers/categoryController.js
 const Category = require("../models/category");
 const SubCategory = require("../models/subCategory");
-
+const News = require("../models/newsModel")
 // Create a new category
 const createCategory = async (req, res) => {
   console.log(req)
@@ -80,7 +80,9 @@ const getAllCategories = async (req, res) => {
 // Get a single category by ID with populated subCategories
 const getCategoryById = async (req, res) => {
   const categoryId = req.params.id;
+  const { page = 1, limit = 10, ...queryFilters } = req.query;
 
+  console.log(req.query)
   try {
     // Fetch the requested category with populated subCategories
     const category = await Category.findById(categoryId)
@@ -91,17 +93,19 @@ const getCategoryById = async (req, res) => {
       return res.status(404).json({ success: false, message: "Category not found" });
     }
 
-    // Fetch multiple random categories
-    const categories = await Category.find({ _id: { $ne: categoryId } })
-      .limit(5) // Adjust the limit as per your requirement
-      .populate("subCategories").populate("news")
-      .lean(); // Use lean() for better performance if you don't need to modify the documents
-
+    const news = await News.find({ category: categoryId, ...queryFilters })
+    .skip((page - 1) * limit)
+    .limit(parseInt(limit));
     // Prepare the response object
     const response = {
       success: true,
       category,
-      randomCategory: categories
+      news,
+      pagination: {
+        page: parseInt(page),
+        limit: parseInt(limit),
+        total: await News.countDocuments({ category: categoryId, ...queryFilters }),
+      },
     };
 
     // Send the response
@@ -186,6 +190,8 @@ const getAllSubCategories = async (req, res) => {
 // Get subcategories for a specific category
 const getSubCategoriesByCategory = async (req, res) => {
   const categoryId = req.params.id;
+  const { page = 1, limit = 10, ...queryFilters } = req.query;
+
   try {
     const subCategories = await SubCategory.findById(categoryId)
       .populate("news")
@@ -194,20 +200,24 @@ const getSubCategoriesByCategory = async (req, res) => {
         select: "name" // Specify the fields you want to select
       });
 
-    const categories2 = await Category.find().populate("subCategories").populate("news").lean();;
 
-
-    // Function to get random elements from an array
-    const getRandomElements = (arr, num) => {
-      const shuffled = arr.sort(() => 0.5 - Math.random());
-      return shuffled.slice(0, num);
-    };
-
-    // Select a random subset of categories, e.g., 3 random categories
-    const randomCategories = getRandomElements(categories2, 3);
-
-
-    res.json({ success: true, subCategories, randomCategories });
+      const news = await News.find({ subcategory: categoryId, ...queryFilters })
+      .skip((page - 1) * limit)
+      .limit(parseInt(limit));
+      // Prepare the response object
+      const response = {
+        success: true,
+        subCategories,
+        news,
+        pagination: {
+          page: parseInt(page),
+          limit: parseInt(limit),
+          total: await News.countDocuments({ subcategory: categoryId, ...queryFilters }),
+        },
+      };
+      
+ 
+    res.json({ success: true, response });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }

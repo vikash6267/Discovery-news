@@ -557,11 +557,11 @@ export const deleteCategory = async (id, token) => {
   }
 };
 
-export const fetchSingleCategory = async (id) => {
+export const fetchSingleCategory = async (id,page,itemsPerPage) => {
   let result = [];
   try {
-    const response = await apiConnector("GET", `${DETAILS_CATEGORY_API}/${id}`);
-    console.log("News_CATEGORIES_API API RESPONSE............", response);
+    const response = await apiConnector("GET", `${DETAILS_CATEGORY_API}/${id}`,null,null,{ page, limit: itemsPerPage });
+    // console.log("News_CATEGORIES_API API RESPONSE............", response?.data);
     if (!response?.data?.success) {
       throw new Error("Could Not Fetch  Categories");
     }
@@ -581,7 +581,7 @@ export const fetchCategory = async () => {
     if (!response?.data?.success) {
       throw new Error("Could Not Fetch News Categories");
     }
-    // console.log(response?.data)
+    console.log(response?.data)
 
     result = response?.data;
   } catch (error) {
@@ -717,16 +717,17 @@ export const deleteSubCategory = async (id, token) => {
   }
 };
 
-export const fetchSingleSubCategory = async (id) => {
+export const fetchSingleSubCategory = async (id,page,itemsPerPage) => {
   let result = [];
   try {
     const response = await apiConnector(
       "GET",
-      `${DETAILS_SUBCATEGORY_API}/${id}`
+      `${DETAILS_SUBCATEGORY_API}/${id}`,null,null,{ page, limit: itemsPerPage }
     );
     if (!response?.data?.success) {
       throw new Error("Could Not Fetch SubCategory Details");
     }
+    console.log(response?.data)
     result = response?.data;
   } catch (error) {
     console.log("FETCH SINGLE SubCategory API ERROR............", error);
