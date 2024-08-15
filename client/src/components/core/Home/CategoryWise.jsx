@@ -5,6 +5,7 @@ import { DiCodeigniter } from "react-icons/di";
 import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 import { format } from "date-fns";
 import NewsActive from "./RightSide/NewsActive";
+import CricketLive from "./RightSide/CricketLive";
 
 function CategoryWise() {
   const { allNews } = useSelector((state) => state.news);
@@ -283,7 +284,7 @@ function CategoryWise() {
             </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid lg:grid-cols-3 gap-4">
             {allNews.map((news) => (
               <div className=" " key={news._id}>
                 {news && (
@@ -327,7 +328,7 @@ function CategoryWise() {
             </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid lg:grid-cols-3 gap-4">
             {allNews.map((news) => (
               <div className=" " key={news._id}>
                 {news && (
@@ -496,13 +497,29 @@ function CategoryWise() {
       </div>
 
       {/* Right */}
-      <div className=" mt-[40px]">
+      <div className=" mt-[40px] col-span-4 lg:col-span-1">
         {/* New News */}
-        <div>
+        <div className=" ">
   
 
           <div>
             <NewsActive  realted={allNews} />
+          </div>
+        </div>
+      
+      
+        <div className="mt-[50px]">
+        <div className=" flex justify-between mb-4 relative">
+                <p className=" min-w-full min-h-[2px] bg-[#ed0302] absolute bottom-0 "></p>
+                <p className=" flex items-center gap-2 font-bold text-lg bg-[#ed0302] text-white p-2 relative wf">
+                  {" "}
+                  Cricket Score
+                </p>
+            
+              </div>
+
+          <div>
+            <CricketLive   />
           </div>
         </div>
 
