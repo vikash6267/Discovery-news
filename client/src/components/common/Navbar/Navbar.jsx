@@ -54,7 +54,6 @@ const navLinks = [
   { title: "लाइव टीवी", path: "/livetv" },
 ];
 
-
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
@@ -84,12 +83,11 @@ const Navbar = () => {
     setIsSearchOpen(!isSearchOpen);
   };
 
-
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const categoriesData = await fetchCategory();
-        console.log(categoriesData)
+        console.log(categoriesData);
         setCategories(categoriesData?.categories || []);
       } catch (error) {
         console.error("Error fetching categories:", error);
@@ -112,8 +110,7 @@ const Navbar = () => {
             {categories?.map((link, index) => (
               <div key={index} className="group relative z-50">
                 <Link
-                                       to={`/category/${link?._id}`}
-
+                  to={`/category/${link?._id}`}
                   className="text-white hover:bg-gray-100 hover:text-black px-3 py-4"
                 >
                   {link?.name}
@@ -171,14 +168,13 @@ const Navbar = () => {
             <div key={index} className="border-b border-gray-200">
               <div className="flex justify-between items-center px-4 py-2 cursor-pointer">
                 <Link
-                                         to={`/category/${link?._id}`}
-
+                  to={`/category/${link?._id}`}
                   className="text-white"
                   onClick={handleLinkClick}
                 >
                   {link?.name}
                 </Link>
-                {link.subCategories  && link?.subCategories?.length > 0 && (
+                {link.subCategories && link?.subCategories?.length > 0 && (
                   <>
                     {openDropdown === index ? (
                       <AiOutlineMinus
@@ -204,7 +200,6 @@ const Navbar = () => {
                     <Link
                       key={subIndex}
                       to={`/subcategory/${sublink?._id}`}
-
                       className="block text-white px-4 py-2"
                       onClick={handleLinkClick}
                     >

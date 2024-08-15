@@ -14,11 +14,13 @@ import Footer from "../components/common/Footer";
 import SingleNews from "../pages/SingleNews";
 import CategoryPage from "../pages/CategoryDetails";
 import SubCategoryPage from "../pages/SubcategoryDetails";
+import LogoSpace from "../components/common/Navbar/LogoSpace";
 
 function RegualerRoutes() {
   return (
     <>
       <SubNavbar />
+      <LogoSpace />
       <Navbar />
       <BreakingNews />
       {/* <div className="h-screen w-screen bg-white"></div> */}
