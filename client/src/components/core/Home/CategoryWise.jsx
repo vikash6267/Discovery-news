@@ -7,9 +7,15 @@ import { format } from "date-fns";
 import NewsActive from "./RightSide/NewsActive";
 import CricketLive from "./RightSide/CricketLive";
 
-function  CategoryWise() {
+function CategoryWise() {
   const { allNews } = useSelector((state) => state.news);
   const [newsActive, setNewsActive] = useState(0);
+
+  const all = [...allNews].sort(
+    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+  );
+
+  const allN = all.filter((currElem) => currElem?.type === "all").slice(0, 6);
 
   const rajneeti = allNews
     .filter((news) => news?.category?._id === "669644aa69a6d788e2c6770d")
@@ -41,7 +47,6 @@ function  CategoryWise() {
     .sort((a, b) => new Date(b.publish) - new Date(a.publish))
     .slice(0, 5);
 
-
   const dharm = allNews
     .filter((news) => news?.category?._id === "66bdc954433ab78f130e4a0b")
     .sort((a, b) => new Date(b.publish) - new Date(a.publish))
@@ -50,8 +55,6 @@ function  CategoryWise() {
     .filter((news) => news?.category?._id === "66bdc944433ab78f130e4a02")
     .sort((a, b) => new Date(b.publish) - new Date(a.publish))
     .slice(0, 9);
-
-  
 
   const truncateText = (text, wordLimit) => {
     const words = text.split(" ");
@@ -527,108 +530,137 @@ function  CategoryWise() {
             </div>
           </div>
         </div>
+        <div>
+          <div>
+            <div className=" flex justify-between mb-4 relative">
+              <p className=" min-w-full min-h-[2px] bg-[#ed0302] absolute bottom-0 "></p>
+              <p className=" flex items-center gap-2 font-bold text-lg bg-[#ed0302] text-white p-2 relative wf">
+                {" "}
+                All News
+              </p>
+              <Link
+                className=" flex items-center gap-2"
+                to={`/category/669644aa69a6d788e2c6770d`}
+              >
+                और भी जानै{" "}
+                <FaArrowUpRightFromSquare className=" text-blue-600" />
+              </Link>
+            </div>
+          </div>
+
+          <div className="grid lg:grid-cols-3 gap-4">
+            {allN?.map((news) => (
+              <div className=" " key={news._id}>
+                {news && (
+                  <Link to={`/${news?.slug}`} className=" relative">
+                    <img
+                      src={news?.images[0]?.url}
+                      alt=""
+                      className="max-w-full h-[200px] object-cover border-r-[1px] border-l-[1px] border-red-500 pr-3 pl-3"
+                    />
+                    <p className="font-semibold  bottom-0  text- text-gray-500 bg-opacity-60  py-5 text-wrap">
+                      {truncateText(news?.title, 10)}
+                      <p className="text-gray-400 text-[12px]">
+                        {news?.createdAt
+                          ? formatDate(news?.createdAt)
+                          : "Date not available"}
+                      </p>
+                    </p>
+                  </Link>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* Right */}
       <div className=" mt-[40px] col-span-4 lg:col-span-1">
         {/* New News */}
-  
 
-          <div>
-            <NewsActive  realted={allNews} />
-          </div>
-  
-      
-      {/* //Cricket newa */}
-        <div className="mt-[50px]">
-        <div className=" flex justify-between mb-4 relative">
-                <p className=" min-w-full min-h-[2px] bg-[#ed0302] absolute bottom-0 "></p>
-                <p className=" flex items-center gap-2 font-bold text-lg bg-[#ed0302] text-white p-2 relative wf">
-                  {" "}
-                  Cricket Score
-                </p>
-            
-              </div>
-
-          <div>
-            <CricketLive   />
-          </div>
+        <div>
+          <NewsActive realted={allNews} />
         </div>
 
+        {/* //Cricket newa */}
+        <div className="mt-[50px]">
+          <div className=" flex justify-between mb-4 relative">
+            <p className=" min-w-full min-h-[2px] bg-[#ed0302] absolute bottom-0 "></p>
+            <p className=" flex items-center gap-2 font-bold text-lg bg-[#ed0302] text-white p-2 relative wf">
+              {" "}
+              Cricket Score
+            </p>
+          </div>
 
+          <div>
+            <CricketLive />
+          </div>
+        </div>
 
         {/* Vyapar*/}
 
         <div>
-        <div className="mt-[50px]">
-        <div className=" flex justify-between mb-4 relative">
-                <p className=" min-w-full min-h-[2px] bg-[#ed0302] absolute bottom-0 "></p>
-                <p className=" flex items-center gap-2 font-bold text-lg bg-[#ed0302] text-white p-2 relative wf">
-                  {" "}
-                  व्यापार
-                </p>
-            
-              </div>
+          <div className="mt-[50px]">
+            <div className=" flex justify-between mb-4 relative">
+              <p className=" min-w-full min-h-[2px] bg-[#ed0302] absolute bottom-0 "></p>
+              <p className=" flex items-center gap-2 font-bold text-lg bg-[#ed0302] text-white p-2 relative wf">
+                {" "}
+                व्यापार
+              </p>
+            </div>
 
-          <div>
-          
-
-          <div className="flex gap-3 grid-cols-1  mt-8 p-2 flex-col">
-          {vyapar?.map((currElem, index) => (
-            <Link to={`/${currElem?.slug}`} key={currElem._id}>
-              <div className="flex gap-3">
-                <img
-                  src={currElem?.images[0]?.url}
-                  alt=""
-                  className="w-[105px]"
-                />
-                <p className="text-wrap mt-2 text-sm">
-                  {truncateText(currElem.title, 10)}
-                </p>
+            <div>
+              <div className="flex gap-3 grid-cols-1  mt-8 p-2 flex-col">
+                {vyapar?.map((currElem, index) => (
+                  <Link to={`/${currElem?.slug}`} key={currElem._id}>
+                    <div className="flex gap-3">
+                      <img
+                        src={currElem?.images[0]?.url}
+                        alt=""
+                        className="w-[105px]"
+                      />
+                      <p className="text-wrap mt-2 text-sm">
+                        {truncateText(currElem.title, 10)}
+                      </p>
+                    </div>
+                  </Link>
+                ))}
               </div>
-            </Link>
-          ))}
-        </div>
+            </div>
           </div>
-        </div>
         </div>
         {/* Dharm And JYotishi */}
 
         <div>
-        <div className="mt-[50px]">
-        <div className=" flex justify-between mb-4 relative">
-                <p className=" min-w-full min-h-[2px] bg-[#ed0302] absolute bottom-0 "></p>
-                <p className=" flex items-center gap-2 font-bold text-lg bg-[#ed0302] text-white p-2 relative wf">
-                  {" "}
-                  धर्म एवं ज्योतिष
-                </p>
-            
-              </div>
+          <div className="mt-[50px]">
+            <div className=" flex justify-between mb-4 relative">
+              <p className=" min-w-full min-h-[2px] bg-[#ed0302] absolute bottom-0 "></p>
+              <p className=" flex items-center gap-2 font-bold text-lg bg-[#ed0302] text-white p-2 relative wf">
+                {" "}
+                धर्म एवं ज्योतिष
+              </p>
+            </div>
 
-          <div>
-          
-
-          <div className="flex gap-3 grid-cols-1  mt-8 p-2 flex-col">
-          {dharm?.map((currElem, index) => (
-            <Link to={`/${currElem?.slug}`} key={currElem._id}>
-              <div className="flex gap-3">
-                <img
-                  src={currElem?.images[0]?.url}
-                  alt=""
-                  className="w-[105px]"
-                />
-                <p className="text-wrap mt-2 text-sm">
-                  {truncateText(currElem.title, 10)}
-                </p>
+            <div>
+              <div className="flex gap-3 grid-cols-1  mt-8 p-2 flex-col">
+                {dharm?.map((currElem, index) => (
+                  <Link to={`/${currElem?.slug}`} key={currElem._id}>
+                    <div className="flex gap-3">
+                      <img
+                        src={currElem?.images[0]?.url}
+                        alt=""
+                        className="w-[105px]"
+                      />
+                      <p className="text-wrap mt-2 text-sm">
+                        {truncateText(currElem.title, 10)}
+                      </p>
+                    </div>
+                  </Link>
+                ))}
               </div>
-            </Link>
-          ))}
-        </div>
+            </div>
           </div>
         </div>
-        </div>
-
-
       </div>
     </div>
   );
