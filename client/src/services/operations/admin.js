@@ -74,7 +74,7 @@ export async function signUp(formData, navigate, dispatch) {
     localStorage.setItem("user", JSON.stringify(response.data.user))
 
     localStorage.setItem("token", JSON.stringify(response.data.token))
-    
+
     // navigate("/");
 
   } catch (error) {
@@ -784,9 +784,9 @@ export const fetchBreakingNews = async () => {
     if (!response?.data?.success) {
       throw new Error("Could not fetch breaking news categories");
     }
-    return response.data.breakingNewss; // Corrected the return statement
+    return response?.data?.breakingNewss || []; // Use correct data property
   } catch (error) {
-    console.error("Error fetching breaking news:", error); // Changed console.log to console.error for error logging
+    console.error("Error fetching breaking news:", error);
     return []; // Return an empty array or handle the error as needed
   }
 };

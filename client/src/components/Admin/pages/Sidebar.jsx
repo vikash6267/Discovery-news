@@ -7,7 +7,7 @@ import { MdLogout } from "react-icons/md";
 import { FaHome } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 // import logo from "../../../assest/logo.jpg"
-import {logout} from "../../../services/operations/user"
+import { logout } from "../../../services/operations/user";
 import { FcStart } from "react-icons/fc";
 
 import {
@@ -19,7 +19,7 @@ import {
   FcVideoCall,
   FcAdvertising,
   FcManager,
-  FcPortraitMode
+  FcPortraitMode,
 } from "react-icons/fc";
 
 const Sidebar = () => {
@@ -29,10 +29,10 @@ const Sidebar = () => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const sidebarRef = useRef(null);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   // Function to handle logout
   const handleLogout = async () => {
-    dispatch(logout(navigate))
+    dispatch(logout(navigate));
   };
 
   // Function to toggle sidebar collapse
@@ -99,7 +99,7 @@ const Sidebar = () => {
     <div
       ref={sidebarRef}
       className={`fixed h-screen top-0 ${
-        isCollapsed ? "w-16" : "w-64"
+        isCollapsed ? "w-20" : "w-64"
       } bg-gray-900 transition-all duration-300 z-50`}
     >
       <div className="flex items-center justify-between p-4">
