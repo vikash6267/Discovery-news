@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import { useSelector } from "react-redux";
 const Footer = () => {
+  const { token } = useSelector((state) => state.auth);
   return (
     <footer className="bg-white border-t-2 border-red-600">
       <div className="container mx-auto py-2">
@@ -63,6 +64,17 @@ const Footer = () => {
             <Link to="/archive" className="hover:underline">
               Archive
             </Link>
+            <span>|</span>
+
+            {token ? (
+              <Link to="/admin/dashboard" className="hover:underline">
+                Admin Login
+              </Link>
+            ) : (
+              <Link to="/login" className="hover:underline">
+                Admin Login
+              </Link>
+            )}
           </div>
         </div>
       </div>
