@@ -28,7 +28,7 @@ const BreakingNews = () => {
   return (
     <div className="bg-white text-black">
       <div className="flex items-center shadow-lg max-w-7xl mx-auto">
-        <span className="bg-gray-200 py-3 px-4 font-bold">खास खबर</span>
+        <span className="bg-[#ed0302] text-white py-3 px-4 font-bold">Breaking News</span>
         <div className="flex-1 overflow-hidden">
           <div className="whitespace-nowrap animate-scroll">
             {breakingNews.length > 0 ? (
