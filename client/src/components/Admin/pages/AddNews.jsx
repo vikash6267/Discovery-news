@@ -14,15 +14,12 @@ import "react-quill/dist/quill.snow.css";
 import Dropzone from "react-dropzone";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { FiAlertCircle } from 'react-icons/fi';
+import { FiAlertCircle } from "react-icons/fi";
 import { useLocation } from "react-router-dom";
 
 function AddNews() {
-
   const { user } = useSelector((state) => state.auth);
-  const location = useLocation()
-
-
+  const location = useLocation();
 
   // States
   const [product, setProduct] = useState("");
@@ -33,36 +30,24 @@ function AddNews() {
   const { token } = useSelector((state) => state.auth);
   const { id } = useParams();
   const maxWords = 3000; // Maximum allowed words
-const[newsID,setNewsID]= useState("")
-
+  const [newsID, setNewsID] = useState("");
 
   const [tags, setTags] = useState([]);
-  const [tagInput, setTagInput] = useState('');
-
-
-
-
-
-
-
-
+  const [tagInput, setTagInput] = useState("");
 
   const handleAddTag = () => {
     if (tagInput && !formik.values.tag.includes(tagInput)) {
-      formik.setFieldValue('tag', [...formik.values.tag, tagInput]);
-      setTagInput('');
+      formik.setFieldValue("tag", [...formik.values.tag, tagInput]);
+      setTagInput("");
     }
-  
   };
 
   const handleRemoveTag = (tagToRemove) => {
-    formik.setFieldValue('tag', formik.values.tag.filter(tag => tag !== tagToRemove));
+    formik.setFieldValue(
+      "tag",
+      formik.values.tag.filter((tag) => tag !== tagToRemove)
+    );
   };
-
-
-
-
-
 
   const handleChange = (html) => {
     // Count words
@@ -102,22 +87,22 @@ const[newsID,setNewsID]= useState("")
       try {
         const response = await getSingleNews(id);
         setProduct(response);
-        setTags(response?.tag)
-        console.log(response)
-        console.log(response.type)
+        setTags(response?.tag);
+        console.log(response);
+        console.log(response.type);
         setImages(response?.images);
         setEditorHtml(response?.description);
-        setNewsID(response?._id)
-        formik.setFieldValue("title",response?.title)
-        formik.setFieldValue("subtitle",response?.subtitle)
-        formik.setFieldValue("location",response?.location)
-        formik.setFieldValue("slug",response?.slug)
-        formik.setFieldValue("tag",response?.tag)
-        formik.setFieldValue("language",response?.language)
-        formik.setFieldValue("youtubeurl",response?.youtubeurl)
-        formik.setFieldValue("category",response?.category?._id)
-        formik.setFieldValue("subcategory",response?.subcategory?._id)
-        formik.setFieldValue("type",response?.type)
+        setNewsID(response?._id);
+        formik.setFieldValue("title", response?.title);
+        formik.setFieldValue("subtitle", response?.subtitle);
+        formik.setFieldValue("location", response?.location);
+        formik.setFieldValue("slug", response?.slug);
+        formik.setFieldValue("tag", response?.tag);
+        formik.setFieldValue("language", response?.language);
+        formik.setFieldValue("youtubeurl", response?.youtubeurl);
+        formik.setFieldValue("category", response?.category?._id);
+        formik.setFieldValue("subcategory", response?.subcategory?._id);
+        formik.setFieldValue("type", response?.type);
       } catch (error) {
         console.error("Error fetching news:", error);
       }
@@ -128,7 +113,7 @@ const[newsID,setNewsID]= useState("")
     }
     fetchSubCategoryMain();
     fetchCategoryMain();
-  }, [id,location]);
+  }, [id, location]);
 
   // Functions
   const uploadImage = async (acceptedFiles) => {
@@ -157,13 +142,16 @@ const[newsID,setNewsID]= useState("")
     // subcategory: Yup.string().required("Subcategory is required"),
     type: Yup.string().required("Type is required"),
     slug: Yup.string()
-    .matches(/^[a-zA-Z0-9-_]+$/, 'Slug can only contain letters, numbers, hyphens, and underscores, and no spaces')
-    .required('Custom Url is required'),
+      .matches(
+        /^[a-zA-Z0-9-_]+$/,
+        "Slug can only contain letters, numbers, hyphens, and underscores, and no spaces"
+      )
+      .required("Custom Url is required"),
     tag: Yup.array()
-    .of(Yup.string().required('Tag is required'))
-    .required('Tags are required')
-    .min(1, 'At least one tag is required'),
-     });
+      .of(Yup.string().required("Tag is required"))
+      .required("Tags are required")
+      .min(1, "At least one tag is required"),
+  });
 
   // Formik Form Initial Values
   const initialValues = {
@@ -178,9 +166,8 @@ const[newsID,setNewsID]= useState("")
     youtubeurl: product?.youtubeurl || "",
     type: product?.type || "",
     notificationSend: false,
-    slug:product?.slug || "",
-    tag: product?.tag || []
-  
+    slug: product?.slug || "",
+    tag: product?.tag || [],
   };
 
   // Formik Form Submission
@@ -201,24 +188,22 @@ const[newsID,setNewsID]= useState("")
     formData.append("type", values.type);
     formData.append("notificationSend", values.notificationSend); // Add notificationSend
 
+    // Assuming formData is already defined and populated with form data
 
-  // Assuming formData is already defined and populated with form data
+    if (id) {
+      // If id exists, append it to formData
+      formData.append("id", newsID);
 
-if (id) {
-  // If id exists, append it to formData
-  formData.append("id", newsID);
+      // Perform edit operation
+      await editNews(formData, token);
+    } else {
+      // Perform create operation
+      await createNews(formData, token);
+    }
 
-  // Perform edit operation
-  await editNews(formData, token);
-} else {
-  // Perform create operation
-  await createNews(formData, token);
-}
-
-
-    // resetForm();
-    // setEditorHtml(""); // Clear the ReactQuill editor
-    // setImages([]); // Clear uploaded images
+    resetForm();
+    setEditorHtml(""); // Clear the ReactQuill editor
+    setImages([]); // Clear uploaded images
   };
 
   // Formik Hook
@@ -236,11 +221,11 @@ if (id) {
     setSubCategories(filteredCategory?.subCategories || []);
   }, [formik.values.category, categories]);
 
-
   if (!user?.permissions?.canAdd) {
     return (
       <div className="max-w-3xl mx-auto p-4 h-full flex items-center justify-center">
-        <FiAlertCircle className="text-red-500 mr-2" size={24} /> {/* Adjust size and color as needed */}
+        <FiAlertCircle className="text-red-500 mr-2" size={24} />{" "}
+        {/* Adjust size and color as needed */}
         <div>Access denied</div>
       </div>
     );
@@ -291,7 +276,6 @@ if (id) {
               value={formik.values.subtitle}
               className="form-input"
             />
-        
           </div>
         </div>
 
@@ -516,48 +500,48 @@ if (id) {
               )}
           </div>
 
-
-        <div>
-        <div className="flex items-center">
-          <input
-            type="text"
-            value={tagInput}
-            onChange={(e) => setTagInput(e.target.value)}
-            className="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
-          <button
-            type="button"
-            onClick={handleAddTag}
-            className="ml-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          >
-            Add Tag *
-          </button>
-
-        </div>
-          {formik.touched.tag && formik.errors.tag && (
+          <div>
+            <div className="flex items-center">
+              <input
+                type="text"
+                value={tagInput}
+                onChange={(e) => setTagInput(e.target.value)}
+                className="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              />
+              <button
+                type="button"
+                onClick={handleAddTag}
+                className="ml-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              >
+                Add Tag *
+              </button>
+            </div>
+            {formik.touched.tag && formik.errors.tag && (
               <div className="text-red-500">{formik.errors.tag}</div>
             )}
-        <div className="mt-2">
-          {formik.values.tag.map((tag, index) => (
-            <span key={index} className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-              {tag}
-              <button type="button" onClick={() => handleRemoveTag(tag,formik)} className="ml-2 text-red-500 hover:text-red-700">x</button>
-            </span>
-          ))}
+            <div className="mt-2">
+              {formik.values.tag.map((tag, index) => (
+                <span
+                  key={index}
+                  className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
+                >
+                  {tag}
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveTag(tag, formik)}
+                    className="ml-2 text-red-500 hover:text-red-700"
+                  >
+                    x
+                  </button>
+                </span>
+              ))}
+            </div>
+          </div>
         </div>
-        </div>
 
-
-
-        </div>
-
-
-<div>
-<div className="space-y-2">
-            <label
-              htmlFor="slug"
-              className="block font-medium text-gray-700"
-            >
+        <div>
+          <div className="space-y-2">
+            <label htmlFor="slug" className="block font-medium text-gray-700">
               Custome URL *
             </label>
             <input
@@ -574,12 +558,7 @@ if (id) {
               <div className="text-red-500">{formik.errors.slug}</div>
             )}
           </div>
-
-</div>
-
-
-
-
+        </div>
 
         {/* Upload Image */}
         <div className="space-y-2">
