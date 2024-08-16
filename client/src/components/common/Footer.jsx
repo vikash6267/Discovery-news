@@ -79,7 +79,7 @@ const Footer = () => {
         </div>
       </div>
       <div className="bg-red-600 text-white text-center py-2">
-        2024 © peptechtime.com. All Rights Reserved.
+        2024 © discoveryindianews.com All Rights Reserved.
       </div>
     </footer>
   );
