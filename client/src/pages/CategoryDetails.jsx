@@ -37,19 +37,21 @@ const CategoryPage = () => {
       : text;
   };
 
-
   const { allNews } = useSelector((state) => state.news);
 
-  const dharm = allNews
-  .filter((news) => news?.category?._id === "66bdc954433ab78f130e4a0b")
-  .sort((a, b) => new Date(b.publish) - new Date(a.publish))
-  .slice(0, 9);
-const vyapar = allNews
-  .filter((news) => news?.category?._id === "66bdc944433ab78f130e4a02")
-  .sort((a, b) => new Date(b.publish) - new Date(a.publish))
-  .slice(0, 9);
+  // Filter news items based on the category ID from the URL params
+  const filteredNews = allNews.filter(
+    (newsItem) => newsItem?.category?._id === id
+  );
 
+  // Sort the filtered news items by the publish date
+  const sortedNews = filteredNews.sort(
+    (a, b) => new Date(b.publish) - new Date(a.publish)
+  );
 
+  useEffect(() => {
+    console.log("Filtered and Sorted News:", sortedNews);
+  }, [sortedNews]);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -155,8 +157,8 @@ const vyapar = allNews
               {/* News */}
               <div>
                 <div className="flex gap-3 grid-cols-1 mt-8 p-2 flex-col">
-                  {news.length > 0 ? (
-                    news?.map((currElem) => {
+                  {sortedNews.length > 0 ? (
+                    sortedNews.map((currElem) => {
                       const strippedDescription = stripHtmlTags(
                         currElem.description
                       );
@@ -174,7 +176,7 @@ const vyapar = allNews
                               className="w-[125px]"
                             />
                             <div>
-                              <p className="text-wrap mt-2 text-[20px]">
+                              <p className="text-wrap font-bold mt-2 text-[20px]">
                                 {truncateText(currElem.title, 10)}
                               </p>
                               <p className="text-xs text-gray-500">
@@ -244,13 +246,6 @@ const vyapar = allNews
               <CricketLive />
             </div>
           </div>
-
-
-
-
-
-
-
         </div>
       </div>
     </div>

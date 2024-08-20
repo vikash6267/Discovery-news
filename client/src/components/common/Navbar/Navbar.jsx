@@ -4,55 +4,7 @@ import { FaBars, FaHome, FaSearch } from "react-icons/fa";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCategory } from "../../../services/operations/admin";
-
-const navLinks = [
-  { title: "होम", path: "/" },
-  { title: "देश", path: "/desh" },
-  { title: "विदेश", path: "/videsh" },
-  { title: "राजनीति", path: "/rajniti" },
-  {
-    title: "मध्य प्रदेश",
-    path: "/madhyapradesh",
-    sublinks: [
-      { title: "भोपल", path: "/bhopal" },
-      { title: "इंदौर", path: "/indore" },
-      { title: "ग्वालियर", path: "/gwalior" },
-    ],
-  },
-  {
-    title: "छत्तीसगढ़",
-    path: "/chhattisgarh",
-    sublinks: [
-      { title: "रायपुर", path: "/raipur" },
-      { title: "बिलासपुर", path: "/bilaspur" },
-      { title: "दुर्ग", path: "/durg" },
-    ],
-  },
-  { title: "खेल", path: "/khel" },
-  { title: "व्यापार", path: "/vyapar" },
-  { title: "मनोरंजन", path: "/manoranjan" },
-  {
-    title: "धर्म एवं ज्योतिष",
-    path: "/dharm",
-    sublinks: [
-      { title: "हिंदू धर्म", path: "/hindu" },
-      { title: "इस्लाम धर्म", path: "/islam" },
-      { title: "ज्योतिष", path: "/jyotish" },
-    ],
-  },
-  {
-    title: "लाइफ स्टाइल",
-    path: "/lifestyle",
-    sublinks: [
-      { title: "स्वास्थ्य", path: "/health" },
-      { title: "फैशन", path: "/fashion" },
-      { title: "यात्रा", path: "/travel" },
-    ],
-  },
-  { title: "हेल्थ", path: "/health" },
-  { title: "वीडियो", path: "/video" },
-  { title: "लाइव टीवी", path: "/livetv" },
-];
+import SearchBox from "./SearchBox";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -88,40 +40,56 @@ const Navbar = () => {
       try {
         const categoriesData = await fetchCategory();
         console.log(categoriesData);
-        setCategories(categoriesData?.categories || []);
+
+        // Filter out the "राज्य" category
+        const filteredCategories =
+          categoriesData?.categories.filter(
+            (cat) => cat.name.trim() !== "राज्य"
+          ) || [];
+
+        setCategories(filteredCategories);
       } catch (error) {
         console.error("Error fetching categories:", error);
       }
     };
 
     if (category.length !== 0) {
-      setCategories(category);
-    } else fetchCategories();
-  }, []);
+      // Filter out the "राज्य" category from existing data
+      const filteredCategories = category.filter(
+        (cat) => cat.name.trim() !== "राज्य"
+      );
+
+      setCategories(filteredCategories);
+    } else {
+      fetchCategories();
+    }
+  }, [category]);
 
   return (
     <nav className="bg-black lg:bg-red-600">
-      <div className=" max-w-7xl mx-auto flex items-center justify-between py-2 px-4">
-        <div className="flex ">
+      <div className="max-w-7xl mx-auto flex items-center justify-between py-2 px-4">
+        <div className="flex">
           <Link to="/" className="text-white lg:mr-3">
             <FaHome size={22} />
           </Link>
           <div className="hidden lg:flex lg:mt-[2px]">
-            {categories?.map((link, index) => (
+            {categories.map((link, index) => (
               <div key={index} className="group relative z-50">
                 <Link
                   to={`/category/${link?._id}`}
-                  className="text-white hover:bg-gray-100 hover:text-black px-3 py-4"
+                  className="text-white hover:bg-gray-100 text-[16px] font-bold hover:text-black px-3 py-4"
+                  onClick={handleLinkClick}
                 >
                   {link?.name}
                 </Link>
                 {link?.subCategories && link?.subCategories?.length > 0 && (
-                  <div className="absolute left-0 top-8 bg-red-600 py-2 w-32 hidden group-hover:block text-start">
+                  <div className="absolute left-0 top-8 text-[16px] font-bold bg-red-600 py-2 w-32 hidden group-hover:block text-start">
                     {link?.subCategories.map((sublink, subIndex) => (
                       <Link
                         key={subIndex}
                         to={`/subcategory/${sublink?._id}`}
                         className="block text-white hover:bg-gray-100 hover:text-black px-3 py-2"
+                        onClick={handleLinkClick}
                       >
                         {sublink?.name}
                       </Link>
@@ -135,33 +103,21 @@ const Navbar = () => {
         <div className="flex items-center space-x-4">
           <button
             onClick={toggleSearch}
-            className="text-white bg-gray-200 rounded-md p-2"
+            className="text-white bg-gray-200 rounded-md p-2 "
           >
             <FaSearch className="text-black" />
           </button>
+
           <div className="lg:hidden">
             <button onClick={() => setIsOpen(!isOpen)} className="text-white">
               <FaBars size={24} />
             </button>
           </div>
+
+          <SearchBox isOpen={isSearchOpen} toggleSearch={toggleSearch} />
         </div>
       </div>
 
-      {/* Search Input Field */}
-      {isSearchOpen && (
-        <div className="bg-white py-2 px-4 flex justify-end lg:pr-36">
-          <div className="bg-white shadow-lg px-5 py-2 border-b-2 relative border-b-black">
-            <input
-              type="text"
-              placeholder="Search..."
-              className="w-fit p-2  border rounded-md focus:outline-none"
-            />
-            <FaSearch size={18} className="absolute  right-7 top-4" />
-          </div>
-        </div>
-      )}
-
-      {/* Mobile Menu */}
       {isOpen && (
         <div className="lg:hidden">
           {categories.map((link, index) => (

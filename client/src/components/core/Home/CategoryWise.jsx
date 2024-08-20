@@ -55,6 +55,10 @@ function CategoryWise() {
     .filter((news) => news?.category?._id === "66bdc944433ab78f130e4a02")
     .sort((a, b) => new Date(b.publish) - new Date(a.publish))
     .slice(0, 9);
+  const international = allNews
+    .filter((news) => news?.category?._id === "66c43b1b16536a3646457d72")
+    .sort((a, b) => new Date(b.publish) - new Date(a.publish))
+    .slice(0, 9);
 
   const truncateText = (text, wordLimit) => {
     const words = text.split(" ");
@@ -388,6 +392,48 @@ function CategoryWise() {
             ))}
           </div>
         </div>
+        <div>
+          <div>
+            <div className=" flex justify-between mb-4 relative">
+              <p className=" min-w-full min-h-[2px] bg-[#ed0302] absolute bottom-0 "></p>
+              <p className=" flex items-center gap-2 font-bold text-lg bg-[#ed0302] text-white p-2 relative wf">
+                {" "}
+                इंटरनेशनल खबर
+              </p>
+              <Link
+                className=" flex items-center gap-2"
+                to={`/category/669644aa69a6d788e2c6770d`}
+              >
+                और भी जानै{" "}
+                <FaArrowUpRightFromSquare className=" text-blue-600" />
+              </Link>
+            </div>
+          </div>
+
+          <div className="grid lg:grid-cols-3 gap-4">
+            {international.map((news) => (
+              <div className=" " key={news._id}>
+                {news && (
+                  <Link to={`/${news?.slug}`} className=" relative">
+                    <img
+                      src={news?.images[0]?.url}
+                      alt=""
+                      className="max-w-full h-[200px] object-cover border-r-[1px] border-l-[1px] border-red-500 pr-3 pl-3"
+                    />
+                    <p className="font-semibold  bottom-0  text- text-gray-500 bg-opacity-60  py-5 text-wrap">
+                      {truncateText(news?.title, 10)}
+                      <p className="text-gray-400 text-[12px]">
+                        {news?.createdAt
+                          ? formatDate(news?.createdAt)
+                          : "Date not available"}
+                      </p>
+                    </p>
+                  </Link>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
 
         {/* Khel Manorang  */}
         <div className=" grid lg:grid-cols-2 gap-4">
@@ -579,7 +625,11 @@ function CategoryWise() {
         {/* New News */}
 
         <div>
-          <NewsActive realted={allNews} />
+          <NewsActive
+            realted={allNews}
+            name1={"ताज़ा खबरें"}
+            name2={"ज्यादा पढ़ी गई"}
+          />
         </div>
 
         {/* //Cricket newa */}
@@ -660,6 +710,15 @@ function CategoryWise() {
               </div>
             </div>
           </div>
+        </div>
+        <br />
+        <div>
+          <head>hest</head>
+          <NewsActive
+            realted={allNews}
+            name1={"विशेष इंटरव्यू"}
+            name2={"ग्राउंड रिपोर्ट"}
+          />
         </div>
       </div>
     </div>

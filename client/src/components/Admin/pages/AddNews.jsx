@@ -352,6 +352,8 @@ function AddNews() {
               <option value="top-news">Top News</option>
               <option value="recent-news">Recent News</option>
               <option value="big-news">Big News</option>
+              <option value="Interview">Interview</option>
+              <option value="ground-report">Ground Report</option>
             </select>
             {formik.touched.type && formik.errors.type && (
               <div className="text-red-500">{formik.errors.type}</div>
