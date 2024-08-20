@@ -76,8 +76,8 @@ function CategoryWise() {
     return format(date, "MMMM d, yyyy h:mm a");
   };
   return (
-    <div className=" grid lg:grid-cols-4 gap-4">
-      <div className=" col-span-3">
+    <div className=" grid lg:grid-cols-4 lg:gap-4 grid-cols-1">
+      <div className=" lg:col-span-3 ">
         {/* Rajneeti */}
         <div className="  p-1 my-10  ">
           <div>
@@ -96,7 +96,7 @@ function CategoryWise() {
               </Link>
             </div>
 
-            <div className=" grid lg:grid-cols-3 grid-cols-1 gap-6 ">
+            <div className=" grid lg:grid-cols-3 grid-cols-1  gap-6 ">
               {/* //top */}
               <div className=" col-span-2">
                 {rajneeti[0] && (
@@ -104,7 +104,7 @@ function CategoryWise() {
                     <img
                       src={rajneeti[0]?.images[0]?.url}
                       alt=""
-                      className="lg:h-[320px] h-[250px] lg:w-full w-[80%] object-cover border-r-[1px] border-l-[1px] border-red-500 pr-3 pl-3"
+                      className="lg:h-[320px] h-[250px] lg:w-full -[80%] object-cover border-r-[1px] border-l-[1px] border-red-500 pr-3 pl-3"
                     />
                     <p className="font-semibold  bottom-0  text- text-gray-500 bg-opacity-60 w-full py-5">
                       {truncateText(rajneeti[0]?.title, 10)}
@@ -191,7 +191,7 @@ function CategoryWise() {
                       <img
                         src={desh[0]?.images[0]?.url}
                         alt=""
-                        className="lg:h-[320px] h-[250px] lg:w-full w-[80%] object-cover border-r-[1px] border-l-[1px] border-red-500 pr-3 pl-3"
+                        className="lg:h-[320px] h-[250px] lg:w-full   object-cover border-r-[1px] border-l-[1px] border-red-500 pr-3 pl-3"
                       />
                       <p className="font-semibold  bottom-0  text- text-gray-500 bg-opacity-60 w-full py-5">
                         {truncateText(desh[0]?.title, 10)}
@@ -261,7 +261,7 @@ function CategoryWise() {
                       <img
                         src={videsh[0]?.images[0]?.url}
                         alt=""
-                        className="lg:h-[320px] h-[250px] lg:w-full w-[80%] object-cover border-r-[1px] border-l-[1px] border-red-500 pr-3 pl-3"
+                        className="lg:h-[320px] h-[250px] lg:w-full   object-cover border-r-[1px] border-l-[1px] border-red-500 pr-3 pl-3"
                       />
                       <p className="font-semibold  bottom-0  text- text-gray-500 bg-opacity-60 w-full py-5">
                         {truncateText(videsh[0]?.title, 10)}
@@ -463,7 +463,7 @@ function CategoryWise() {
                       <img
                         src={khel[0]?.images[0]?.url}
                         alt=""
-                        className="lg:h-[320px] h-[250px] lg:w-full w-[80%] object-cover border-r-[1px] border-l-[1px] border-red-500 pr-3 pl-3"
+                        className="lg:h-[320px] h-[250px] lg:w-full   object-cover border-r-[1px] border-l-[1px] border-red-500 pr-3 pl-3"
                       />
                       <p className="font-semibold  bottom-0  text- text-gray-500 bg-opacity-60 w-full py-5">
                         {truncateText(khel[0]?.title, 10)}
@@ -533,7 +533,7 @@ function CategoryWise() {
                       <img
                         src={manoranjan[0]?.images[0]?.url}
                         alt=""
-                        className="lg:h-[320px] h-[250px] lg:w-full w-[80%] object-cover border-r-[1px] border-l-[1px] border-red-500 pr-3 pl-3"
+                        className="lg:h-[320px] h-[250px] lg:w-full   object-cover border-r-[1px] border-l-[1px] border-red-500 pr-3 pl-3"
                       />
                       <p className="font-semibold  bottom-0  text- text-gray-500 bg-opacity-60 w-full py-5">
                         {truncateText(manoranjan[0]?.title, 10)}

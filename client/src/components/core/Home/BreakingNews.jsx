@@ -33,41 +33,21 @@ const BreakingNews = () => {
   }, []);
 
   return (
-    <>
-      {visible && (
-        <div className="w-11/12 mx-auto mt-10 relative rounded-3xl">
-          <Swiper
-            modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
-            spaceBetween={50}
-            slidesPerView={1}
-            autoplay={{ delay: 2000 }}
-            className="max-w-7xl mx-auto relative"
-          >
-            {breakingNews.map(
-              (currElem, index) =>
-                currElem.active === true && (
-                  <SwiperSlide key={index}>
-                    <div className="relative bg-red-600 text-white rounded-lg px-2">
-                      <div className="flex lg:gap-3 gap-2 text-center max-h-[50px] h-[50px] items-center">
-                        <p className="text-[14px] lg:text-2xl font-bold italic">
-                          BREAKING NEWS ||
-                        </p>
-                        <div className="min-h-[100px] min-w-[1px] bg-gray-500"></div>
-                        <p className="lg:text-xl text-[14px] lg:ml-4 md:ml-8">
-                          {currElem.name}
-                        </p>
-                      </div>
-                    </div>
-                  </SwiperSlide>
-                )
+    <div className="bg-white text-black">
+      <div className="flex items-center shadow-lg max-w-7xl mx-auto">
+        <span className="bg-gray-200 py-3 px-4 font-bold">खास खबर</span>
+        <div className="flex-1 overflow-hidden">
+          <div className="whitespace-nowrap animate-scroll">
+            {breakingNews.length > 0 ? (
+              breakingNews.map((item, index) => (
+                <span key={index} className="px-4">
+                  • {item?.name}
+                </span>
+              ))
+            ) : (
+              <span className="px-4">No breaking news available</span>
             )}
-          </Swiper>
-
-          <IoCloseCircle
-            size={28}
-            className="absolute top-0 right-0 lg:right-10 text-white transform translate-x-1/2 -translate-y-1/2 text-xl cursor-pointer bg-black p-1 rounded-full z-10"
-            onClick={() => setVisible(false)}
-          />
+          </div>
         </div>
       )}
     </>
