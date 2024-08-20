@@ -35,25 +35,26 @@ const BreakingNews = () => {
   return (
     <>
       {visible && (
-        <div className="w-11/12 mx-auto relative rounded-3xl">
+        <div className="w-full mx-auto relative rounded-lg bg-gradient-to-r from-red-700 to-yellow-500 p-2 shadow-2xl overflow-hidden">
           <Swiper
             modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
-            spaceBetween={50}
+            spaceBetween={10}
             slidesPerView={1}
-            autoplay={{ delay: 2000 }}
+            autoplay={{ delay: 1500 }}
+            loop={true}
             className="max-w-7xl mx-auto relative"
           >
             {breakingNews.map(
               (currElem, index) =>
-                currElem.active === true && (
+                currElem.active && (
                   <SwiperSlide key={index}>
-                    <div className="relative bg-red-600 text-white rounded-lg px-2">
-                      <div className="flex lg:gap-3 gap-2 text-center max-h-[50px] h-[50px] items-center">
-                        <p className="text-[14px] lg:text-2xl font-bold italic">
-                          BREAKING NEWS ||
+                    <div className="relative bg-red-800 text-white rounded-lg px-4 py-4 shadow-lg border-4 border-transparent animate-borderGlow">
+                      <div className="flex items-center gap-2 sm:gap-4 max-h-[50px] h-[50px]">
+                        <p className="text-[16px] sm:text-[20px] lg:text-3xl font-extrabold italic text-yellow-400 tracking-wide drop-shadow-md uppercase">
+                          Breaking News
                         </p>
-                        <div className="min-h-[100px] min-w-[1px] bg-gray-500"></div>
-                        <p className="lg:text-xl text-[14px] lg:ml-4 md:ml-8">
+                        <div className="h-[30px] sm:h-[50px] w-[2px] sm:w-[3px] bg-yellow-400"></div>
+                        <p className="text-[14px] sm:text-[18px] lg:text-xl font-semibold text-white tracking-wide drop-shadow-md">
                           {currElem.name}
                         </p>
                       </div>
@@ -65,7 +66,7 @@ const BreakingNews = () => {
 
           <IoCloseCircle
             size={28}
-            className="absolute top-0 right-0 lg:right-10 text-white transform translate-x-1/2 -translate-y-1/2 text-xl cursor-pointer bg-black p-1 rounded-full z-10"
+            className="absolute top-2 right-2 text-white bg-red-800 p-1 rounded-full cursor-pointer hover:text-red-500 hover:scale-110 transition-all"
             onClick={() => setVisible(false)}
           />
         </div>

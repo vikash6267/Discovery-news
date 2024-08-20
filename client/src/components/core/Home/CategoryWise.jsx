@@ -32,11 +32,11 @@ function CategoryWise() {
     .sort((a, b) => new Date(b.publish) - new Date(a.publish))
     .slice(0, 5);
   const mp = allNews
-    .filter((news) => news?.category?._id === "66c483733f48d32b91e8d019")
+    .filter((news) => news?.subcategory?._id === "66c483733f48d32b91e8d019")
     .sort((a, b) => new Date(b.publish) - new Date(a.publish))
     .slice(0, 10);
   const cg = allNews
-    .filter((news) => news?.category?._id === "66c483803f48d32b91e8d01e")
+    .filter((news) => news?.subcategory?._id === "66c483803f48d32b91e8d01e")
     .sort((a, b) => new Date(b.publish) - new Date(a.publish))
     .slice(0, 10);
   const khel = allNews
