@@ -15,7 +15,8 @@ function CategoryWise() {
     (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
   );
 
-  const allN = all.filter((currElem) => currElem?.type === "all").slice(0, 6);
+  const allN = all.filter((currElem) => currElem?.type === "all").slice(0, 3);
+  const allN2 = all.filter((currElem) => currElem?.type === "all").slice(0, 6);
 
   const rajneeti = allNews
     .filter((news) => news?.category?._id === "669644aa69a6d788e2c6770d")
@@ -711,6 +712,37 @@ function CategoryWise() {
             </div>
           </div>
         </div>
+        <div>
+          <div className="mt-[50px]">
+            <div className=" flex justify-between mb-4 relative">
+              <p className=" min-w-full min-h-[2px] bg-[#ed0302] absolute bottom-0 "></p>
+              <p className=" flex items-center gap-2 font-bold text-lg bg-[#ed0302] text-white p-2 relative wf">
+                {" "}
+                छत्तीसगढ़
+              </p>
+            </div>
+
+            <div>
+              <div className="flex gap-3 grid-cols-1  mt-8 p-2 flex-col">
+                {cg?.map((currElem, index) => (
+                  <Link to={`/${currElem?.slug}`} key={currElem._id}>
+                    <div className="flex gap-3">
+                      <img
+                        src={currElem?.images[0]?.url}
+                        alt=""
+                        className="w-[105px]"
+                      />
+                      <p className="text-wrap mt-2 text-sm">
+                        {truncateText(currElem.title, 10)}
+                      </p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+        <br />
         <br />
         <div>
           <head>hest</head>
@@ -719,6 +751,37 @@ function CategoryWise() {
             name1={"विशेष इंटरव्यू"}
             name2={"ग्राउंड रिपोर्ट"}
           />
+        </div>
+
+        <div>
+          <div className="mt-[50px]">
+            <div className=" flex justify-between mb-4 relative">
+              <p className=" min-w-full min-h-[2px] bg-[#ed0302] absolute bottom-0 "></p>
+              <p className=" flex items-center gap-2 font-bold text-lg bg-[#ed0302] text-white p-2 relative wf">
+                {" "}
+                All News
+              </p>
+            </div>
+
+            <div>
+              <div className="flex gap-3 grid-cols-1  mt-8 p-2 flex-col">
+                {allN2?.map((currElem, index) => (
+                  <Link to={`/${currElem?.slug}`} key={currElem._id}>
+                    <div className="flex gap-3">
+                      <img
+                        src={currElem?.images[0]?.url}
+                        alt=""
+                        className="w-[105px]"
+                      />
+                      <p className="text-wrap mt-2 text-sm">
+                        {truncateText(currElem.title, 10)}
+                      </p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
