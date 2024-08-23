@@ -39,7 +39,6 @@ const Navbar = () => {
     const fetchCategories = async () => {
       try {
         const categoriesData = await fetchCategory();
-        console.log(categoriesData);
 
         // Filter out the "राज्य" category
         const filteredCategories =
@@ -47,7 +46,7 @@ const Navbar = () => {
             (cat) => cat.name.trim() !== "राज्य"
           ) || [];
 
-        setCategories(filteredCategories);
+        reorderCategories(filteredCategories);
       } catch (error) {
         console.error("Error fetching categories:", error);
       }
@@ -59,11 +58,26 @@ const Navbar = () => {
         (cat) => cat.name.trim() !== "राज्य"
       );
 
-      setCategories(filteredCategories);
+      reorderCategories(filteredCategories);
     } else {
       fetchCategories();
     }
   }, [category]);
+
+  const reorderCategories = (categoriesList) => {
+    const fixedOrder = ["विदेश", "देश", "मनोरंजन", "खेल"];
+    const orderedCategories = fixedOrder
+      .map((fixedCat) =>
+        categoriesList.find((cat) => cat.name.trim() === fixedCat)
+      )
+      .filter(Boolean);
+
+    const remainingCategories = categoriesList.filter(
+      (cat) => !fixedOrder.includes(cat.name.trim())
+    );
+
+    setCategories([...orderedCategories, ...remainingCategories]);
+  };
 
   return (
     <nav className="bg-black lg:bg-red-600">

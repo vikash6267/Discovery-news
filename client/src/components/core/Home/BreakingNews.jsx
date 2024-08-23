@@ -64,11 +64,11 @@ const BreakingNews = () => {
             )}
           </Swiper>
 
-          <IoCloseCircle
+          {/* <IoCloseCircle
             size={28}
             className="absolute top-2 right-2 text-white bg-red-800 p-1 rounded-full cursor-pointer hover:text-red-500 hover:scale-110 transition-all"
             onClick={() => setVisible(false)}
-          />
+          /> */}
         </div>
       )}
     </>
