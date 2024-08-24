@@ -8,7 +8,7 @@ import NewsActive from "./RightSide/NewsActive";
 import CricketLive from "./RightSide/CricketLive";
 
 function CategoryWise() {
-  const { allNews } = useSelector((state) => state.news);
+  const { allNews, ads } = useSelector((state) => state.news);
   const [newsActive, setNewsActive] = useState(0);
 
   const all = [...allNews].sort(
@@ -712,7 +712,7 @@ function CategoryWise() {
             </div>
           </div>
         </div>
-        <div>
+        {/* <div>
           <div className="mt-[50px]">
             <div className=" flex justify-between mb-4 relative">
               <p className=" min-w-full min-h-[2px] bg-[#ed0302] absolute bottom-0 "></p>
@@ -741,7 +741,26 @@ function CategoryWise() {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
+
+        {Array.isArray(ads) &&
+          ads.map(
+            (currElem, index) =>
+              currElem?.type === "right-add" && (
+                <Link
+                  to={currElem?.url}
+                  key={index}
+                  className="block mb-4"
+                  target="_blank"
+                >
+                  <img
+                    src={currElem?.image}
+                    alt="Ad Image"
+                    className="w-full rounded-lg shadow-md hover:shadow-lg transition duration-300"
+                  />
+                </Link>
+              )
+          )}
         <br />
         <br />
         <div>

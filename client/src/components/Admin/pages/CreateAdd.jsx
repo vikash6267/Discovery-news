@@ -16,7 +16,7 @@ function CreateAdd() {
     type: "",
   });
   const dispatch = useDispatch();
-  const { token ,user} = useSelector((state) => state.auth);
+  const { token, user } = useSelector((state) => state.auth);
   const ads = useSelector((state) => state.news.ads);
 
   const handleChange = (e) => {
@@ -124,12 +124,14 @@ function CreateAdd() {
       </div>
 
       <div className="flex justify-end mb-4">
-       { user?.permissions?.canAdd &&  <button
-          onClick={() => setCreate(!openCreate)}
-          className="flex items-center gap-2 p-2 bg-blue-950 text-white rounded-lg hover:bg-blue-900 focus:outline-none"
-        >
-          <FaPlusCircle /> Create Ads
-        </button>}
+        {user?.permissions?.canAdd && (
+          <button
+            onClick={() => setCreate(!openCreate)}
+            className="flex items-center gap-2 p-2 bg-blue-950 text-white rounded-lg hover:bg-blue-900 focus:outline-none"
+          >
+            <FaPlusCircle /> Create Ads
+          </button>
+        )}
       </div>
 
       {openCreate && (
@@ -172,7 +174,7 @@ function CreateAdd() {
               </option>
               <option value="top-add">Top Add</option>
               <option value="right-add">Right Add</option>
-              <option value="left-add">Left Add</option>
+              {/* <option value="left-add">Left Add</option> */}
               <option value="buttom-add">Buttom Add</option>
             </select>
           </div>
@@ -241,12 +243,14 @@ function CreateAdd() {
                   </a>
                 </td>
                 <td className="py-4 px-6 text-center">
-                 { user?.permissions?.canDelete &&   <button
-                    onClick={() => handleDelete(ad._id)}
-                    className="p-2 bg-red-600 text-white rounded-lg hover:bg-red-700 focus:outline-none ml-2 transition duration-200 ease-in-out"
-                  >
-                    Delete
-                  </button>}
+                  {user?.permissions?.canDelete && (
+                    <button
+                      onClick={() => handleDelete(ad._id)}
+                      className="p-2 bg-red-600 text-white rounded-lg hover:bg-red-700 focus:outline-none ml-2 transition duration-200 ease-in-out"
+                    >
+                      Delete
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}
