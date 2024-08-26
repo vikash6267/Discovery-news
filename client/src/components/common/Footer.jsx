@@ -1,8 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from 'axios';
+
 import { useSelector } from "react-redux";
 const Footer = () => {
   const { token } = useSelector((state) => state.auth);
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+  const [stats, setStats] = useState({
+    totalUsers: 0,
+    totalVisits: 0,
+    totalNews: 0,
+    totalCategories: 0,
+    totalSubCategories: 0,
+  });
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL}/dashboard`);
+        setStats(response.data);
+      } catch (error) {
+        console.error('Failed to fetch dashboard statistics', error);
+      }
+    };
+
+    fetchStats();
+  }, []);
   return (
     <footer className="bg-white border-t-2 border-red-600">
       <div className="container mx-auto py-2">
@@ -79,7 +101,8 @@ const Footer = () => {
         </div>
       </div>
       <div className="bg-red-600 text-white text-center py-2">
-        2024 © discoveryindianews.com All Rights Reserved.
+        2024 © discoveryindianews.com All Rights Reserved. <br />
+        <p> Visits :- {stats.totalVisits}</p>
       </div>
     </footer>
   );

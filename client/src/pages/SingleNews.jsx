@@ -61,7 +61,7 @@ function SingleNews() {
     }
     return format(date, "MMMM d, yyyy h:mm a");
   };
-
+  const currentUrl = encodeURIComponent(window.location.href);
   return (
     <div className=" max-w-7xl mx-auto p-4">
       <div className=" flex flex-col lg:flex-row gap-5 ">
@@ -79,13 +79,14 @@ function SingleNews() {
 
             <div className="flex space-x-4 mt-4">
               <a
-                href={`https://facebook.com/sharer/sharer.php?u=${window.location.href}`}
+                href={`https://www.facebook.com/sharer/sharer.php?u=https://www.discoveryindianews.com/`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className=" p-2 bg-blue-800 rounded-lg"
+                className="p-2 bg-blue-800 rounded-lg"
               >
-                <FaFacebookF className="  text-white" />
+                <FaFacebookF className="text-white" />
               </a>
+
               <a
                 href={`https://twitter.com/intent/tweet?url=${window.location.href}`}
                 target="_blank"
