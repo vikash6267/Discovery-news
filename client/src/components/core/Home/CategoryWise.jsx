@@ -88,13 +88,13 @@ function CategoryWise() {
                 {" "}
                 राजनीति
               </p>
-              <Link
+              {/* <Link
                 className=" flex items-center gap-2"
                 to={`/category/669644aa69a6d788e2c6770d`}
               >
                 और भी जानै{" "}
                 <FaArrowUpRightFromSquare className=" text-blue-600" />
-              </Link>
+              </Link> */}
             </div>
 
             <div className=" grid lg:grid-cols-3 grid-cols-1  gap-6 ">
@@ -175,13 +175,13 @@ function CategoryWise() {
                   {" "}
                   देश
                 </p>
-                <Link
+                {/* <Link
                   className=" flex items-center gap-2"
                   to={`/category/669644aa69a6d788e2c6770d`}
                 >
                   और भी जानै{" "}
                   <FaArrowUpRightFromSquare className=" text-blue-600" />
-                </Link>
+                </Link> */}
               </div>
 
               <div className=" grid  grid-cols-1 gap-6 ">
@@ -245,13 +245,13 @@ function CategoryWise() {
                   {" "}
                   विदेश
                 </p>
-                <Link
+                {/* <Link
                   className=" flex items-center gap-2"
                   to={`/category/669644aa69a6d788e2c6770d`}
                 >
                   और भी जानै{" "}
                   <FaArrowUpRightFromSquare className=" text-blue-600" />
-                </Link>
+                </Link> */}
               </div>
 
               <div className=" grid  grid-cols-1 gap-6 ">
@@ -315,13 +315,13 @@ function CategoryWise() {
                 {" "}
                 मध्य प्रदेश
               </p>
-              <Link
+              {/* <Link
                 className=" flex items-center gap-2"
                 to={`/category/669644aa69a6d788e2c6770d`}
               >
                 और भी जानै{" "}
                 <FaArrowUpRightFromSquare className=" text-blue-600" />
-              </Link>
+              </Link> */}
             </div>
           </div>
 
@@ -359,13 +359,13 @@ function CategoryWise() {
                 {" "}
                 छत्तीसगढ़
               </p>
-              <Link
+              {/* <Link
                 className=" flex items-center gap-2"
                 to={`/category/669644aa69a6d788e2c6770d`}
               >
                 और भी जानै{" "}
                 <FaArrowUpRightFromSquare className=" text-blue-600" />
-              </Link>
+              </Link> */}
             </div>
           </div>
 
@@ -401,13 +401,13 @@ function CategoryWise() {
                 {" "}
                 इंटरनेशनल खबर
               </p>
-              <Link
+              {/* <Link
                 className=" flex items-center gap-2"
                 to={`/category/669644aa69a6d788e2c6770d`}
               >
                 और भी जानै{" "}
                 <FaArrowUpRightFromSquare className=" text-blue-600" />
-              </Link>
+              </Link> */}
             </div>
           </div>
 
@@ -447,13 +447,13 @@ function CategoryWise() {
                   {" "}
                   खेल
                 </p>
-                <Link
+                {/* <Link
                   className=" flex items-center gap-2"
                   to={`/category/669644aa69a6d788e2c6770d`}
                 >
                   और भी जानै{" "}
                   <FaArrowUpRightFromSquare className=" text-blue-600" />
-                </Link>
+                </Link> */}
               </div>
 
               <div className=" grid  grid-cols-1 gap-6 ">
@@ -517,13 +517,13 @@ function CategoryWise() {
                   {" "}
                   मनोरंजन
                 </p>
-                <Link
+                {/* <Link
                   className=" flex items-center gap-2"
                   to={`/category/669644aa69a6d788e2c6770d`}
                 >
                   और भी जानै{" "}
                   <FaArrowUpRightFromSquare className=" text-blue-600" />
-                </Link>
+                </Link> */}
               </div>
 
               <div className=" grid  grid-cols-1 gap-6 ">
@@ -585,13 +585,13 @@ function CategoryWise() {
                 {" "}
                 All News
               </p>
-              <Link
+              {/* <Link
                 className=" flex items-center gap-2"
                 to={`/category/669644aa69a6d788e2c6770d`}
               >
                 और भी जानै{" "}
                 <FaArrowUpRightFromSquare className=" text-blue-600" />
-              </Link>
+              </Link> */}
             </div>
           </div>
 
