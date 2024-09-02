@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { IoCloseCircle, IoShareSocial } from "react-icons/io5";
 
 const PolllAns = () => {
   const [polls, setPolls] = useState([]);
@@ -82,12 +83,50 @@ const PolllAns = () => {
     }
   };
 
+
+
+
+
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "Poll",
+          text: "Share Your Openion",
+          url: `https://www.discoveryindianews.com/#poll`,
+        });
+        console.log("Thanks for sharing!");
+      } catch (error) {
+        console.error("Error sharing:", error);
+      }
+    } else {
+      alert("Your browser does not support the Web Share API.");
+    }
+  };
+
   return (
-    <div className="flex justify-center p-4">
+    <div className="flex justify-center p-4" id="poll">
       <div className="w-full max-w-3xl">
-        <h2 className="text-2xl font-bold text-center uppercase my-10">
+        <div className=" flex flex-col my-10 ">
+        <h2 className="text-2xl font-bold text-center uppercase ">
           Let's Vote
         </h2>
+
+
+
+        <div
+            className="bottom-1 z-10 flex text-white font-semibold justify-center mt-1 cursor-pointer"
+            onClick={handleShare}
+          >
+            <div className="bg-red-700 flex gap-1 p-1 px-4 rounded-xl">
+              Share Poll
+              <IoShareSocial
+                size={28}
+                className="text-white bg-red-800 p-1 rounded-full cursor-pointer hover:text-red-500 hover:scale-110 transition-all"
+              />
+            </div>
+          </div>
+        </div>
         {polls.map((poll) => (
           <div
             key={poll._id}

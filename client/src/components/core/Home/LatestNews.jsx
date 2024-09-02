@@ -22,7 +22,7 @@ function LatestNews() {
   };
 
   return (
-    <div className="p-1 my-10">
+    <div className="p-1 lg:my-10">
       <div>
         <div className="grid lg:grid-cols-4 grid-cols-1 gap-6">
           {/* //top */}
