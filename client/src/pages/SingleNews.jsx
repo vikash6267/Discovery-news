@@ -115,13 +115,23 @@ function SingleNews() {
                 <FaLinkedinIn className="text-blue-700" />
               </a>
               <a
-                href={`https://wa.me/?text=${window.location.href}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 bg-green-600 rounded-lg"
-              >
-                <FaWhatsapp className="text-white" />
-              </a>
+  href={`https://wa.me/?text=${encodeURIComponent(
+    `${news?.title}\nhttps://discoveryindianews.com/${news?.slug}\nVisit the latest news:\nhttps://www.discoveryindianews.com/`
+  )}`}
+  target="_blank"
+  rel="noopener noreferrer"
+  className="p-2 bg-green-600 rounded-lg"
+>
+  <FaWhatsapp className="text-white" />
+</a>
+
+
+
+
+
+
+
+
               <a
                 href={`mailto:?subject=Check this out&body=${window.location.href}`}
                 target="_blank"

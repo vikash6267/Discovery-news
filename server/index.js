@@ -60,7 +60,6 @@ app.use("/api/v1/contact", require("./routes/contactRoute"));
 
 
 
-
 // default route 
 app.get("/", (req, res) => {
     return res.json({
