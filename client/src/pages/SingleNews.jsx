@@ -71,7 +71,7 @@ function SingleNews() {
         <title>{news?.title || "Default Title"}</title>
         <meta property="og:title" content={news?.title || "Default Title"} />
         <meta property="og:description" content={truncateText(news?.description || "Default Description", 30)} />
-        <meta property="og:image" content={news?.images?.[0]?.url || "https://example.com/default-image.jpg"} />
+        <meta property="og:image" content={news?.images?.[0]?.url } />
         <meta property="og:url" content={window.location.href} />
         <meta property="og:type" content="article" />
       </Helmet>
