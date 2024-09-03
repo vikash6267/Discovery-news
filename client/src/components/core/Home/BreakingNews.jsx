@@ -32,8 +32,8 @@ const BreakingNews = () => {
       try {
         await navigator.share({
           title: "Breaking News",
-          text: `${currentNews.name} - Check out this breaking news!`,
-          url: `https://www.discoveryindianews.com/#breaking`,
+          title: "Breaking News",
+          text: `Breaking News\n${currentNews.name}\nhttps://www.discoveryindianews.com/#breaking\n\nVisit the latest news:\nhttps://www.discoveryindianews.com/`,
         });
         console.log("Thanks for sharing!");
       } catch (error) {
