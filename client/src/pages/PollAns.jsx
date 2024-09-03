@@ -83,7 +83,13 @@ const PolllAns = () => {
     }
   };
 
-
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash === '#poll') {
+      document.getElementById('poll')?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, []);
+  
 
 
 
