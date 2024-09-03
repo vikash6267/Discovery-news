@@ -3,6 +3,7 @@ import { getSingleNews } from "../services/operations/admin";
 import { Link, useParams } from "react-router-dom";
 import { format } from "date-fns";
 import { FaClock } from "react-icons/fa";
+import { Helmet } from 'react-helmet';
 import {
   FaFacebookF,
   FaTwitter,
@@ -62,8 +63,18 @@ function SingleNews() {
     return format(date, "MMMM d, yyyy h:mm a");
   };
   const currentUrl = encodeURIComponent(window.location.href);
+  
   return (
     <div className=" max-w-7xl mx-auto p-4">
+
+<Helmet>
+        <title>{news?.title || "Default Title"}</title>
+        <meta property="og:title" content={news?.title || "Default Title"} />
+        <meta property="og:description" content={truncateText(news?.description || "Default Description", 30)} />
+        <meta property="og:image" content={news?.images?.[0]?.url || "https://example.com/default-image.jpg"} />
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:type" content="article" />
+      </Helmet>
       <div className=" flex flex-col lg:flex-row gap-5 ">
         {/* News Details */}
         <div className=" lg:w-[75%]  w-full ">
