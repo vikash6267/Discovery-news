@@ -6,7 +6,7 @@ import PrivateRoute from "./components/Admin/auth/PrivateRoute";
 import AdminRoutes from "./routes/AdminRoutes";
 import RegualerRoutes from "./routes/RegualerRoutes";
 import Error from "./pages/Error";
-import { saveCategory } from "./redux/newsSlice";
+import { saveCategory, setAds } from "./redux/newsSlice";
 import axios from "axios";
 
 function App() {
@@ -14,6 +14,19 @@ function App() {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   const dispatch = useDispatch();
+
+  const getAllAds = async () => {
+    try {
+      const response = await axios.get(`${BASE_URL}/ads/getAll`);
+      if (!response?.data?.success) {
+       console.log("eeror")
+      }
+      dispatch(setAds(response?.data?.ads));
+      // console.log(response?.data?.ads);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -38,6 +51,8 @@ function App() {
     visitAdd();
 
   }, []);
+
+
   return (
     <div className="">
     <Routes>

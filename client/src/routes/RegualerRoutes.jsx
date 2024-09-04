@@ -17,6 +17,7 @@ import SubCategoryPage from "../pages/SubcategoryDetails";
 import LogoSpace from "../components/common/Navbar/LogoSpace";
 import StateSubcategories from "../components/common/Navbar/StateSubcategories";
 import PolllAns from "../pages/PollAns";
+import AddSlideBar from "../components/core/Home/AddSlideBar";
 
 function RegualerRoutes() {
   return (
@@ -27,6 +28,7 @@ function RegualerRoutes() {
       <StateSubcategories />
       <br />
       <BreakingNews />
+      <AddSlideBar />
       {/* <div className="h-screen w-screen bg-white"></div> */}
       <Routes>
         <Route path="/" element={<Home />} />

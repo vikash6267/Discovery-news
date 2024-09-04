@@ -6,6 +6,7 @@ import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 import { format } from "date-fns";
 import NewsActive from "./RightSide/NewsActive";
 import CricketLive from "./RightSide/CricketLive";
+import RightAds from "../../common/RightAds";
 
 function CategoryWise() {
   const { allNews, ads } = useSelector((state) => state.news);
@@ -802,6 +803,8 @@ function CategoryWise() {
             </div>
           </div>
         </div>
+
+        <RightAds />
       </div>
     </div>
   );

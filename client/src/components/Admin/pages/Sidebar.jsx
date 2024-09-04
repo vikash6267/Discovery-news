@@ -70,7 +70,7 @@ const Sidebar = () => {
       icon: <FcTreeStructure />,
       label: "Sub-Category",
     },
-    // { to: "/admin/ads", icon: <FcAdvertising />, label: "Ads" },
+    { to: "/admin/ads", icon: <FcAdvertising />, label: "Ads" },
     { to: "/admin/poll", icon: <FcAdvertising />, label: "Create Poll" },
     // {
     //   to: "/admin/livestriming",
