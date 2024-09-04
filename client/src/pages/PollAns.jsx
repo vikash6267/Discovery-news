@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { IoCloseCircle, IoShareSocial } from "react-icons/io5";
+import ShareComponent from "../components/common/ShareComponent";
 
 const PolllAns = () => {
   const [polls, setPolls] = useState([]);
@@ -126,23 +127,30 @@ useEffect(() => {
 }, []);
 
 
+const handleShare = async (question) => {
+  const textToShare = `Votes on poll\n${question}\n\nVisit the latest news:\nhttps://www.discoveryindianews.com/`;
+  const urlToShare = "https://discoveryindianews.com/#pollsvote";
 
-  const handleShare = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: "Poll",
-          text: "Share Your Openion",
-          url: `https://www.discoveryindianews.com/#pollsvote`,
-        });
-        console.log("Thanks for sharing!");
-      } catch (error) {
-        console.error("Error sharing:", error);
-      }
-    } else {
-      alert("Your browser does not support the Web Share API.");
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: "Poll",
+        text: textToShare,
+        url: urlToShare
+      });
+      console.log("Thanks for sharing!");
+    } catch (error) {
+      console.error("Error sharing:", error);
     }
-  };
+  } else {
+    // Fallback for browsers that do not support the Web Share API
+    prompt("Copy the text and share it:", `${textToShare}\n\n${urlToShare}`);
+  }
+};
+
+
+
+
 
   return (
     <div className="flex justify-center p-4" id="pollsvote">
@@ -154,24 +162,26 @@ useEffect(() => {
 
 
 
-        <div
-            className="bottom-1 z-10 flex text-white font-semibold justify-center mt-1 cursor-pointer"
-            onClick={handleShare}
-          >
-            <div className="bg-red-700 flex gap-1 p-1 px-4 rounded-xl">
-              Share Poll
-              <IoShareSocial
-                size={28}
-                className="text-white bg-red-800 p-1 rounded-full cursor-pointer hover:text-red-500 hover:scale-110 transition-all"
-              />
-            </div>
-          </div>
+       
         </div>
         {polls.map((poll) => (
           <div
             key={poll._id}
             className="mb-4 p-4 border border-gray-200 rounded-lg bg-white shadow-md"
           >
+           {/* <div
+            className="bottom-1 z-10 flex text-white font-semibold justify-end mb-4 cursor-pointer"
+            onClick={() => handleShare(poll.question)}
+          >
+            <div className="bg-red-700 flex gap-1 p-1 px-4 rounded-xl">
+              Share This Poll
+              <IoShareSocial
+                size={28}
+                className="text-white bg-red-800 p-1 rounded-full cursor-pointer hover:text-red-500 hover:scale-110 transition-all"
+              />
+            </div>
+          </div> */}
+            <ShareComponent question={poll.question} />
             <h3 className="text-xl font-semibold mb-2">{poll.question}</h3>
             <ul>
               {poll.options.map((option) => (
