@@ -86,19 +86,44 @@ const PolllAns = () => {
 
   
 // Add this script to the page
-window.addEventListener('load', () => {
-  // Delay the execution by 1 second (1000 milliseconds)
-  setTimeout(() => {
+// window.addEventListener('load', () => {
+//   // Delay the execution by 1 second (1000 milliseconds)
+//   setTimeout(() => {
+//     if (window.location.hash) {
+//       const targetId = window.location.hash.substring(1);
+//       const targetElement = document.getElementById(targetId);
+//       if (targetElement) {
+//         targetElement.scrollIntoView({ behavior: 'smooth' });
+//       }
+//     }
+//   }, 1000); // 1 second delay
+// });
+
+
+
+useEffect(() => {
+  // Scroll to the section if there's a hash in the URL
+  const scrollToHash = () => {
     if (window.location.hash) {
       const targetId = window.location.hash.substring(1);
       const targetElement = document.getElementById(targetId);
       if (targetElement) {
-        targetElement.scrollIntoView({ behavior: 'smooth' });
+        setTimeout(() => {
+          targetElement.scrollIntoView({ behavior: 'smooth' });
+        }, 1000); // Delay of 1 second
       }
     }
-  }, 1000); // 1 second delay
-});
+  };
 
+  scrollToHash();
+
+  // Handle hash change (e.g., when the URL hash changes while the component is mounted)
+  window.addEventListener('hashchange', scrollToHash);
+
+  return () => {
+    window.removeEventListener('hashchange', scrollToHash);
+  };
+}, []);
 
 
 
