@@ -16,6 +16,7 @@ import CategoryPage from "../pages/CategoryDetails";
 import SubCategoryPage from "../pages/SubcategoryDetails";
 import LogoSpace from "../components/common/Navbar/LogoSpace";
 import StateSubcategories from "../components/common/Navbar/StateSubcategories";
+import PolllAns from "../pages/PollAns";
 
 function RegualerRoutes() {
   return (
@@ -29,6 +30,7 @@ function RegualerRoutes() {
       {/* <div className="h-screen w-screen bg-white"></div> */}
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/polls" element={<PolllAns />} />
         <Route path="*" element={<Error />} />
         <Route path="/:id" element={<SingleNews />} />
         <Route path="category/:id" element={<CategoryPage />} />

@@ -83,13 +83,22 @@ const PolllAns = () => {
     }
   };
 
-  useEffect(() => {
-    const hash = window.location.hash;
-    if (hash === '#poll') {
-      document.getElementById('poll')?.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, []);
+
   
+// Add this script to the page
+window.addEventListener('load', () => {
+  // Delay the execution by 1 second (1000 milliseconds)
+  setTimeout(() => {
+    if (window.location.hash) {
+      const targetId = window.location.hash.substring(1);
+      const targetElement = document.getElementById(targetId);
+      if (targetElement) {
+        targetElement.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  }, 1000); // 1 second delay
+});
+
 
 
 
@@ -99,7 +108,7 @@ const PolllAns = () => {
         await navigator.share({
           title: "Poll",
           text: "Share Your Openion",
-          url: `https://www.discoveryindianews.com/#poll`,
+          url: `https://www.discoveryindianews.com/#pollsvote`,
         });
         console.log("Thanks for sharing!");
       } catch (error) {
@@ -111,7 +120,7 @@ const PolllAns = () => {
   };
 
   return (
-    <div className="flex justify-center p-4" id="poll">
+    <div className="flex justify-center p-4" id="pollsvote">
       <div className="w-full max-w-3xl">
         <div className=" flex flex-col my-10 ">
         <h2 className="text-2xl font-bold text-center uppercase ">
