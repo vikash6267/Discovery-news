@@ -45,6 +45,10 @@ const newsSchema = new Schema({
     type: String,
     // required: true,
   },
+  view:{
+    type: Number,
+    default:0,
+  },
   category: {
     type: Schema.Types.ObjectId,
     ref: 'Category',

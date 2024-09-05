@@ -307,7 +307,9 @@ const getNewsById = async (req, res) => {
     if (!news) {
       return res.status(404).json({ success: false, message: 'News article not found' });
     }
-
+    news.view += 1;
+    news.save()
+    
     res.json({ success: true, news });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
