@@ -112,8 +112,22 @@ const Navbar = () => {
                 )}
               </div>
             ))}
+            {/* Adding Video and Live TV links */}
+            <Link
+              to="/video"
+              className="text-white hover:bg-gray-100 text-[16px] font-bold hover:text-black px-3 "
+            >
+              वीडियो
+            </Link>
+            <Link
+              to="/live-tv"
+              className="text-white hover:bg-gray-100 text-[16px] font-bold hover:text-black px-3"
+            >
+              Live TV
+            </Link>
           </div>
         </div>
+
         <div className="flex items-center space-x-4">
           <button
             onClick={toggleSearch}
@@ -180,6 +194,25 @@ const Navbar = () => {
               )}
             </div>
           ))}
+          {/* Adding Video and Live TV links for mobile */}
+          <div className="border-b border-gray-200 px-4 py-2">
+            <Link
+              to="/video"
+              className="text-white"
+              onClick={handleLinkClick}
+            >
+              वीडियो
+            </Link>
+          </div>
+          <div className="border-b border-gray-200 px-4 py-2">
+            <Link
+              to="/live-tv"
+              className="text-white"
+              onClick={handleLinkClick}
+            >
+              Live TV
+            </Link>
+          </div>
         </div>
       )}
     </nav>

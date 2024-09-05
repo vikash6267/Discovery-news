@@ -18,6 +18,8 @@ import LogoSpace from "../components/common/Navbar/LogoSpace";
 import StateSubcategories from "../components/common/Navbar/StateSubcategories";
 import PolllAns from "../pages/PollAns";
 import AddSlideBar from "../components/core/Home/AddSlideBar";
+import Videos from "../pages/Videos";
+import Live from "../pages/LiveTV";
 
 function RegualerRoutes() {
   return (
@@ -33,6 +35,8 @@ function RegualerRoutes() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/polls" element={<PolllAns />} />
+        <Route path="/video" element={<Videos />} />
+        <Route path="/live-tv" element={<Live />} />
         <Route path="*" element={<Error />} />
         <Route path="/:id" element={<SingleNews />} />
         <Route path="category/:id" element={<CategoryPage />} />

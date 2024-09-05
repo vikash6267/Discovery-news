@@ -6,7 +6,7 @@ import PrivateRoute from "./components/Admin/auth/PrivateRoute";
 import AdminRoutes from "./routes/AdminRoutes";
 import RegualerRoutes from "./routes/RegualerRoutes";
 import Error from "./pages/Error";
-import { saveCategory, setAds } from "./redux/newsSlice";
+import { saveCategory, setAds, setYT } from "./redux/newsSlice";
 import axios from "axios";
 
 function App() {
@@ -22,6 +22,20 @@ function App() {
        console.log("eeror")
       }
       dispatch(setAds(response?.data?.ads));
+      // console.log(response?.data?.ads);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+  const getAllYt = async () => {
+    try {
+      const response = await axios.get(`${BASE_URL}/yt/getAll`);
+      if (!response?.data?.success) {
+        console.log(response.data.message)
+      }
+      dispatch(setYT(response?.data?.videos));
       // console.log(response?.data?.ads);
     } catch (error) {
       console.log(error);
@@ -49,6 +63,7 @@ function App() {
     fetchCategories();
     dispatch(getAllNews());
     visitAdd();
+    getAllYt();
 
   }, []);
 

@@ -158,6 +158,8 @@ function CreateYtVideo() {
               value={formData.url}
               onChange={handleChange}
               required
+              placeholder="Embed Link Youtube"
+
             />
           </div>
           <div className="mb-4">
@@ -165,24 +167,20 @@ function CreateYtVideo() {
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="type"
             >
-              Add Type: <span className="text-red-500">*</span>
+              Title: <span className="text-red-500">*</span>
             </label>
-            <select
+
+            <input
+              type="text"
               className="w-full mb-2 p-2 border rounded focus:outline-none"
-              name="type"
-              id="type"
+              name="url"
+              id="url"
               value={formData.type}
               onChange={handleChange}
               required
-            >
-              <option value="" disabled>
-                Select Add position
-              </option>
-              <option value="right-yt">Top Right</option>
-              <option value="middle-yt">Middle Right</option>
-              <option value="middle">Middle</option>
-              <option value="short">Shorts Video</option>
-            </select>
+              placeholder="Title Video News"
+            />
+      
           </div>
 
           <button

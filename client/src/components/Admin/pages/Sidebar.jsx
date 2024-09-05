@@ -72,12 +72,12 @@ const Sidebar = () => {
     },
     { to: "/admin/ads", icon: <FcAdvertising />, label: "Ads" },
     { to: "/admin/poll", icon: <FcAdvertising />, label: "Create Poll" },
-    // {
-    //   to: "/admin/livestriming",
-    //   icon: <FcVideoCall />,
-    //   label: "Live Streaming",
-    // },
-    // { to: "/admin/yt", icon: <FcStart />, label: "Add Youtube Video" },
+    {
+      to: "/admin/livestriming",
+      icon: <FcVideoCall />,
+      label: "Live Streaming",
+    },
+    { to: "/admin/yt", icon: <FcStart />, label: "Add Youtube Video" },
     // { to: "/admin/users", icon: <FcPortraitMode />, label: "All Users" }
   ];
 
