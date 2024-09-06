@@ -72,11 +72,11 @@ function SingleNews() {
   return (
     <div className=" max-w-7xl mx-auto p-4">
       <Helmet>
-        <title>{news?.title || "Default Title"}</title>
-        <meta property="og:title" content={news?.title || "Default Title"} />
-        <meta property="og:description" content={truncateText(news?.description || "Default Description", 30)} />
-        <meta property="og:image" content={news?.images?.[0]?.url || ""} />
-        <meta property="og:url" content={currentUrl} />
+        <title>{"Default drter Title"}</title>
+        <meta property="og:title" content={ "Default Title"} />
+        <meta property="og:description" content="test" />
+        <meta property="og:image" content="https://discoveryindianews.com/static/media/logo.855eab8f06c9a753f7fd.jpg" />
+        <meta property="og:url" content="diescover.com" />
         <meta property="og:type" content="article" />
       </Helmet>
 
