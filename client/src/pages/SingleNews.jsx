@@ -3,13 +3,14 @@ import { getSingleNews } from "../services/operations/admin";
 import { Link, useParams } from "react-router-dom";
 import { format } from "date-fns";
 import { FaClock } from "react-icons/fa";
-import { Helmet } from 'react-helmet';
+import { Helmet } from "react-helmet";
 import {
   FaFacebookF,
   FaTwitter,
   FaLinkedinIn,
   FaWhatsapp,
-  FaEnvelope,FaRegEye
+  FaEnvelope,
+  FaRegEye,
 } from "react-icons/fa";
 import Contact from "../components/core/singleNews/Contact";
 import NewsActive from "../components/core/Home/RightSide/NewsActive";
@@ -63,15 +64,17 @@ function SingleNews() {
     return format(date, "MMMM d, yyyy h:mm a");
   };
   const currentUrl = encodeURIComponent(window.location.href);
-  
+
   return (
     <div className=" max-w-7xl mx-auto p-4">
-
-<Helmet>
+      <Helmet>
         <title>{news?.title || "Default Title"}</title>
         <meta property="og:title" content={news?.title || "Default Title"} />
-        <meta property="og:description" content={truncateText(news?.description || "Default Description", 30)} />
-        <meta property="og:image" content={news?.images?.[0]?.url } />
+        <meta
+          property="og:description"
+          content={truncateText(news?.description || "Default Description", 30)}
+        />
+        <meta property="og:image" content={news?.images?.[0]?.url} />
         <meta property="og:url" content={window.location.href} />
         <meta property="og:type" content="article" />
       </Helmet>
@@ -81,15 +84,17 @@ function SingleNews() {
           <div>
             <div>
               <p className=" font-semibold text-2xl font-sans">{news?.title}</p>
-          <div className=" flex gap-5">
-          <p>
-                {news?.createdAt
-                  ? formatDate(news.createdAt)
-                  : "Date not available"}
-              </p>
+              <div className=" flex gap-5">
+                <p>
+                  {news?.createdAt
+                    ? formatDate(news.createdAt)
+                    : "Date not available"}
+                </p>
 
-          <p className=" flex gap-2 items-center"><FaRegEye className=" text-blue-800"/> {news?.view}</p>
-          </div>
+                <p className=" flex gap-2 items-center">
+                  <FaRegEye className=" text-blue-800" /> {news?.view}
+                </p>
+              </div>
             </div>
 
             <div className="flex space-x-4 mt-4">
@@ -119,22 +124,15 @@ function SingleNews() {
                 <FaLinkedinIn className="text-blue-700" />
               </a>
               <a
-  href={`https://wa.me/?text=${encodeURIComponent(
-    `${news?.title}\nhttps://discoveryindianews.com/${news?.slug}\nVisit the latest news:\nhttps://www.discoveryindianews.com/`
-  )}`}
-  target="_blank"
-  rel="noopener noreferrer"
-  className="p-2 bg-green-600 rounded-lg"
->
-  <FaWhatsapp className="text-white" />
-</a>
-
-
-
-
-
-
-
+                href={`https://wa.me/?text=${encodeURIComponent(
+                  `${news?.title}\nhttps://discoveryindianews.com/${news?.slug}\nVisit the latest news:\nhttps://www.discoveryindianews.com/`
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 bg-green-600 rounded-lg"
+              >
+                <FaWhatsapp className="text-white" />
+              </a>
 
               <a
                 href={`mailto:?subject=Check this out&body=${window.location.href}`}
