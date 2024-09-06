@@ -73,21 +73,19 @@ function SingleNews() {
   <Helmet>
         <title>{news?.title ? news.title : "Loading..."}</title>
         <meta name="description" content={news?.description?.slice(0, 150)} />
-
-        {/* Open Graph / Facebook */}
         <meta property="og:type" content="article" />
         <meta property="og:title" content={news?.title} />
         <meta property="og:description" content={news?.description?.slice(0, 150)} />
         <meta property="og:image" content={news?.images?.[0]?.url} />
         <meta property="og:url" content={window.location.href} />
         <meta property="og:site_name" content="Your Website Name" />
-
-        {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={news?.title} />
         <meta name="twitter:description" content={news?.description?.slice(0, 150)} />
         <meta name="twitter:image" content={news?.images?.[0]?.url} />
       </Helmet>
+
+      
       <div className=" flex flex-col lg:flex-row gap-5 ">
         {/* News Details */}
         <div className=" lg:w-[75%]  w-full ">
