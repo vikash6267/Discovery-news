@@ -175,7 +175,7 @@ function CreateAdd() {
               <option value="top-add">Top Add</option>
               <option value="right-add">Right Add</option>
               {/* <option value="left-add">Left Add</option> */}
-              <option value="buttom-add">Buttom Add</option>
+              <option value="buttom-add">Bottom Add</option>
             </select>
           </div>
 
