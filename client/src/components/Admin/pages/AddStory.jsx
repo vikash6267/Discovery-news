@@ -62,8 +62,8 @@ function AddStory() {
     try {
       const storyData = {
         ...newStory,
-        images: JSON.stringify(newStory.images), // Keep images as a JSON string if needed
-        title: JSON.stringify(newStory.title), // Keep images as a JSON string if needed
+        images: JSON.stringify(newStory.images),
+        title: JSON.stringify(newStory.title),
       };
 
       await createStory(storyData, token);

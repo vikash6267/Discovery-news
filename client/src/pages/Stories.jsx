@@ -59,7 +59,8 @@ const Stories = () => {
               {/* Author and Date on top of the image */}
               <div className="absolute bottom-0 left-0 right-0 bg-red-600 bg-opacity-75 text-white text-xs p-2">
                 <p>
-                  By {story.author} — {story.date}
+                  By {story.author} —{" "}
+                  {new Date(story.createdAt).toLocaleDateString()}
                 </p>
               </div>
             </div>

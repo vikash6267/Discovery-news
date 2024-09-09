@@ -5,7 +5,6 @@ const createStoryCtrl = async (req, res) => {
         const { title, author, images } = req.body;
         const imageArray = typeof images === 'string' ? JSON.parse(images) : images;
         const titleArray = typeof title === 'string' ? JSON.parse(title) : title;
-        console.log(req.body)
         if (!title || !author || !imageArray) {
             return res.status(400).json({
                 success: false,
