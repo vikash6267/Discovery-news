@@ -8,6 +8,7 @@ import RegualerRoutes from "./routes/RegualerRoutes";
 import Error from "./pages/Error";
 import { saveCategory, setAds, setYT } from "./redux/newsSlice";
 import axios from "axios";
+import StatusSlider from "./TEST";
 
 function App() {
   const { user } = useSelector((state) => state.auth);
@@ -73,6 +74,9 @@ function App() {
     <Routes>
       {/* Regular routes accessible to everyone, including admins */}
       <Route path="/*" element={<RegualerRoutes />} />
+      <Route path="/test" element={<StatusSlider />} />
+
+
 
       {/* Admin-specific routes protected by PrivateRoute */}
       {(user?.role === "Admin" || user?.role === "SuperAdmin") && (
