@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaPlusCircle } from "react-icons/fa";
+import { FaPlusCircle, FaTrashAlt } from "react-icons/fa";
 import Dropzone from "react-dropzone";
 import { useSelector } from "react-redux";
 import {
@@ -13,9 +13,8 @@ function AddStory() {
   const { token, user } = useSelector((state) => state.auth);
 
   const [newStory, setNewStory] = useState({
-    title: "",
+    title: [""], // Initialize as an array
     author: "",
-    date: "", // Added date field
     images: [],
   });
 
@@ -29,7 +28,7 @@ function AddStory() {
         console.log(response);
       } catch (error) {
         console.error("Error fetching stories:", error);
-        setStories([]); // Ensure `stories` is set to an empty array on error
+        setStories([]);
       }
     };
 
@@ -67,12 +66,35 @@ function AddStory() {
       };
 
       await createStory(storyData, token);
-      setNewStory({ title: "", author: "", date: "", images: [] });
+      setNewStory({ title: [""], author: "", images: [] });
       const response = await getAllStories();
       setStories(response || []);
     } catch (error) {
       console.error("Error creating story:", error);
     }
+  };
+
+  const addTitle = () => {
+    setNewStory((prevStory) => ({
+      ...prevStory,
+      title: [...prevStory.title, ""],
+    }));
+  };
+
+  const removeTitle = (index) => {
+    setNewStory((prevStory) => ({
+      ...prevStory,
+      title: prevStory.title.filter((_, i) => i !== index),
+    }));
+  };
+
+  const handleTitleChange = (index, value) => {
+    const updatedTitles = [...newStory.title];
+    updatedTitles[index] = value;
+    setNewStory((prevStory) => ({
+      ...prevStory,
+      title: updatedTitles,
+    }));
   };
 
   return (
@@ -95,15 +117,35 @@ function AddStory() {
       {openCreate && (
         <div className="mb-4 p-4 border rounded-lg">
           <h5 className="text-xl font-semibold mb-2">Create Story</h5>
-          <input
-            type="text"
-            placeholder="Title"
-            value={newStory.title}
-            onChange={(e) =>
-              setNewStory({ ...newStory, title: e.target.value })
-            }
-            className="w-full mb-2 p-2 border rounded focus:outline-none"
-          />
+
+          {/* Dynamic Titles */}
+          {newStory.title.map((title, index) => (
+            <div key={index} className="flex items-center gap-2 mb-2">
+              <input
+                type="text"
+                placeholder={`Title ${index + 1}`}
+                value={title}
+                onChange={(e) => handleTitleChange(index, e.target.value)}
+                className="w-full p-2 border rounded focus:outline-none"
+              />
+              {index > 0 && (
+                <button
+                  onClick={() => removeTitle(index)}
+                  className="p-2 bg-red-500 text-white rounded-lg"
+                >
+                  <FaTrashAlt />
+                </button>
+              )}
+            </div>
+          ))}
+
+          <button
+            onClick={addTitle}
+            className="flex items-center gap-2 p-2 bg-green-500 text-white rounded-lg hover:bg-green-600 focus:outline-none"
+          >
+            <FaPlusCircle /> Add Another Title
+          </button>
+
           <input
             type="text"
             placeholder="Author"
@@ -111,12 +153,6 @@ function AddStory() {
             onChange={(e) =>
               setNewStory({ ...newStory, author: e.target.value })
             }
-            className="w-full mb-2 p-2 border rounded focus:outline-none"
-          />
-          <input
-            type="date"
-            value={newStory.date}
-            onChange={(e) => setNewStory({ ...newStory, date: e.target.value })}
             className="w-full mb-2 p-2 border rounded focus:outline-none"
           />
 
@@ -139,7 +175,6 @@ function AddStory() {
               </Dropzone>
             </div>
 
-            {/* Display Uploaded Images */}
             <div className="flex gap-4 mt-4 flex-wrap">
               {newStory.images.map((image, index) => (
                 <div key={index} className="relative w-40 h-40">
@@ -172,21 +207,23 @@ function AddStory() {
         <table className="min-w-full bg-white rounded-lg overflow-hidden">
           <thead className="bg-blue-950 text-white">
             <tr>
-              <th className="py-3 px-6 text-left">Title</th>
+              <th className="py-3 px-6 text-left">Titles</th>
               <th className="py-3 px-6 text-left">Author</th>
-              <th className="py-3 px-6 text-left">Date</th>{" "}
-              {/* Added Date Header */}
+              <th className="py-3 px-6 text-left">Date</th>
               <th className="py-3 px-6 text-left">Images</th>
             </tr>
           </thead>
           <tbody>
             {stories.map((story) => (
               <tr key={story._id} className="hover:bg-gray-100">
-                <td className="py-4 px-6">{story.title}</td>
+                <td className="py-4 px-6">
+                  {Array.isArray(story.title)
+                    ? story.title.join(", ")
+                    : "No Title"}{" "}
+                </td>
                 <td className="py-4 px-6">
                   {story.author} -{" "}
-                  {new Date(story.createdAt).toLocaleDateString()}{" "}
-                  {/* Display Author and Date */}
+                  {new Date(story.createdAt).toLocaleDateString()}
                 </td>
                 <td className="py-4 px-6">
                   <img
