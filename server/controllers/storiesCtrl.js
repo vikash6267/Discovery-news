@@ -43,4 +43,37 @@ const getAllStoryCtrl = async (req, res) => {
         })
     }
 }
-module.exports = { createStoryCtrl, getAllStoryCtrl }
+
+
+const getSingleStoryCtrl = async (req, res) => {
+    try {
+        const { id } = req.params;  // Get ID from URL params
+        if (!id) {
+            return res.status(400).json({
+                success: false,
+                message: "Story ID is required"
+            });
+        }
+
+        const story = await storyModel.findById(id);
+        if (!story) {
+            return res.status(404).json({
+                success: false,
+                message: "Story not found"
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            story
+        });
+
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            message: "Error in getting story",
+            success: false
+        });
+    }
+};
+module.exports = { createStoryCtrl, getAllStoryCtrl,getSingleStoryCtrl }

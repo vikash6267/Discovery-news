@@ -24,7 +24,8 @@ const WebStoriesCarousel = () => {
       <h2 className="text-white text-2xl font-bold mb-4">Web Stories</h2>
       <div className="flex overflow-x-auto space-x-4">
         {stories.map((story, index) => (
-          <div
+          <Link 
+          to={`/web-story/${story._id}`}
             key={index}
             className="min-w-[200px] bg-red-500 rounded overflow-hidden shadow-lg"
           >
@@ -34,9 +35,9 @@ const WebStoriesCarousel = () => {
               className="w-full h-48 object-cover"
             />
             <div className="p-2">
-              <h3 className="text-white text-sm">{story.title}</h3>
+              <h3 className="text-white text-sm">{story.title[0]}</h3>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
 

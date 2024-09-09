@@ -44,7 +44,8 @@ const {
   DELETE_LIVE_NEWS,
 
   ADD_STORY,
-  GET_ALL_STORY
+  GET_ALL_STORY,
+  GET_STORY
 
 
 } = adminEndpoints;
@@ -1085,6 +1086,22 @@ export const getAllStories = async () => {
     }
 
     result = response?.data?.stories;
+  } catch (error) {
+    console.log(error)
+  }
+  return result;
+};
+export const getStory = async (id) => {
+  let result = [];
+  try {
+    const response = await apiConnector("GET", `${GET_STORY}/${id}`);
+
+    if (!response?.data?.success) {
+      throw new Error("Could Not Fetch Story");
+    }
+
+    result = response?.data?.story;
+    console.log(result)
   } catch (error) {
     console.log(error)
   }
