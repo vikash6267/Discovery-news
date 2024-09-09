@@ -13,7 +13,7 @@ function AddStory() {
   const { token, user } = useSelector((state) => state.auth);
 
   const [newStory, setNewStory] = useState({
-    title: [""], // Initialize as an array
+    title: [""],
     author: "",
     images: [],
   });
@@ -62,6 +62,7 @@ function AddStory() {
     try {
       const storyData = {
         ...newStory,
+        title: newStory.title.join(", "), // Join titles into a single string
         images: JSON.stringify(newStory.images),
       };
 
