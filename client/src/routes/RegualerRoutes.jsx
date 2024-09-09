@@ -40,6 +40,7 @@ function RegualerRoutes() {
         <Route path="/live-tv" element={<Live />} />
         <Route path="*" element={<Error />} />
         <Route path="/:id" element={<SingleNews />} />
+     
         <Route path="category/:id" element={<CategoryPage />} />
         <Route path="subcategory/:id" element={<SubCategoryPage />} />
         <Route path="/web-stories" element={<Stories />} />

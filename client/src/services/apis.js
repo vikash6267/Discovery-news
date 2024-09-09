@@ -77,6 +77,7 @@ export const adminEndpoints = {
 
   ADD_STORY: BASE_URL + "/story/create",
   GET_ALL_STORY: BASE_URL + "/story/getAll",
+  GET_STORY: BASE_URL + "/story/get",
 
 
 }
