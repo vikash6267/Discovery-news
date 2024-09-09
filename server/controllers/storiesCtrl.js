@@ -5,7 +5,6 @@ const createStoryCtrl = async (req, res) => {
         const { title, author, images } = req.body;
         const imageArray = typeof images === 'string' ? JSON.parse(images) : images;
         const titleArray = typeof title === 'string' ? JSON.parse(title) : title;
-        console.log(req.body)
         if (!title || !author || !imageArray) {
             return res.status(400).json({
                 success: false,
@@ -77,4 +76,20 @@ const getSingleStoryCtrl = async (req, res) => {
         });
     }
 };
-module.exports = { createStoryCtrl, getAllStoryCtrl,getSingleStoryCtrl }
+
+const deleteStroryCrtrl = async (req, res) => {
+    try {
+        const { id } = req.params;
+        await storyModel.findByIdAndDelete(id);
+        return res.status(200).json({
+            success: true,
+            message: "Story delete successfully!"
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message: "Error in deleting story",
+            success: false
+        });
+    }
+}
+module.exports = { createStoryCtrl, getAllStoryCtrl, getSingleStoryCtrl, deleteStroryCrtrl }

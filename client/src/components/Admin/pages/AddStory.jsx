@@ -4,6 +4,7 @@ import Dropzone from "react-dropzone";
 import { useSelector } from "react-redux";
 import {
   createStory,
+  deleteStory,
   getAllStories,
   imageUpload,
 } from "../../../services/operations/admin";
@@ -62,8 +63,8 @@ function AddStory() {
     try {
       const storyData = {
         ...newStory,
-        images: JSON.stringify(newStory.images), // Keep images as a JSON string if needed
-        title: JSON.stringify(newStory.title), // Keep images as a JSON string if needed
+        images: JSON.stringify(newStory.images),
+        title: JSON.stringify(newStory.title),
       };
 
       await createStory(storyData, token);
@@ -72,6 +73,14 @@ function AddStory() {
       setStories(response || []);
     } catch (error) {
       console.error("Error creating story:", error);
+    }
+  };
+  const handleDeleteStory = async (id) => {
+    try {
+      await deleteStory(id, token); // Make delete request
+      setStories(stories.filter((story) => story._id !== id)); // Remove the story from state
+    } catch (error) {
+      console.error("Error deleting story:", error);
     }
   };
 
@@ -220,18 +229,23 @@ function AddStory() {
                 <td className="py-4 px-6">
                   {Array.isArray(story.title)
                     ? story.title.join(", ")
-                    : "No Title"}{" "}
+                    : "No Title"}
                 </td>
-                <td className="py-4 px-6">
-                  {story.author} -{" "}
-                  {new Date(story.createdAt).toLocaleDateString()}
-                </td>
+                <td className="py-4 px-6">{story.author}</td>
                 <td className="py-4 px-6">
                   <img
                     src={story?.images[0]?.url}
                     alt={`Story Image`}
                     className="w-16 h-16 object-cover rounded-md"
                   />
+                </td>
+                <td className="py-4 px-6">
+                  <button
+                    onClick={() => handleDeleteStory(story._id)} // Call delete handler
+                    className="p-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                  >
+                    <FaTrashAlt />
+                  </button>
                 </td>
               </tr>
             ))}

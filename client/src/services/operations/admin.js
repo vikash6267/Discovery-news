@@ -45,7 +45,8 @@ const {
 
   ADD_STORY,
   GET_ALL_STORY,
-  GET_STORY
+  GET_STORY,
+  DELETE_STORY
 
 
 } = adminEndpoints;
@@ -1106,4 +1107,38 @@ export const getStory = async (id) => {
     console.log(error)
   }
   return result;
+};
+
+export const deleteStory = async (id, token) => {
+  try {
+    const response = await apiConnector("DELETE", `${DELETE_STORY}/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Story deleted successfully!',
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+    });
+
+    return response.data;
+  } catch (error) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Failed to delete story!',
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+    });
+
+    throw error;
+  }
 };
