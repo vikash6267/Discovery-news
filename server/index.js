@@ -54,6 +54,7 @@ app.use("/api/v1/ads", require("./routes/adsRoute"));
 app.use("/api/v1/yt", require("./routes/ytVideoRoute"));
 app.use("/api/v1/", require("./routes/dashboardRoutes"));
 app.use("/api/v1/contact", require("./routes/contactRoute"));
+app.use("/api/v1/story", require("./routes/stories"));
 
 
 

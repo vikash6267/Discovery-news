@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import { Route, Routes } from "react-router-dom";
 
 // admin
@@ -18,46 +18,46 @@ import CreateAdd from "../components/Admin/pages/CreateAdd";
 import AdminManage from "../components/Admin/pages/ManageAdmin";
 import CreateYtVideo from "../components/Admin/pages/CreateYtVideo";
 import UsersTable from "../components/Admin/pages/AllUser";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
+import AddStory from "../components/Admin/pages/AddStory";
 
 function AdminRoutes() {
   const { user } = useSelector((state) => state.auth);
 
   return (
-<Routes>
+    <Routes>
+      <Route
+        element={
+          <PrivateRoute>
+            <Layout />
+          </PrivateRoute>
+        }
+      >
+        {(user?.role === "Admin" || user?.role === "SuperAdmin") && (
+          <>
+            <Route path="/dashboard" element={<DashBoard />} />
+            <Route path="/addnews" element={<AddNews />} />
+            <Route path="/addnews/:id" element={<AddNews />} />
+            <Route path="/allnews" element={<AllNews />} />
 
-    <Route
-    element={
-      <PrivateRoute>
-        <Layout />
-      </PrivateRoute>
-    }
-  > 
-{(user?.role === "Admin" || user?.role === "SuperAdmin") && (
-      <>
-        <Route path="/dashboard" element={<DashBoard />} />
-        <Route path="/addnews" element={<AddNews />} />
-        <Route path="/addnews/:id" element={<AddNews />} />
-        <Route path="/allnews" element={<AllNews />} />
+            <Route path="/poll" element={<Poll />} />
+            <Route path="/breaking" element={<Breaking />} />
+            <Route path="/category" element={<Category />} />
+            <Route path="/subcategory" element={<Subcategory />} />
+            <Route path="/livestriming" element={<Livestreming />} />
+            <Route path="/ads" element={<CreateAdd />} />
+            <Route path="/yt" element={<CreateYtVideo />} />
+            <Route path="/users" element={<UsersTable />} />
+            <Route path="/stories" element={<AddStory />} />
 
-        <Route path="/poll" element={<Poll />} />
-        <Route path="/breaking" element={<Breaking />} />
-        <Route path="/category" element={<Category />} />
-        <Route path="/subcategory" element={<Subcategory />} />
-        <Route path="/livestriming" element={<Livestreming />} />
-        <Route path="/ads" element={<CreateAdd />} />
-        <Route path="/yt" element={<CreateYtVideo />} />
-        <Route path="/users" element={<UsersTable />} />
-
-        {user?.role === "SuperAdmin" && (
-          <Route path="/manageadmin" element={<AdminManage />} />
+            {user?.role === "SuperAdmin" && (
+              <Route path="/manageadmin" element={<AdminManage />} />
+            )}
+          </>
         )}
-      </>
-    )}
-    </Route>
-</Routes>
-
-  )
+      </Route>
+    </Routes>
+  );
 }
 
-export default AdminRoutes
+export default AdminRoutes;

@@ -43,6 +43,9 @@ const {
   GET_ALL_LIVE_NEWS,
   DELETE_LIVE_NEWS,
 
+  ADD_STORY,
+  GET_ALL_STORY
+
 
 } = adminEndpoints;
 
@@ -557,10 +560,10 @@ export const deleteCategory = async (id, token) => {
   }
 };
 
-export const fetchSingleCategory = async (id,page,itemsPerPage) => {
+export const fetchSingleCategory = async (id, page, itemsPerPage) => {
   let result = [];
   try {
-    const response = await apiConnector("GET", `${DETAILS_CATEGORY_API}/${id}`,null,null,{ page, limit: itemsPerPage });
+    const response = await apiConnector("GET", `${DETAILS_CATEGORY_API}/${id}`, null, null, { page, limit: itemsPerPage });
     // console.log("News_CATEGORIES_API API RESPONSE............", response?.data);
     if (!response?.data?.success) {
       throw new Error("Could Not Fetch  Categories");
@@ -717,12 +720,12 @@ export const deleteSubCategory = async (id, token) => {
   }
 };
 
-export const fetchSingleSubCategory = async (id,page,itemsPerPage) => {
+export const fetchSingleSubCategory = async (id, page, itemsPerPage) => {
   let result = [];
   try {
     const response = await apiConnector(
       "GET",
-      `${DETAILS_SUBCATEGORY_API}/${id}`,null,null,{ page, limit: itemsPerPage }
+      `${DETAILS_SUBCATEGORY_API}/${id}`, null, null, { page, limit: itemsPerPage }
     );
     if (!response?.data?.success) {
       throw new Error("Could Not Fetch SubCategory Details");
@@ -1026,4 +1029,64 @@ export const deleteLiveStream = async (id, token) => {
   } finally {
     Swal.close();
   }
+};
+
+
+
+export const createStory = async (data, token) => {
+  // console.log(data);
+  const toastId = Swal.fire({
+    title: "Loading...",
+    allowOutsideClick: false,
+    didOpen: () => {
+      Swal.showLoading();
+    },
+  });
+
+  try {
+    const response = await apiConnector("POST", ADD_STORY, data, {
+      "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${token}`,
+    });
+
+    console.log("CREATE story API RESPONSE............", response);
+
+    if (!response?.data?.success) {
+      throw new Error("Could Not Add story Details");
+    }
+
+    Swal.fire({
+      icon: "success",
+      title: "Story Details Added Successfully",
+      timer: 2000,
+      timerProgressBar: true,
+      showConfirmButton: false,
+    });
+  } catch (error) {
+    console.log("CREATE story API ERROR............", error);
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: error.message,
+    });
+  } finally {
+    Swal.close(toastId);
+  }
+};
+
+
+export const getAllStories = async () => {
+  let result = [];
+  try {
+    const response = await apiConnector("GET", GET_ALL_STORY);
+
+    if (!response?.data?.success) {
+      throw new Error("Could Not Fetch Story");
+    }
+
+    result = response?.data?.stories;
+  } catch (error) {
+    console.log(error)
+  }
+  return result;
 };

@@ -78,7 +78,7 @@ const Sidebar = () => {
       label: "Live Streaming",
     },
     { to: "/admin/yt", icon: <FcStart />, label: "Add Youtube Video" },
-    // { to: "/admin/users", icon: <FcPortraitMode />, label: "All Users" }
+    { to: "/admin/stories", icon: <FcPortraitMode />, label: "Story" },
   ];
 
   // Conditionally add the "Manage Admin" item for superadmin

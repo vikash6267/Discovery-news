@@ -20,6 +20,7 @@ import PolllAns from "../pages/PollAns";
 import AddSlideBar from "../components/core/Home/AddSlideBar";
 import Videos from "../pages/Videos";
 import Live from "../pages/LiveTV";
+import Stories from "../pages/Stories";
 
 function RegualerRoutes() {
   return (
@@ -41,6 +42,7 @@ function RegualerRoutes() {
         <Route path="/:id" element={<SingleNews />} />
         <Route path="category/:id" element={<CategoryPage />} />
         <Route path="subcategory/:id" element={<SubCategoryPage />} />
+        <Route path="/web-stories" element={<Stories />} />
 
         <Route
           path="/login"
