@@ -62,8 +62,8 @@ function AddStory() {
     try {
       const storyData = {
         ...newStory,
-        title: newStory.title.join(", "), // Join titles into a single string
-        images: JSON.stringify(newStory.images),
+        images: JSON.stringify(newStory.images), // Keep images as a JSON string if needed
+        title: JSON.stringify(newStory.title), // Keep images as a JSON string if needed
       };
 
       await createStory(storyData, token);

@@ -4,6 +4,7 @@ const createStoryCtrl = async (req, res) => {
     try {
         const { title, author, images } = req.body;
         const imageArray = typeof images === 'string' ? JSON.parse(images) : images;
+        const titleArray = typeof title === 'string' ? JSON.parse(title) : title;
         console.log(req.body)
         if (!title || !author || !imageArray) {
             return res.status(400).json({
@@ -12,7 +13,7 @@ const createStoryCtrl = async (req, res) => {
             })
         }
         const story = await storyModel.create({
-            title, author, images: imageArray
+            title: titleArray, author, images: imageArray
         })
 
         return res.status(201).json({
