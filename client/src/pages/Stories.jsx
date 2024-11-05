@@ -66,7 +66,7 @@ const Stories = () => {
               </div>
             </div>
             <div className="p-4">
-              <h3 className="text-lg font-bold">{story.title}</h3>
+              <h3 className="text-lg font-bold">{story.title[0]}</h3>
             </div>
           </Link>
         ))}

@@ -1,6 +1,6 @@
 import React from "react";
 import banner from "../../../assests/banner.png";
-import logo from "../../../assests/logo.jpg"
+import logo from "../../../assests/newlogo.jpg"
 function LogoSpace() {
   return (
     <div className=" max-w-7xl p-4 mx-auto  ">

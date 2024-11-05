@@ -10,6 +10,7 @@ function LatestNews() {
   // Create a copy of the array to avoid mutating the original state
   const newsCopy = [...allNews];
   const latestNews = newsCopy
+  .filter((news)=> news?.type === "top-news")
     .sort((a, b) => new Date(b.publish) - new Date(a.publish)) // Sort news by publish date in descending order
     .slice(0, 5); // Take the top 5 latest news
 
