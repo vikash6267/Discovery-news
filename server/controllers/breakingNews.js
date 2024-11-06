@@ -33,7 +33,9 @@ const createBreakingNewsCtrl = async (req, res) => {
 const getAllBreakingNews = async (req, res) => {
     try {
 
-        const breakingNewss = await breakingNewsModel.find({});
+        const breakingNewss = await breakingNewsModel.find({}).sort({ createdAt: -1 })        // Sort by publish field in descending order (newest first)
+            .sort({ publish: -1 })        // Sort by publish field in descending order (newest first)
+            .limit(100);
         if (!breakingNewss) {
             return res.status(400).json({
                 success: false,

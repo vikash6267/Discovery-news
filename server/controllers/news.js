@@ -25,15 +25,15 @@ const validateRequiredFields = (req) => {
     description,
     language,
     images,
-   
+
     slug
 
   } = req.body;
 
-console.log(req.body)
+  console.log(req.body)
 
 
-  if (!type || !title  || !language || !location || !category ||  !description || !images  || !slug ) {
+  if (!type || !title || !language || !location || !category || !description || !images || !slug) {
     return false;
   }
   return true;
@@ -57,10 +57,10 @@ const createNews = async (req, res) => {
     images,
     youtubeurl,
     notificationSend,
-    tag:_tag,
+    tag: _tag,
     slug
   } = req.body;
-  
+
   const userId = req.user.id
 
 
@@ -68,7 +68,7 @@ const createNews = async (req, res) => {
 
   const tag = JSON.parse(_tag);
 
- 
+
   if (!Array.isArray(tag) || !tag.length) {
     return res.status(400).json({ error: 'Tags must be a non-empty array' });
   }
@@ -84,17 +84,17 @@ const createNews = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Invalid category ID' });
     }
 
-    if(subcategory){
+    if (subcategory) {
       const isValidSubCategory = await validateSubCategory(subcategory);
       if (!isValidSubCategory) {
         return res.status(400).json({ success: false, message: 'Invalid subcategory ID' });
       }
     }
     // Validate subcategory ID
-  
+
 
     let active = true
-    if(authDetails.role === "Admin"){
+    if (authDetails.role === "Admin") {
       console.log("hello"
       )
       active = false
@@ -104,13 +104,13 @@ const createNews = async (req, res) => {
       subtitle,
       location,
       category,
-    subcategory: subcategory || null,
+      subcategory: subcategory || null,
       language,
       type,
-      active:active,
+      active: active,
       tag,
       slug,
-      author:authDetails._id,
+      author: authDetails._id,
       // expire: new Date(expire), // Convert expire to Date format
       description,
       images: imagesArray, // Assign parsed images array
@@ -129,7 +129,7 @@ const createNews = async (req, res) => {
       { new: true }
     )
 
-    if(subcategory){
+    if (subcategory) {
       const categoryDetails3 = await SubCategory.findByIdAndUpdate(
         { _id: subcategory },
         {
@@ -140,7 +140,7 @@ const createNews = async (req, res) => {
         { new: true }
       )
     }
-  
+
 
 
     if (notificationSend) {
@@ -234,7 +234,10 @@ const getAllNews = async (req, res) => {
     const news = await News.find()
       .populate('category', 'name') // Populate category with categoryName field
       .populate('subcategory', 'name')
-      .populate("comments.author") // Populate subcategory with subcategoryName field
+      .populate("comments.author")
+      .sort({ createdAt: -1 })        // Sort by publish field in descending order (newest first)
+      .sort({ publish: -1 })        // Sort by publish field in descending order (newest first)
+      .limit(100)   // Populate subcategory with subcategoryName field
       .exec();
 
     res.json({ success: true, news });
@@ -291,7 +294,7 @@ const getNewsById = async (req, res) => {
 
 
   try {
-    const news = await News.findOne({slug:newsId})
+    const news = await News.findOne({ slug: newsId })
       .populate({
         path: 'subcategory',
         populate: { path: 'news' } // Populate subcategory and include all news
@@ -309,7 +312,7 @@ const getNewsById = async (req, res) => {
     }
     news.view += 1;
     await news.save()
-    
+
     res.json({ success: true, news });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });

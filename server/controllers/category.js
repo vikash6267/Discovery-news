@@ -55,8 +55,12 @@ const getAllCategories = async (req, res) => {
         path: "news",
         model: "News",
       },
-    }).populate("news").lean();
-    const categories2 = await Category.find().populate("subCategories").populate("news").lean();;
+    }).populate("news").lean().sort({ createdAt: -1 })        // Sort by publish field in descending order (newest first)
+      .sort({ publish: -1 })        // Sort by publish field in descending order (newest first)
+      .limit(100);
+    const categories2 = await Category.find().populate("subCategories").populate("news").lean().sort({ createdAt: -1 })        // Sort by publish field in descending order (newest first)
+      .sort({ publish: -1 })        // Sort by publish field in descending order (newest first)
+      .limit(100);
 
     // Function to get random elements from an array
     const getRandomElements = (arr, num) => {
@@ -94,8 +98,8 @@ const getCategoryById = async (req, res) => {
     }
 
     const news = await News.find({ category: categoryId, ...queryFilters })
-    .skip((page - 1) * limit)
-    .limit(parseInt(limit));
+      .skip((page - 1) * limit)
+      .limit(parseInt(limit));
     // Prepare the response object
     const response = {
       success: true,
@@ -177,7 +181,9 @@ const deleteSubCategory = async (req, res) => {
 // Get all subcategories
 const getAllSubCategories = async (req, res) => {
   try {
-    const subCategories = await SubCategory.find().populate('category');
+    const subCategories = await SubCategory.find().populate('category').sort({ createdAt: -1 })        // Sort by publish field in descending order (newest first)
+      .sort({ publish: -1 })        // Sort by publish field in descending order (newest first)
+      .limit(100);
 
     // console.log(subCategories);
 
@@ -198,25 +204,27 @@ const getSubCategoriesByCategory = async (req, res) => {
       .populate({
         path: "category",
         select: "name" // Specify the fields you want to select
-      });
+      }).sort({ createdAt: -1 })        // Sort by publish field in descending order (newest first)
+      .sort({ publish: -1 })        // Sort by publish field in descending order (newest first)
+      .limit(100);
 
 
-      const news = await News.find({ subcategory: categoryId, ...queryFilters })
+    const news = await News.find({ subcategory: categoryId, ...queryFilters })
       .skip((page - 1) * limit)
       .limit(parseInt(limit));
-      // Prepare the response object
-      const response = {
-        success: true,
-        subCategories,
-        news,
-        pagination: {
-          page: parseInt(page),
-          limit: parseInt(limit),
-          total: await News.countDocuments({ subcategory: categoryId, ...queryFilters }),
-        },
-      };
-      
- 
+    // Prepare the response object
+    const response = {
+      success: true,
+      subCategories,
+      news,
+      pagination: {
+        page: parseInt(page),
+        limit: parseInt(limit),
+        total: await News.countDocuments({ subcategory: categoryId, ...queryFilters }),
+      },
+    };
+
+
     res.json({ success: true, response });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
