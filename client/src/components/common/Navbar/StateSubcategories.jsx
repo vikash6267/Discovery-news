@@ -6,79 +6,30 @@ import { Link } from "react-router-dom";
 const StateSubcategories = () => {
   const { category } = useSelector((state) => state.news);
   const [subCategories, setSubCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchCategories = async () => {
-      setLoading(true);
-      setError(null); // Reset error state
-      try {
-        const categoriesData = await fetchCategory();
-        console.log("Fetched categories data:", categoriesData);
-
-        // Find the "राज्य" category
-        const stateCategory = categoriesData?.categories.find(
-          (cat) => cat.name.trim() === "राज्य"
-        );
-
-        if (stateCategory) {
-          setSubCategories(stateCategory.subCategories || []);
-        } else {
-          setSubCategories([]);
-        }
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-        setError("Failed to fetch categories");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (category.length !== 0) {
-      // Find the "राज्य" category from existing data
-      const stateCategory = category.find((cat) => cat.name.trim() === "राज्य");
-
-      if (stateCategory) {
-        setSubCategories(stateCategory.subCategories || []);
-      } else {
-        setSubCategories([]);
-      }
-      setLoading(false); // No need to fetch data if `category` is not empty
-    } else {
-      fetchCategories();
-    }
+    const pick = (list) =>
+      setSubCategories(list?.find((c) => c.name.trim() === "राज्य")?.subCategories || []);
+    if (category.length) pick(category);
+    else fetchCategory().then((d) => pick(d?.categories));
   }, [category]);
 
-  if (loading) {
-    return (
-      <div className="relative p-4 text-center text-gray-600">Loading...</div>
-    );
-  }
-
-  if (error) {
-    return <div className="relative p-4 text-center text-red-600">{error}</div>;
-  }
+  if (!subCategories.length) return null;
 
   return (
-    <div className="relative bg-gray-200 p-4 rounded-md shadow-md">
-      {subCategories.length > 0 ? (
-        <div className="flex flex-wrap gap-2 max-w-7xl mx-auto">
-          {subCategories.map((sublink, subIndex) => (
-            <Link
-              key={subIndex}
-              to={`/subcategory/${sublink?._id}`}
-              className="block bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition duration-300"
-            >
-              {sublink?.name}
-            </Link>
-          ))}
-        </div>
-      ) : (
-        <div className="text-center text-gray-600">
-          No subcategories available
-        </div>
-      )}
+    <div className="bg-white border-b border-gray-200 shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 py-2 flex items-center gap-2 overflow-x-auto whitespace-nowrap">
+        <span className="text-xs font-bold text-red-600 uppercase shrink-0">राज्य</span>
+        {subCategories.map((sub) => (
+          <Link
+            key={sub?._id}
+            to={`/subcategory/${sub?._id}`}
+            className="rounded-full border border-gray-300 px-3 py-1 text-sm font-semibold text-gray-700 hover:bg-red-600 hover:border-red-600 hover:text-white transition-colors"
+          >
+            {sub?.name}
+          </Link>
+        ))}
+      </div>
     </div>
   );
 };

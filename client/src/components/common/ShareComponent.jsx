@@ -1,3 +1,4 @@
+import { SITE_URL } from "../../config/site";
 import React from 'react';
 import {
     FacebookShareButton,
@@ -9,8 +10,8 @@ import {
   } from 'react-share';
 
 const ShareComponent = ({ question }) => {
-  const textToShare = `Votes on poll\n${question}\nhttps://discoveryindianews.com/#pollsvote\n\nVisit the latest news:\n`;
-  const urlToShare = "https://discoveryindianews.com/";
+  const textToShare = `Votes on poll\n${question}\n${SITE_URL}/#pollsvote\n\nVisit the latest news:\n`;
+  const urlToShare = SITE_URL;
 
   return (
     <div>

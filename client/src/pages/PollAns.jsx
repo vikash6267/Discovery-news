@@ -1,3 +1,4 @@
+import { SITE_URL } from "../config/site";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { IoCloseCircle, IoShareSocial } from "react-icons/io5";
@@ -14,7 +15,7 @@ const PolllAns = () => {
         const response = await axios.get(
           `${process.env.REACT_APP_BASE_URL}/poll/get`
         );
-        setPolls(response.data);
+        setPolls(Array.isArray(response.data) ? response.data : []);
 
         // Load voted polls from localStorage
         const storedVotedPolls =
@@ -128,8 +129,8 @@ useEffect(() => {
 
 
 const handleShare = async (question) => {
-  const textToShare = `Votes on poll\n${question}\n\nVisit the latest news:\nhttps://www.discoveryindianews.com/`;
-  const urlToShare = "https://discoveryindianews.com/#pollsvote";
+  const textToShare = `Votes on poll\n${question}\n\nVisit the latest news:\n${SITE_URL}/`;
+  const urlToShare = `${SITE_URL}/#pollsvote`;
 
   if (navigator.share) {
     try {

@@ -1,19 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const load = (key) => {
+  try {
+    const v = JSON.parse(localStorage.getItem(key));
+    return Array.isArray(v) ? v : [];
+  } catch {
+    return [];
+  }
+};
+
 const initialState = {
-  allNews: localStorage.getItem("allNews")
-    ? JSON.parse(localStorage.getItem("allNews"))
-    : [],
-  category: localStorage.getItem("category")
-    ? JSON.parse(localStorage.getItem("category"))
-    : [],
+  allNews: load("allNews"),
+  category: load("category"),
   isMenuOpen: false,
-  ads: localStorage.getItem("ads")
-    ? JSON.parse(localStorage.getItem("ads"))
-    : [],
-  yt: localStorage.getItem("yt")
-    ? JSON.parse(localStorage.getItem("yt"))
-    : []
+  ads: load("ads"),
+  yt: load("yt")
 };
 
 const newsSlice = createSlice({

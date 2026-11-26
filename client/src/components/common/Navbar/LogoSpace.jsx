@@ -1,17 +1,23 @@
 import React from "react";
-import banner from "../../../assests/banner.png";
-import logo from "../../../assests/newlogo.jpg"
+import { Link } from "react-router-dom";
+import logo from "../../../assests/mplogo.png";
+import { SITE_NAME, SITE_TAGLINE } from "../../../config/site";
+
 function LogoSpace() {
   return (
-    <div className=" max-w-7xl p-4 mx-auto  ">
-      <div className=" flex justify-center mb-8 ">
-        <img src={logo} alt=""  className="lg:max-h-[150px] max-h-[100px]"
-        />
+    <header className="bg-gradient-to-b from-black via-neutral-950 to-red-950 border-b-4 border-yellow-400">
+      <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-center lg:justify-between gap-6">
+        <Link to="/" aria-label={`${SITE_NAME} होम`}>
+          <img src={logo} alt={`${SITE_NAME} – ${SITE_TAGLINE}`} className="h-24 lg:h-32 w-auto" />
+        </Link>
+        <p className="hidden lg:block text-right text-yellow-400 text-2xl font-bold leading-snug">
+          {SITE_TAGLINE}
+          <span className="block text-sm font-medium text-gray-300">
+            मध्य प्रदेश और देश-दुनिया की हर बड़ी खबर
+          </span>
+        </p>
       </div>
-      <div className=" flex justify-center ">
-        <img src={banner} alt="" />
-      </div>
-    </div>
+    </header>
   );
 }
 
