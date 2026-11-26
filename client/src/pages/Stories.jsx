@@ -1,3 +1,4 @@
+import { imgProps } from "../components/ui/news";
 import React, { useEffect, useState } from "react";
 import { getAllStories } from "../services/operations/admin";
 import { Link } from "react-router-dom";
@@ -53,7 +54,7 @@ const Stories = () => {
             <div className="bg-white shadow rounded-lg overflow-hidden relative">
               {/* Image */}
               <img
-                src={story?.images[0]?.url}
+                {...imgProps(story)}
                 alt={story.title}
                 className="w-full object-cover"
               />
