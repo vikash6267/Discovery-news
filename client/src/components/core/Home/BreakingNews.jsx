@@ -7,7 +7,8 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import "swiper/css/autoplay";
 import { fetchBreakingNews } from "../../../services/operations/admin";
-import { IoCloseCircle, IoShareSocial } from "react-icons/io5";
+import { IoShareSocial } from "react-icons/io5";
+import { SITE_URL } from "../../../config/site";
 
 const BreakingNews = () => {
   const [visible, setVisible] = useState(true);
@@ -33,7 +34,7 @@ const BreakingNews = () => {
         await navigator.share({
           title: "Breaking News",
           title: "Breaking News",
-          text: `Breaking News\n${currentNews.name}\nhttps://www.discoveryindianews.com/#breaking\n\nVisit the latest news:\nhttps://www.discoveryindianews.com/`,
+          text: `Breaking News\n${currentNews.name}\n${SITE_URL}/#breaking\n\nVisit the latest news:\n${SITE_URL}/`,
         });
         console.log("Thanks for sharing!");
       } catch (error) {
@@ -45,59 +46,34 @@ const BreakingNews = () => {
   };
   
 
+  const active = breakingNews.filter((n) => n.active);
+  if (!visible || active.length === 0) return <div id="breaking" />;
+
   return (
-    <div id="breaking">
-      {visible && (
-        <div>
-          <div className="w-full mx-auto relative rounded-lg bg-gradient-to-r from-red-700 to-yellow-500 p-2 shadow-2xl overflow-hidden">
-          <Swiper
-  modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
-  spaceBetween={10}
-  slidesPerView={1}
-  autoplay={{ delay: 4000 }}
-  loop={true}
-  className="max-w-7xl mx-auto relative"
-  onSlideChange={(swiper) => {
-    setCurrentNews(breakingNews[swiper.activeIndex]);
-  }}
->
-  {breakingNews.map(
-    (currElem, index) =>
-      currElem.active && (
-        <SwiperSlide key={index}>
-          <div className="relative bg-red-800 text-white rounded-lg px-4 py-4 shadow-lg border-4 border-transparent animate-borderGlow">
-            <div className="flex items-center gap-2 sm:gap-4 max-h-[63px] h-[63px] lg:h-[50px]">
-              <p className="text-[14px] sm:text-[20px] lg:text-3xl font-extrabold italic text-yellow-400 tracking-wide drop-shadow-md uppercase">
-                Breaking News
-              </p>
-              <div className="h-[30px] sm:h-[50px] w-[2px] sm:w-[3px] bg-yellow-400"></div>
-              <p className="text-[14px] sm:text-[18px] lg:text-xl font-semibold text-white tracking-wide drop-shadow-md">
-                {currElem.name}
-              </p>
-            </div>
-          </div>
-        </SwiperSlide>
-      )
-  )}
-</Swiper>
-
-          </div>
-
-          {/* Share Button */}
-          <div
-            className="bottom-1 z-10 flex text-white font-semibold justify-center mt-4 cursor-pointer"
-            onClick={handleShare}
-          >
-            <div className="bg-red-700 flex gap-1 p-1 rounded-xl">
-              Share Breaking
-              <IoShareSocial
-                size={28}
-                className="text-white bg-red-800 p-1 rounded-full cursor-pointer hover:text-red-500 hover:scale-110 transition-all"
-              />
-            </div>
-          </div>
+    <div id="breaking" className="bg-black border-b border-red-900">
+      <div className="max-w-7xl mx-auto flex items-stretch">
+        <div className="flex items-center gap-2 bg-red-600 px-3 md:px-5 text-white font-extrabold uppercase tracking-wide text-xs md:text-base shrink-0 [clip-path:polygon(0_0,100%_0,calc(100%-12px)_100%,0_100%)] pr-6">
+          <span className="h-2.5 w-2.5 rounded-full bg-yellow-300 animate-pulse" />
+          Breaking
         </div>
-      )}
+        <Swiper
+          modules={[Autoplay]}
+          slidesPerView={1}
+          autoplay={{ delay: 4000, disableOnInteraction: false }}
+          loop={active.length > 1}
+          className="flex-1 min-w-0 !mx-0"
+          onSlideChange={(swiper) => setCurrentNews(active[swiper.realIndex])}
+        >
+          {active.map((n, i) => (
+            <SwiperSlide key={i}>
+              <p className="px-4 py-2.5 text-white text-sm md:text-lg font-semibold truncate">{n.name}</p>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+        <button onClick={handleShare} aria-label="Share breaking news" className="px-3 md:px-4 text-yellow-400 hover:text-white transition-colors">
+          <IoShareSocial size={22} />
+        </button>
+      </div>
     </div>
   );
 };

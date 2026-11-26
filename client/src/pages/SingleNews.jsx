@@ -1,245 +1,139 @@
 import React, { useEffect, useState } from "react";
 import { getSingleNews } from "../services/operations/admin";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { format } from "date-fns";
-import { FaClock } from "react-icons/fa";
 import { Helmet } from "react-helmet";
 import {
   FaFacebookF,
   FaTwitter,
   FaLinkedinIn,
-
-
-  
   FaWhatsapp,
   FaEnvelope,
   FaRegEye,
 } from "react-icons/fa";
 import Contact from "../components/core/singleNews/Contact";
 import NewsActive from "../components/core/Home/RightSide/NewsActive";
-import { useSelector } from "react-redux";
 import CricketLive from "../components/core/Home/RightSide/CricketLive";
+import SectionTitle from "../components/ui/SectionTitle";
+import { NewsRow } from "../components/ui/NewsCard";
+import { byLatest } from "../components/ui/news";
+import { useSelector } from "react-redux";
+import { SITE_NAME, SITE_URL } from "../config/site";
+
+const stripHtml = (html = "") => html.replace(/<\/?[^>]+(>|$)/g, "");
 
 function SingleNews() {
   const { allNews } = useSelector((state) => state.news);
-
   const [news, setNews] = useState({});
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
-
-  const dharm = allNews
-    .filter((news) => news?.category?._id === "66bdc954433ab78f130e4a0b")
-    .sort((a, b) => new Date(b.publish) - new Date(a.publish))
-    .slice(0, 9);
-  const vyapar = allNews
-    .filter((news) => news?.category?._id === "66bdc944433ab78f130e4a02")
-    .sort((a, b) => new Date(b.publish) - new Date(a.publish))
-    .slice(0, 9);
-
-  const truncateText = (text, wordLimit) => {
-    const words = text.split(" ");
-    if (words.length > wordLimit) {
-      return words.slice(0, wordLimit).join(" ") + "...";
-    }
-    return text;
-  };
 
   useEffect(() => {
     const fetchNews = async () => {
       setLoading(true);
       try {
         const response = await getSingleNews(id);
-        setNews(response);
-        console.log(response);
+        setNews(response || {});
       } catch (error) {
         console.error("Error fetching news:", error);
       }
       setLoading(false);
+      window.scrollTo({ top: 0 });
     };
     fetchNews();
   }, [id]);
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    if (isNaN(date.getTime())) {
-      return "Invalid date";
-    }
-    return format(date, "MMMM d, yyyy h:mm a");
-  };
-  const currentUrl = encodeURIComponent(window.location.href);
+  const related = allNews
+    .filter((n) => n?.category?._id && n.category._id === news?.category?._id && n._id !== news?._id)
+    .sort(byLatest)
+    .slice(0, 6);
+
+  const articleUrl = `${SITE_URL}/${news?.slug || id}`;
+  const currentUrl = encodeURIComponent(articleUrl);
+  const dateText = news?.createdAt ? format(new Date(news.createdAt), "d MMMM yyyy, h:mm a") : "";
+  const desc = stripHtml(news?.description).slice(0, 160);
+  const shareBtn = "h-9 w-9 grid place-items-center rounded-full text-white hover:scale-110 transition-transform";
 
   return (
-    <div className=" max-w-7xl mx-auto p-4">
-  <Helmet>
-        <title>{news?.title ? news.title : "Loading..."}</title>
-        <meta name="description" content={news?.description?.slice(0, 150)} />
+    <div className="max-w-7xl mx-auto px-4 py-6">
+      <Helmet>
+        <title>{news?.title ? `${news.title} | ${SITE_NAME}` : SITE_NAME}</title>
+        <meta name="description" content={desc} />
         <meta property="og:type" content="article" />
         <meta property="og:title" content={news?.title} />
-        <meta property="og:description" content={news?.description?.slice(0, 150)} />
+        <meta property="og:description" content={desc} />
         <meta property="og:image" content={news?.images?.[0]?.url} />
-        <meta property="og:url" content={window.location.href} />
-        <meta property="og:site_name" content="Your Website Name" />
+        <meta property="og:url" content={articleUrl} />
+        <meta property="og:site_name" content={SITE_NAME} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={news?.title} />
-        <meta name="twitter:description" content={news?.description?.slice(0, 150)} />
+        <meta name="twitter:description" content={desc} />
         <meta name="twitter:image" content={news?.images?.[0]?.url} />
       </Helmet>
 
-      
-      <div className=" flex flex-col lg:flex-row gap-5 ">
-        {/* News Details */}
-        <div className=" lg:w-[75%]  w-full ">
-          <div>
-            <div>
-              <p className=" font-semibold text-2xl font-sans">{news?.title}</p>
-              <div className=" flex gap-5">
-                <p>
-                  {news?.createdAt
-                    ? formatDate(news.createdAt)
-                    : "Date not available"}
-                </p>
+      <div className="flex flex-col lg:flex-row gap-8">
+        <article className="lg:w-[70%] w-full bg-white rounded-xl shadow-sm p-5 md:p-8">
+          {loading && <p className="text-gray-500">लोड हो रहा है…</p>}
+          {news?.category?.name && (
+            <span className="inline-block bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full mb-3">
+              {news.category.name}
+            </span>
+          )}
+          <h1 className="text-2xl md:text-4xl font-extrabold leading-tight">{news?.title}</h1>
 
-                <p className=" flex gap-2 items-center">
-                  <FaRegEye className=" text-blue-800" /> {news?.view}
-                </p>
-              </div>
-            </div>
-
-            <div className="flex space-x-4 mt-4">
-              <a
-                href={`https://www.facebook.com/sharer/sharer.php?u=https://www.discoveryindianews.com/`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 bg-blue-800 rounded-lg"
-              >
-                <FaFacebookF className="text-white" />
-              </a>
-
-              <a
-                href={`https://twitter.com/intent/tweet?url=${window.location.href}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 bg-blue-500 rounded-lg"
-              >
-                <FaTwitter className="text-white" />
-              </a>
-              <a
-                href={`https://www.linkedin.com/shareArticle?mini=true&url=${window.location.href}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 bg-blue-400 rounded-lg"
-              >
-                <FaLinkedinIn className="text-blue-700" />
-              </a>
-              <a
-                href={`https://wa.me/?text=${encodeURIComponent(
-                  `${news?.title}\nhttps://discoveryindianews.com/${news?.slug}\nVisit the latest news:\nhttps://www.discoveryindianews.com/`
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 bg-green-600 rounded-lg"
-              >
-                <FaWhatsapp className="text-white" />
-              </a>
-
-              <a
-                href={`mailto:?subject=Check this out&body=${window.location.href}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 bg-gray-600 rounded-lg"
-              >
-                <FaEnvelope className="text-gray-100" />
-              </a>
-            </div>
-          </div>
-
-          {/* Main Image and Description */}
-          <div className="my-8">
-            {/* First Image */}
-            <div className="float-left md:w-1/3 w-full md:mr-6 mb-4">
-              {news?.images?.[0] && (
-                <img
-                  src={news.images[0].url}
-                  alt=""
-                  className="w-full h-auto object-cover rounded-md"
-                />
-              )}
-            </div>
-
-            <div className="leading-7">
-              <span className="font-bold ">
-                {news?.location} {" ।"}
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-y border-gray-200 py-3 text-sm text-gray-600">
+            <div className="flex items-center gap-4">
+              <span>{dateText}</span>
+              <span className="flex gap-1.5 items-center">
+                <FaRegEye className="text-red-600" /> {news?.view ?? 0}
               </span>
-              <span
-                dangerouslySetInnerHTML={{ __html: news?.description }}
-              ></span>
+            </div>
+            <div className="flex gap-2">
+              <a aria-label="Facebook" href={`https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`} target="_blank" rel="noopener noreferrer" className={`${shareBtn} bg-blue-700`}><FaFacebookF /></a>
+              <a aria-label="Twitter" href={`https://twitter.com/intent/tweet?url=${currentUrl}`} target="_blank" rel="noopener noreferrer" className={`${shareBtn} bg-sky-500`}><FaTwitter /></a>
+              <a aria-label="LinkedIn" href={`https://www.linkedin.com/shareArticle?mini=true&url=${currentUrl}`} target="_blank" rel="noopener noreferrer" className={`${shareBtn} bg-blue-600`}><FaLinkedinIn /></a>
+              <a aria-label="WhatsApp" href={`https://wa.me/?text=${encodeURIComponent(`${news?.title}\n${articleUrl}`)}`} target="_blank" rel="noopener noreferrer" className={`${shareBtn} bg-green-600`}><FaWhatsapp /></a>
+              <a aria-label="Email" href={`mailto:?subject=${encodeURIComponent(news?.title || "")}&body=${currentUrl}`} className={`${shareBtn} bg-gray-600`}><FaEnvelope /></a>
             </div>
           </div>
 
-          {/* Additional Images */}
+          {news?.images?.[0] && (
+            <img src={news.images[0].url} alt={news?.title} className="w-full max-h-[480px] object-cover rounded-xl mt-5" />
+          )}
+
+          <div className="mt-6 text-lg leading-8 text-gray-800 [&_p]:mb-4 [&_a]:text-red-600 [&_a]:underline [&_img]:rounded-lg [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:my-3">
+            <strong>{news?.location}{news?.location ? " । " : ""}</strong>
+            <span dangerouslySetInnerHTML={{ __html: news?.description || "" }}></span>
+          </div>
+
           {news?.images?.slice(1).length > 0 && (
             <div className="my-8 grid grid-cols-1 md:grid-cols-2 gap-4">
               {news.images.slice(1).map((imge, index) => (
-                <img
-                  src={imge.url}
-                  alt=""
-                  key={index}
-                  className="w-full h-auto object-cover rounded-md"
-                />
+                <img src={imge.url} alt="" key={index} className="w-full h-auto object-cover rounded-xl" />
               ))}
             </div>
           )}
 
           <Contact />
-        </div>
+        </article>
 
-        {/* Sidebar */}
-        <div className=" lg:w-[30%]">
-          <NewsActive realted={allNews} />
-          <div className="mt-[50px]">
-            <div className=" flex justify-between mb-4 relative">
-              <p className=" min-w-full min-h-[2px] bg-[#ed0302] absolute bottom-0 "></p>
-              <p className=" flex items-center gap-2 font-bold text-lg bg-[#ed0302] text-white p-2 relative wf">
-                Cricket Score
-              </p>
-            </div>
-
-            <div>
-              <CricketLive />
-            </div>
+        <aside className="lg:w-[30%] space-y-6">
+          <div className="rounded-xl bg-white shadow-sm p-4">
+            <NewsActive name1="ताज़ा खबरें" name2="ज्यादा पढ़ी गई" />
           </div>
-
-          {/* Dharm And Jyotishi */}
-          <div>
-            <div className="mt-[50px]">
-              <div className=" flex justify-between mb-4 relative">
-                <p className=" min-w-full min-h-[2px] bg-[#ed0302] absolute bottom-0 "></p>
-                <p className=" flex items-center gap-2 font-bold text-lg bg-[#ed0302] text-white p-2 relative wf">
-                  धर्म एवं ज्योतिष
-                </p>
-              </div>
-
-              <div>
-                <div className="flex gap-3 grid-cols-1  mt-8 p-2 flex-col">
-                  {dharm?.map((currElem, index) => (
-                    <Link to={`/${currElem?.slug}`} key={currElem._id}>
-                      <div className="flex gap-3">
-                        <img
-                          src={currElem?.images[0]?.url}
-                          alt=""
-                          className="w-[105px]"
-                        />
-                        <p className="text-wrap mt-2 text-sm">
-                          {truncateText(currElem.title, 10)}
-                        </p>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </div>
+          <div className="rounded-xl bg-white shadow-sm p-4">
+            <SectionTitle>Cricket Score</SectionTitle>
+            <CricketLive />
           </div>
-        </div>
+          {related.length > 0 && (
+            <div className="rounded-xl bg-white shadow-sm p-4">
+              <SectionTitle>{`और पढ़ें: ${news?.category?.name}`}</SectionTitle>
+              {related.map((n) => (
+                <NewsRow key={n._id} news={n} />
+              ))}
+            </div>
+          )}
+        </aside>
       </div>
     </div>
   );

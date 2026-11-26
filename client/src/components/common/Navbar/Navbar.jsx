@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { FaBars, FaHome, FaSearch } from "react-icons/fa";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCategory } from "../../../services/operations/admin";
+import { fetchCategory } from "../../../services/operations/admin"; // Adjust path as needed
 import SearchBox from "./SearchBox";
 
 const Navbar = () => {
@@ -80,32 +80,35 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-black lg:bg-red-600">
+    <nav className="sticky top-0 z-[60] bg-red-700 shadow-lg">
       <div className="max-w-7xl mx-auto flex items-center justify-between py-2 px-4">
         <div className="flex">
-          <Link to="/" className="text-white lg:mr-3">
-            <FaHome size={22} />
+          <Link to="/">
+            <div className="text-white lg:mr-3">
+              <FaHome size={22} />
+            </div>
           </Link>
-          <div className="hidden lg:flex lg:mt-[2px]">
+          <div className="hidden lg:flex ">
             {categories.map((link, index) => (
               <div key={index} className="group relative z-50">
-                <Link
-                  to={`/category/${link?._id}`}
-                  className="text-white hover:bg-gray-100 text-[16px] font-bold hover:text-black px-3 py-4"
-                  onClick={handleLinkClick}
-                >
-                  {link?.name}
+                <Link to={`/category/${link?._id}`}>
+                  <div
+                    className="text-white hover:bg-black hover:text-yellow-400 text-[16px] font-bold px-3 py-1 transition-colors"
+                    onClick={handleLinkClick}
+                  >
+                    {link?.name}
+                  </div>
                 </Link>
                 {link?.subCategories && link?.subCategories?.length > 0 && (
-                  <div className="absolute left-0 top-8 text-[16px] font-bold bg-red-600 py-2 w-32 hidden group-hover:block text-start">
+                  <div className="absolute left-0 top-8 text-[16px] font-bold bg-red-700 shadow-xl py-2 w-40 hidden group-hover:block text-start">
                     {link?.subCategories.map((sublink, subIndex) => (
-                      <Link
-                        key={subIndex}
-                        to={`/subcategory/${sublink?._id}`}
-                        className="block text-white hover:bg-gray-100 hover:text-black px-3 py-2"
-                        onClick={handleLinkClick}
-                      >
-                        {sublink?.name}
+                      <Link to={`/subcategory/${sublink?._id}`} key={subIndex}>
+                        <div
+                          className="block text-white hover:bg-black hover:text-yellow-400 px-3 py-2 transition-colors"
+                          onClick={handleLinkClick}
+                        >
+                          {sublink?.name}
+                        </div>
                       </Link>
                     ))}
                   </div>
@@ -113,26 +116,21 @@ const Navbar = () => {
               </div>
             ))}
             {/* Adding Video and Live TV links */}
-            <Link
-              to="/video"
-              className="text-white hover:bg-gray-100 text-[16px] font-bold hover:text-black px-3 "
-            >
-              वीडियो
+            <Link to="/video">
+              <div className="text-white hover:bg-black hover:text-yellow-400 text-[16px] font-bold px-3 py-1 transition-colors">
+                वीडियो
+              </div>
             </Link>
-            <Link
-              to="/live-tv"
-              className="text-white hover:bg-gray-100 text-[16px] font-bold hover:text-black px-3"
-            >
-              Live TV
+            <Link to="/live-tv">
+              <div className="text-white hover:bg-black hover:text-yellow-400 text-[16px] font-bold px-3 py-1 transition-colors">
+                Live TV
+              </div>
             </Link>
           </div>
         </div>
 
         <div className="flex items-center space-x-4">
-          <button
-            onClick={toggleSearch}
-            className="text-white bg-gray-200 rounded-md p-2 "
-          >
+          <button onClick={toggleSearch} className="text-white bg-gray-200 rounded-md p-2">
             <FaSearch className="text-black" />
           </button>
 
@@ -151,12 +149,10 @@ const Navbar = () => {
           {categories.map((link, index) => (
             <div key={index} className="border-b border-gray-200">
               <div className="flex justify-between items-center px-4 py-2 cursor-pointer">
-                <Link
-                  to={`/category/${link?._id}`}
-                  className="text-white"
-                  onClick={handleLinkClick}
-                >
-                  {link?.name}
+                <Link to={`/category/${link?._id}`}>
+                  <div className="text-white" onClick={handleLinkClick}>
+                    {link?.name}
+                  </div>
                 </Link>
                 {link.subCategories && link?.subCategories?.length > 0 && (
                   <>
@@ -179,15 +175,15 @@ const Navbar = () => {
                 )}
               </div>
               {openDropdown === index && link.subCategories && (
-                <div className="bg-black pl-4">
+                <div className="bg-red-800 pl-4">
                   {link.subCategories.map((sublink, subIndex) => (
-                    <Link
-                      key={subIndex}
-                      to={`/subcategory/${sublink?._id}`}
-                      className="block text-white px-4 py-2"
-                      onClick={handleLinkClick}
-                    >
-                      {sublink.name}
+                    <Link to={`/subcategory/${sublink?._id}`} key={subIndex}>
+                      <div
+                        className="block text-white px-4 py-2"
+                        onClick={handleLinkClick}
+                      >
+                        {sublink.name}
+                      </div>
                     </Link>
                   ))}
                 </div>
@@ -196,21 +192,17 @@ const Navbar = () => {
           ))}
           {/* Adding Video and Live TV links for mobile */}
           <div className="border-b border-gray-200 px-4 py-2">
-            <Link
-              to="/video"
-              className="text-white"
-              onClick={handleLinkClick}
-            >
-              वीडियो
+            <Link to="/video">
+              <div className="text-white" onClick={handleLinkClick}>
+                वीडियो
+              </div>
             </Link>
           </div>
           <div className="border-b border-gray-200 px-4 py-2">
-            <Link
-              to="/live-tv"
-              className="text-white"
-              onClick={handleLinkClick}
-            >
-              Live TV
+            <Link to="/live-tv">
+              <div className="text-white" onClick={handleLinkClick}>
+                Live TV
+              </div>
             </Link>
           </div>
         </div>

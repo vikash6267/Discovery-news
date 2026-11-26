@@ -10,6 +10,8 @@
 
 html,
 body {
+  background: #f9fafb;
+  font-family: "Noto Sans Devanagari", system-ui, sans-serif;
   overflow-x: hidden;
   scroll-behavior: smooth;
 }
@@ -52,3 +54,6 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+::selection { background: #dc2626; color: #fff; }
+.scroll-to-top-button:hover { background-color: #dc2626; }

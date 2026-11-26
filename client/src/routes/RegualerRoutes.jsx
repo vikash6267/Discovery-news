@@ -29,7 +29,6 @@ function RegualerRoutes() {
       <LogoSpace />
       <Navbar />
       <StateSubcategories />
-      <br />
       <BreakingNews />
       <AddSlideBar />
       {/* <div className="h-screen w-screen bg-white"></div> */}
