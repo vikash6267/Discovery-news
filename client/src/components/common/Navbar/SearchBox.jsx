@@ -1,3 +1,4 @@
+import { imgProps } from "../../ui/news";
 import React, { useState } from "react";
 import { CSSTransition } from "react-transition-group";
 import { useSelector } from "react-redux";
@@ -64,7 +65,7 @@ const SearchBox = ({ isOpen, toggleSearch }) => {
                   onClick={toggleSearch} // Close search box on click
                 >
                   <img
-                    src={news?.images[0]?.url}
+                    {...imgProps(news)}
                     alt={news.title}
                     className="w-full sm:w-32 h-auto object-cover rounded-lg"
                   />

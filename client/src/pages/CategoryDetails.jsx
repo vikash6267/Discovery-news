@@ -1,3 +1,4 @@
+import { imgProps } from "../components/ui/news";
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { format } from "date-fns";
@@ -171,7 +172,7 @@ const CategoryPage = () => {
                         <Link to={`/${currElem?.slug}`} key={currElem._id}>
                           <div className="flex gap-3">
                             <img
-                              src={currElem?.images[0]?.url}
+                              {...imgProps(currElem)}
                               alt={currElem.title}
                               className="w-[125px]"
                             />

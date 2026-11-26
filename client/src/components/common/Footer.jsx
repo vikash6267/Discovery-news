@@ -32,7 +32,7 @@ const Footer = () => {
     <footer className="mt-10 bg-black text-gray-300 border-t-4 border-red-600">
       <div className="max-w-7xl mx-auto px-4 py-8 flex flex-col md:flex-row md:items-center md:justify-between gap-5">
         <div className="flex items-center gap-4">
-          <img src={logo} alt={SITE_NAME} className="h-16 w-auto" />
+          <Link to="/" aria-label="होम"><img src={logo} alt={SITE_NAME} className="h-16 w-auto" /></Link>
           <p className="text-yellow-400 font-semibold">{SITE_TAGLINE}</p>
         </div>
         <nav className="flex flex-wrap gap-x-5 gap-y-2 text-sm">

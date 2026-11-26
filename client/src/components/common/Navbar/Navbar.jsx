@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchCategory } from "../../../services/operations/admin"; // Adjust path as needed
 import SearchBox from "./SearchBox";
 
+const MAX_VISIBLE = 7;
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
@@ -83,13 +85,20 @@ const Navbar = () => {
     <nav className="sticky top-0 z-[60] bg-red-700 shadow-lg">
       <div className="max-w-7xl mx-auto flex items-center justify-between py-2 px-4">
         <div className="flex">
-          <Link to="/">
-            <div className="text-white lg:mr-3">
-              <FaHome size={22} />
-            </div>
+          <Link
+            to="/"
+            aria-label="होम"
+            onClick={() => {
+              handleLinkClick();
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+            className="flex items-center gap-1.5 text-white font-bold lg:mr-3 hover:text-yellow-300 transition-colors"
+          >
+            <FaHome size={22} />
+            <span className="text-[16px]">होम</span>
           </Link>
-          <div className="hidden lg:flex ">
-            {categories.map((link, index) => (
+          <div className="hidden lg:flex whitespace-nowrap">
+            {categories.slice(0, MAX_VISIBLE).map((link, index) => (
               <div key={index} className="group relative z-50">
                 <Link to={`/category/${link?._id}`}>
                   <div
@@ -115,6 +124,22 @@ const Navbar = () => {
                 )}
               </div>
             ))}
+            {categories.length > MAX_VISIBLE && (
+              <div className="group relative z-50">
+                <div className="text-white hover:bg-black hover:text-yellow-400 text-[16px] font-bold px-3 py-1 transition-colors cursor-pointer">
+                  और ▾
+                </div>
+                <div className="absolute left-0 top-8 w-52 bg-red-700 shadow-xl py-2 hidden group-hover:block max-h-[70vh] overflow-y-auto">
+                  {categories.slice(MAX_VISIBLE).map((link) => (
+                    <Link key={link._id} to={`/category/${link._id}`} onClick={handleLinkClick}>
+                      <div className="text-white text-[15px] font-semibold hover:bg-black hover:text-yellow-400 px-4 py-2 transition-colors">
+                        {link.name}
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
             {/* Adding Video and Live TV links */}
             <Link to="/video">
               <div className="text-white hover:bg-black hover:text-yellow-400 text-[16px] font-bold px-3 py-1 transition-colors">

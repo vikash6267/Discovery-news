@@ -1,3 +1,4 @@
+import { imgProps } from "./ui/news";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getAllStories } from "../services/operations/admin";
@@ -30,7 +31,7 @@ const WebStoriesCarousel = () => {
             className="min-w-[200px] bg-red-500 rounded overflow-hidden shadow-lg"
           >
             <img
-              src={story.images[0]?.url}
+              {...imgProps(story)}
               alt={story.title}
               className="w-full h-48 object-cover"
             />
