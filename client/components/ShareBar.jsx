@@ -6,12 +6,13 @@ import { SOCIAL } from "@/lib/site";
 
 const link = (k) => SOCIAL.find((x) => x.key === k)?.url || "";
 
-// WhatsApp / Telegram message: bold headline (*...*), the story link, then our follow links.
+// WhatsApp / Telegram message: bold headline (*...*), the story link, then a lighter (italic, not bold) follow line + links.
+// (WhatsApp cannot change font size – bold for the headline and plain/italic for the rest is how it stays smaller.)
 export const shareMessage = (title, url) =>
   `*${title}*
 ${url}
 
-*हमारी खबरों की सबसे पहले अपडेट्स के लिए हमें फॉलो करें*
+_हमारी खबरों की सबसे पहले अपडेट्स के लिए हमें फॉलो करें_
 
 ` +
   `*इंस्टाग्राम :* ${link("instagram")}
