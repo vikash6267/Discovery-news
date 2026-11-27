@@ -25,7 +25,7 @@ const authSchema = new mongoose.Schema(
         },
         role: {
             type: String,
-            enum: ["user", "Admin","SuperAdmin"],
+            enum: ["user", "Writer", "Reporter", "Editor", "Admin", "SuperAdmin"],
             default: "user",
             required: true,
         },
@@ -34,6 +34,9 @@ const authSchema = new mongoose.Schema(
             canEdit: { type: Boolean, default: false },
             canDelete: { type: Boolean, default: false }
           },
+
+        district: { type: String, trim: true },
+        active: { type: Boolean, default: true },
 
         token: {
             type: String,

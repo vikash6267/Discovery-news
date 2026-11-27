@@ -1,3 +1,4 @@
+const { auth, requireRole, ROLES } = require("../middleware/auth");
 const express = require("express")
 const router = express.Router()
 
@@ -8,8 +9,8 @@ const {
     uploadImages
 } = require("../controllers/imageCtrl")
 
-router.post("/upload", imageUpload)
-router.post("/multi", uploadImages)
+router.post("/upload", auth, requireRole(...ROLES.STAFF), imageUpload)
+router.post("/multi", auth, requireRole(...ROLES.STAFF), uploadImages)
 
 
 // export all router

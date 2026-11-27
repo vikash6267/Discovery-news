@@ -1,3 +1,4 @@
+const { PUBLIC_NEWS } = require("../utills/newsFilter");
 // controllers/categoryController.js
 const Category = require("../models/category");
 const SubCategory = require("../models/subCategory");
@@ -54,11 +55,12 @@ const getAllCategories = async (req, res) => {
       populate: {
         path: "news",
         model: "News",
+        match: PUBLIC_NEWS,
       },
-    }).populate("news").lean().sort({ createdAt: -1 })        // Sort by publish field in descending order (newest first)
+    }).populate({ path: "news", match: PUBLIC_NEWS }).lean().sort({ createdAt: -1 })        // Sort by publish field in descending order (newest first)
       .sort({ publish: -1 })        // Sort by publish field in descending order (newest first)
       .limit(100);
-    const categories2 = await Category.find().populate("subCategories").populate("news").lean().sort({ createdAt: -1 })        // Sort by publish field in descending order (newest first)
+    const categories2 = await Category.find().populate("subCategories").populate({ path: "news", match: PUBLIC_NEWS }).lean().sort({ createdAt: -1 })        // Sort by publish field in descending order (newest first)
       .sort({ publish: -1 })        // Sort by publish field in descending order (newest first)
       .limit(100);
 
@@ -91,13 +93,13 @@ const getCategoryById = async (req, res) => {
     // Fetch the requested category with populated subCategories
     const category = await Category.findById(categoryId)
       .populate("subCategories")
-      .populate("news"); // Assuming 'news' is another related field
+      .populate({ path: "news", match: PUBLIC_NEWS }); // Assuming 'news' is another related field
 
     if (!category) {
       return res.status(404).json({ success: false, message: "Category not found" });
     }
 
-    const news = await News.find({ category: categoryId, ...queryFilters })
+    const news = await News.find({ $and: [{ category: categoryId, ...queryFilters }, PUBLIC_NEWS] })
       .skip((page - 1) * limit)
       .limit(parseInt(limit));
     // Prepare the response object
@@ -108,7 +110,7 @@ const getCategoryById = async (req, res) => {
       pagination: {
         page: parseInt(page),
         limit: parseInt(limit),
-        total: await News.countDocuments({ category: categoryId, ...queryFilters }),
+        total: await News.countDocuments({ $and: [{ category: categoryId, ...queryFilters }, PUBLIC_NEWS] }),
       },
     };
 
@@ -200,7 +202,7 @@ const getSubCategoriesByCategory = async (req, res) => {
 
   try {
     const subCategories = await SubCategory.findById(categoryId)
-      .populate("news")
+      .populate({ path: "news", match: PUBLIC_NEWS })
       .populate({
         path: "category",
         select: "name" // Specify the fields you want to select
@@ -209,7 +211,7 @@ const getSubCategoriesByCategory = async (req, res) => {
       .limit(100);
 
 
-    const news = await News.find({ subcategory: categoryId, ...queryFilters })
+    const news = await News.find({ $and: [{ subcategory: categoryId, ...queryFilters }, PUBLIC_NEWS] })
       .skip((page - 1) * limit)
       .limit(parseInt(limit));
     // Prepare the response object
@@ -220,7 +222,7 @@ const getSubCategoriesByCategory = async (req, res) => {
       pagination: {
         page: parseInt(page),
         limit: parseInt(limit),
-        total: await News.countDocuments({ subcategory: categoryId, ...queryFilters }),
+        total: await News.countDocuments({ $and: [{ subcategory: categoryId, ...queryFilters }, PUBLIC_NEWS] }),
       },
     };
 

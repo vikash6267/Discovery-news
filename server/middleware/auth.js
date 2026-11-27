@@ -15,7 +15,6 @@ exports.auth = async (req, res, next) => {
 		req.body.token ||
 		req.header("Authorization").replace("Bearer ", "");
 		
-		console.log(token)
 		// If JWT is missing, return 401 Unauthorized response
 		if (!token) {
 			return res.status(401).json({ success: false, message: `Token Missing` });
@@ -26,7 +25,6 @@ exports.auth = async (req, res, next) => {
 			// Verifying the JWT using the secret key stored in environment variables
 
 			const decode = await jwt.verify(token, process.env.JWT_SECRET);
-			console.log(decode);
 			// Storing the decoded JWT payload in the request object for further use
 			req.user = decode;
 		} catch (error) {
@@ -106,3 +104,30 @@ exports.isSuperAdmin = async (req, res, next) => {
 
 
 
+
+
+// ---- Role based access (MP Update editorial workflow) ---------------------
+// Roles: SuperAdmin (master admin) > Admin (sub admin) > Editor > Writer / Reporter
+exports.ROLES = {
+  STAFF: ["SuperAdmin", "Admin", "Editor", "Writer", "Reporter"],
+  EDITORIAL: ["SuperAdmin", "Admin", "Editor"], // can approve / publish
+  MANAGE: ["SuperAdmin", "Admin"], // categories, ads, polls, stories...
+  MASTER: ["SuperAdmin"],
+};
+
+// Use after `auth`. Loads the user from DB so a changed/disabled role takes effect immediately.
+exports.requireRole = (...roles) => async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user || user.active === false) {
+      return res.status(401).json({ success: false, message: "Account not found or disabled" });
+    }
+    if (!roles.includes(user.role)) {
+      return res.status(403).json({ success: false, message: `Not allowed for role ${user.role}` });
+    }
+    req.account = user;
+    next();
+  } catch (error) {
+    return res.status(500).json({ success: false, message: "Role can't be verified" });
+  }
+};

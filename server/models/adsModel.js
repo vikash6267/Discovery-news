@@ -19,6 +19,12 @@ const adsSchema = new mongoose.Schema(
             required: true,
         },
 
+        title: { type: String, trim: true },
+        active: { type: Boolean, default: true },
+        startsAt: Date,
+        endsAt: Date,
+        clicks: { type: Number, default: 0 },
+
     },
     { timestamps: true }
 );

@@ -83,6 +83,10 @@ const loginCtrl = async (req, res) => {
       });
     }
 
+    if (user.active === false) {
+      return res.status(403).json({ success: false, message: "This account is disabled. Contact the master admin." });
+    }
+
     if (await bcrypt.compare(password, user.password)) {
       const token = jwt.sign(
         { email: user.email, id: user._id, role: user.role },

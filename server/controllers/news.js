@@ -4,6 +4,9 @@ const Category = require('../models/category');
 const SubCategory = require('../models/subCategory');
 const Notification = require("../models/notification")
 const User = require("../models/authModel")
+const { PUBLIC_NEWS } = require("../utills/newsFilter")
+
+const EDITORIAL = ["SuperAdmin", "Admin", "Editor"];
 // Function to validate category ID
 const validateCategory = async (categoryId) => {
   return await Category.exists({ _id: categoryId });
@@ -93,12 +96,10 @@ const createNews = async (req, res) => {
     // Validate subcategory ID
 
 
-    let active = true
-    if (authDetails.role === "Admin") {
-      console.log("hello"
-      )
-      active = false
-    }
+    // Writers / district reporters never publish directly: their story waits for an editor.
+    const canPublish = EDITORIAL.includes(authDetails.role);
+    const status = canPublish ? "approved" : "pending";
+    const active = true;
     const newNews = new News({
       title,
       subtitle,
@@ -108,6 +109,10 @@ const createNews = async (req, res) => {
       language,
       type,
       active: active,
+      status,
+      submittedBy: authDetails._id,
+      approvedBy: canPublish ? authDetails._id : undefined,
+      approvedAt: canPublish ? new Date() : undefined,
       tag,
       slug,
       author: authDetails._id,
@@ -193,10 +198,22 @@ const updateNewsById = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Invalid category ID' });
     }
 
-    // Validate subcategory ID
-    const isValidSubCategory = await validateSubCategory(subcategory);
-    if (!isValidSubCategory) {
-      return res.status(400).json({ success: false, message: 'Invalid subcategory ID' });
+    // Validate subcategory ID (optional)
+    if (subcategory) {
+      const isValidSubCategory = await validateSubCategory(subcategory);
+      if (!isValidSubCategory) {
+        return res.status(400).json({ success: false, message: 'Invalid subcategory ID' });
+      }
+    }
+
+    const existing = await News.findById(newsId);
+    if (!existing) {
+      return res.status(404).json({ success: false, message: 'News article not found' });
+    }
+    const me = req.account;
+    const canPublish = EDITORIAL.includes(me.role);
+    if (!canPublish && String(existing.submittedBy || existing.author) !== String(me._id)) {
+      return res.status(403).json({ success: false, message: 'You can edit only your own stories' });
     }
 
     const updatedFields = {
@@ -204,7 +221,7 @@ const updateNewsById = async (req, res) => {
       subtitle,
       location,
       category,
-      subcategory,
+      subcategory: subcategory || null,
       tag,
       slug,
       // expire: new Date(expire), // Convert expire to Date format
@@ -213,6 +230,11 @@ const updateNewsById = async (req, res) => {
       images: imagesArray, // Assign parsed images array
       youtubeurl: youtubeurl || null, // Set youtubeurl to null if not provided
     };
+    // A writer's edit sends the story back to the editor.
+    if (!canPublish) {
+      updatedFields.status = "pending";
+      updatedFields.rejectReason = undefined;
+    }
 
     const updatedNews = await News.findByIdAndUpdate(newsId, updatedFields, { new: true });
 
@@ -231,7 +253,7 @@ const updateNewsById = async (req, res) => {
 
 const getAllNews = async (req, res) => {
   try {
-    const news = await News.find()
+    const news = await News.find(PUBLIC_NEWS)
       .populate('category', 'name') // Populate category with categoryName field
       .populate('subcategory', 'name')
       .populate("comments.author")
@@ -270,14 +292,16 @@ const deleteNewsById = async (req, res) => {
     );
 
     // Remove news article ID from SubCategory
-    await SubCategory.findByIdAndUpdate(
-      { _id: deletedNews.subcategory },
-      {
-        $pull: {
-          news: deletedNews._id,
-        },
-      }
-    );
+    if (deletedNews.subcategory) {
+      await SubCategory.findByIdAndUpdate(
+        { _id: deletedNews.subcategory },
+        {
+          $pull: {
+            news: deletedNews._id,
+          },
+        }
+      );
+    }
 
 
 
@@ -294,14 +318,14 @@ const getNewsById = async (req, res) => {
 
 
   try {
-    const news = await News.findOne({ slug: newsId })
+    const news = await News.findOne({ slug: newsId, ...PUBLIC_NEWS })
       .populate({
         path: 'subcategory',
-        populate: { path: 'news' } // Populate subcategory and include all news
+        populate: { path: 'news', match: PUBLIC_NEWS, select: 'title slug images createdAt publish' }
       })
       .populate({
         path: 'category',
-        populate: { path: 'news' } // Populate subcategories and include all news
+        populate: { path: 'news', match: PUBLIC_NEWS, select: 'title slug images createdAt publish' }
 
       }).populate("comments.author")
       .populate("author")
