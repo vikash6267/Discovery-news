@@ -15,7 +15,7 @@
 (`MONGODB_URL`, `JWT_SECRET`, `CORS_ORIGINS`, AWS S3 keys, mail). **Never commit `.env`.**
 
 ## Run locally
-```
+``` 
 cd server && npm install && npm run dev      # API  :8080
 cd client && npm install && npm run dev      # site :3000
 ```
