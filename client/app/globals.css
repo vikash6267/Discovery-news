@@ -19,11 +19,12 @@ body {
 /* article body typography (HTML written in the admin editor) */
 .article-body {
   font-size: 1.125rem;
-  line-height: 2rem;
+  line-height: 1.7; /* was 2rem (~1.78): slightly tighter lines */
+  word-spacing: -0.06em; /* slightly tighter gaps between words */
   color: #1f2937;
 }
 .article-body p {
-  margin-bottom: 1rem;
+  margin-bottom: 0.85rem;
 }
 .article-body h2,
 .article-body h3 {
