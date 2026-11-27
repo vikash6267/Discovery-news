@@ -3,12 +3,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { FaBolt, FaAngleDoubleRight, FaChevronLeft } from "react-icons/fa";
 
-// Where a breaking headline opens: the linked story (set in Admin → ब्रेकिंग न्यूज़), else a search for the headline.
-const hrefOf = (item) => {
-  const u = (item.url || "").trim();
-  if (u) return u;
-  return `/search?q=${encodeURIComponent(item.name.split(" ").slice(0, 4).join(" "))}`;
-};
+// A breaking headline opens the story it is linked to (set in Admin -> ब्रेकिंग न्यूज़). Without a link it is plain text.
+const hrefOf = (item) => (item.url || "").trim();
 
 /**
  * Black strip, white text, red "ब्रेकिंग न्यूज़" tab.
@@ -30,7 +26,7 @@ export default function BreakingTicker({ items }) {
   const item = items[i % n];
   const href = hrefOf(item);
   const external = /^https?:\/\//.test(href);
-  const Headline = external ? "a" : Link;
+  const Headline = href ? (external ? "a" : Link) : "div";
 
   return (
     <div id="breaking" className="border-y border-red-700/60 bg-black shadow-md">
@@ -41,13 +37,11 @@ export default function BreakingTicker({ items }) {
         </div>
 
         <Headline
-          href={href}
-          {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+          {...(href ? { href, "aria-label": `पूरी खबर पढ़ें: ${item.name}`, ...(external ? { target: "_blank", rel: "noopener noreferrer" } : {}) } : {})}
           className="group min-w-0 flex-1 px-3 py-2.5 sm:py-3"
-          aria-label={`पूरी खबर पढ़ें: ${item.name}`}
         >
-          <span className="block break-words text-[15px] font-bold leading-snug text-white group-hover:text-yellow-300 sm:text-lg">{item.name}</span>
-          <span className="mt-0.5 block text-[11px] font-semibold uppercase tracking-wide text-yellow-400 sm:text-xs">पूरी खबर पढ़ें →</span>
+          <span className={`block break-words text-[15px] font-bold leading-snug text-white sm:text-lg ${href ? "group-hover:text-yellow-300" : ""}`}>{item.name}</span>
+          {href && <span className="mt-0.5 block text-[11px] font-semibold uppercase tracking-wide text-yellow-400 sm:text-xs">पूरी खबर पढ़ें →</span>}
         </Headline>
 
         {n > 1 && (

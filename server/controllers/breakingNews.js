@@ -74,8 +74,12 @@ const deleteBreakingNews = async (req, res) => {
 const updateStatusCtrl = async (req, res) => {
     try {
         const { id } = req.params;
-        const { active } = req.body;
-        const news = await breakingNewsModel.findByIdAndUpdate(id, { active }, { new: true })
+        const { active, name, url } = req.body;
+        const patch = {};
+        if (typeof active === "boolean") patch.active = active;
+        if (typeof name === "string" && name.trim()) patch.name = name.trim();
+        if (typeof url === "string") patch.url = url.trim(); // story link, e.g. /my-story-slug
+        const news = await breakingNewsModel.findByIdAndUpdate(id, patch, { new: true })
         return res.status(200).json({
             success: true,
             news
