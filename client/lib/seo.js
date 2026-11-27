@@ -7,7 +7,7 @@ export const absUrl = (path = "/") => (/^https?:\/\//.test(path) ? path : `${SIT
 export function ogImageOf(news) {
   const src = imgOf(news);
   const real = !isDeadImg(news?.images?.[0]?.url);
-  return real ? src : src.replace(/w=\d+/, "w=1200&h=630").replace("fit=crop", "fit=crop&crop=faces,entropy");
+  return real ? src : src.replace(/w=\d+/, "w=1200&h=630").replace("auto=format", "fm=jpg").replace("fit=crop", "fit=crop&crop=entropy");
 }
 
 /**

@@ -23,7 +23,7 @@ ${url}
  * Share buttons for articles, polls and web stories.
  * Instagram has no web "share URL", so it opens the phone's share sheet (pick Instagram) or copies the link.
  */
-export default function ShareBar({ url, title, image, className = "" }) {
+export default function ShareBar({ url, title, className = "" }) {
   const u = encodeURIComponent(url);
   const t = encodeURIComponent(title || "");
   const btn = "grid h-9 w-9 place-items-center rounded-full text-white transition-transform hover:scale-110";
@@ -39,32 +39,18 @@ export default function ShareBar({ url, title, image, className = "" }) {
     }
   };
 
-  // Instagram has no "share this link" URL (unlike Facebook / X). The closest thing to direct sharing:
-  //  1) hand the story PHOTO to the phone's share sheet -> choose Instagram (Story / Post / Message),
-  //  2) the caption (headline + link) is copied, so it can be pasted in Instagram.
+  // Instagram has no web "share link" URL like Facebook / X, but the phone's share sheet can send the link
+  // to Instagram (Message / Direct). There Instagram reads our Open Graph tags and shows the headline + photo card.
   const instagram = async () => {
-    const caption = message;
-    try { await navigator.clipboard.writeText(caption); } catch {}
-
-    if (image && navigator.canShare) {
-      try {
-        const blob = await (await fetch(image)).blob();
-        const file = new File([blob], "mpupdate.jpg", { type: blob.type || "image/jpeg" });
-        if (navigator.canShare({ files: [file] })) {
-          toast.success("कैप्शन कॉपी हो गया – Instagram में पेस्ट करें", { duration: 4000 });
-          await navigator.share({ files: [file], title, text: caption });
-          return;
-        }
-      } catch (e) {
-        if (e && e.name === "AbortError") return; // user closed the share sheet
-      }
-    }
     if (navigator.share) {
-      try { await navigator.share({ title, text: message }); } catch {}
+      try {
+        await navigator.share({ title, url });
+      } catch {}
       return;
     }
-    toast.success("लिंक कॉपी हो गया – Instagram खुल रहा है, वहाँ पेस्ट करें", { duration: 4000 });
-    window.open("https://www.instagram.com/", "_blank", "noopener");
+    try { await navigator.clipboard.writeText(url); } catch {}
+    toast.success("लिंक कॉपी हो गया – Instagram DM में पेस्ट करें, खबर का प्रीव्यू अपने आप आएगा", { duration: 4500 });
+    window.open("https://www.instagram.com/direct/inbox/", "_blank", "noopener");
   };
 
   return (

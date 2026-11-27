@@ -14,7 +14,7 @@ const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 
 let sharp = null;
 try {
-  sharp = require("sharp"); // optional: resizes + compresses photos before upload
+  sharp = require("sharp"); // optional: resizes + compresses photos to JPEG before upload
 } catch (e) {
   sharp = null;
 }
@@ -67,9 +67,9 @@ exports.uploadImage = async (file, folder) => {
     let ext = EXT[file.mimetype];
 
     if (sharp && file.mimetype !== "image/gif") {
-      body = await sharp(body).rotate().resize({ width: 1600, withoutEnlargement: true }).webp({ quality: 80 }).toBuffer();
-      contentType = "image/webp";
-      ext = "webp";
+      body = await sharp(body).rotate().resize({ width: 1600, withoutEnlargement: true }).jpeg({ quality: 82, mozjpeg: true }).toBuffer();
+      contentType = "image/jpeg";
+      ext = "jpg";
     }
 
     const now = new Date();
