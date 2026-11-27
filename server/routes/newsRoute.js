@@ -14,18 +14,18 @@ const {
   removelikePost,
 } = require('../controllers/news');
 
-const { auth, isUser, isAdmin } = require("../middleware/auth");
+const { auth, isUser, isAdmin, requireRole, ROLES } = require("../middleware/auth");
 
 
-router.post('/create',auth, createNews);
+router.post('/create', auth, requireRole(...ROLES.STAFF), createNews);
 
-router.put('/update', updateNewsById);
+router.put('/update', auth, requireRole(...ROLES.STAFF), updateNewsById);
 
-router.put('/toggleActive', toggleActive);
+router.put('/toggleActive', auth, requireRole(...ROLES.EDITORIAL), toggleActive);
 
 router.get('/all', getAllNews);
 
-router.delete('/delete', deleteNewsById);
+router.delete('/delete', auth, requireRole(...ROLES.EDITORIAL), deleteNewsById);
 
 router.get('/:newsId', getNewsById);
 

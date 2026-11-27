@@ -83,13 +83,24 @@ const newsSchema = new Schema({
   },
   publish: {
     type: Date,
-    default: Date.now()
+    default: Date.now
   }
   ,
   active: {
     type: Boolean,
     default: true, // Default active state
   },
+  // Editorial workflow: draft -> pending -> approved | rejected.
+  // Old documents have no status and are treated as approved (see utills/newsFilter.js).
+  status: {
+    type: String,
+    enum: ["draft", "pending", "approved", "rejected"],
+    default: "approved",
+  },
+  submittedBy: { type: Schema.Types.ObjectId, ref: 'auth' },
+  approvedBy: { type: Schema.Types.ObjectId, ref: 'auth' },
+  approvedAt: Date,
+  rejectReason: String,
   type: {
     type: String,
     required: true
@@ -116,6 +127,13 @@ const newsSchema = new Schema({
 
 },
 { timestamps: true });
+
+// indexes for the public/staff list queries
+newsSchema.index({ status: 1, publish: -1 });
+newsSchema.index({ category: 1, publish: -1 });
+newsSchema.index({ subcategory: 1, publish: -1 });
+newsSchema.index({ type: 1, publish: -1 });
+newsSchema.index({ submittedBy: 1, createdAt: -1 });
 
 const News = mongoose.model('News', newsSchema);
 
