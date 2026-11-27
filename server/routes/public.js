@@ -11,13 +11,13 @@ const CARD_FIELDS = "title subtitle slug type images category subcategory locati
 // GET /public/menu -> categories with their sub-categories (names only)
 router.get("/menu", async (req, res) => {
   try {
-    const categories = await Category.find({ active: { $ne: false } }).select("name subCategories").lean();
+    const categories = await Category.find({ active: { $ne: false } }).select("name subCategories kind order").lean();
     const subs = await SubCategory.find({ active: { $ne: false } }).select("name category").lean();
     const byCat = {};
     subs.forEach((s) => (byCat[s.category] = byCat[s.category] || []).push({ _id: s._id, name: s.name }));
     res.json({
       success: true,
-      categories: categories.map((c) => ({ _id: c._id, name: c.name, subCategories: byCat[c._id] || [] })),
+      categories: categories.map((c) => ({ _id: c._id, name: c.name, kind: c.kind || "topic", order: c.order || 0, subCategories: byCat[c._id] || [] })),
     });
   } catch (e) {
     res.status(500).json({ success: false, message: e.message });
@@ -37,7 +37,7 @@ router.get("/news", async (req, res) => {
     const [news, total] = await Promise.all([
       News.find(filter)
         .select(CARD_FIELDS)
-        .populate("category", "name")
+        .populate("category", "name kind")
         .populate("subcategory", "name")
         .sort({ publish: -1, createdAt: -1 })
         .skip((Math.max(parseInt(page), 1) - 1) * lim)
@@ -59,7 +59,7 @@ router.get("/news/:slug", async (req, res) => {
       { $inc: { view: 1 } },
       { new: true }
     )
-      .populate("category", "name")
+      .populate("category", "name kind")
       .populate("subcategory", "name")
       .populate("author", "name")
       .lean();

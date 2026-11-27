@@ -146,11 +146,11 @@ export default function NewsForm({ id }) {
             <Field label="कैटेगरी *">
               <select required value={f.category} onChange={(e) => setF((s) => ({ ...s, category: e.target.value, subcategory: "" }))} className={inputCls}>
                 <option value="">— चुनें —</option>
-                {menu.map((c) => <option key={c._id} value={c._id}>{c.name}</option>)}
+                {menu.map((c) => <option key={c._id} value={c._id}>{c.name}{c.kind === "division" ? " (संभाग)" : ""}</option>)}
               </select>
             </Field>
             {subs.length > 0 && (
-              <Field label="सब-कैटेगरी" hint="मध्य प्रदेश चुनने पर खबर ‘मध्य प्रदेश’ सेक्शन में जाएगी; बाकी राज्य ‘देश’ में जुड़ते हैं।">
+              <Field label="जिला / सब-कैटेगरी" hint="संभाग चुनने पर यहाँ उसके जिले आएँगे। मध्य प्रदेश की खबर संभाग + जिला चुनकर डालें; बाकी राज्यों की खबर ‘देश’ में जुड़ती है।">
                 <select value={f.subcategory} onChange={set("subcategory")} className={inputCls}>
                   <option value="">— कोई नहीं —</option>
                   {subs.map((s) => <option key={s._id} value={s._id}>{s.name}</option>)}

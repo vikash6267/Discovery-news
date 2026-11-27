@@ -31,6 +31,16 @@ const categorySchema = new Schema({
     type: Boolean,
     default: true, // Default active state
   },
+  // "division" = a Madhya Pradesh संभाग (its sub-categories are the districts); "topic" = normal category.
+  kind: {
+    type: String,
+    enum: ["topic", "division"],
+    default: "topic",
+  },
+  order: {
+    type: Number,
+    default: 0,
+  },
 });
 
 const Category = mongoose.model('Category', categorySchema);

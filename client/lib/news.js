@@ -23,26 +23,63 @@ export const MP = "मध्य प्रदेश";
 const STATE_CATEGORY = "राज्य";
 const NATIONAL = "देश";
 
+export const isDivision = (c) => c?.kind === "division";
+
 export function sectionKeyOf(n) {
   const cat = n?.category?.name?.trim();
   const sub = n?.subcategory?.name?.trim();
-  if (sub === MP) return "mp";
+  // every MP division/district story (and old "राज्य → मध्य प्रदेश" stories) belongs to the MP block
+  if (isDivision(n?.category) || sub === MP) return "mp";
   if (cat === STATE_CATEGORY || cat === NATIONAL) return "national";
   return n?.category?._id || "other";
 }
 
+/** The 10 MP divisions (संभाग) in menu order, each with its districts. */
+export const divisionsOf = (menu = []) =>
+  menu.filter(isDivision).sort((a, b) => (a.order || 0) - (b.order || 0));
+
 export function buildSections(menu = []) {
-  const rest = menu
-    .filter((c) => ![STATE_CATEGORY, NATIONAL].includes(c.name.trim()))
+  const topics = menu
+    .filter((c) => !isDivision(c) && ![STATE_CATEGORY, NATIONAL].includes(c.name.trim()))
     .map((c) => ({ key: c._id, label: c.name.trim(), href: `/category/${c._id}` }));
-  const politics = rest.filter((s) => s.label === "राजनीति");
-  const others = rest.filter((s) => s.label !== "राजनीति");
+  const politics = topics.filter((s) => s.label === "राजनीति");
+  const others = topics.filter((s) => s.label !== "राजनीति");
   return [
     { key: "mp", label: MP, href: "/category/mp" },
     ...politics,
     { key: "national", label: NATIONAL, href: "/category/national" },
     ...others,
   ];
+}
+
+/** Any page key: mp / national / a topic category / a division. */
+export function findSection(menu, id) {
+  const s = buildSections(menu).find((x) => x.key === id);
+  if (s) return { ...s, kind: "topic" };
+  const d = divisionsOf(menu).find((x) => x._id === id);
+  if (d) return { key: d._id, label: d.name.trim(), href: `/category/${d._id}`, kind: "division", districts: d.subCategories || [] };
+  return null;
+}
+
+/**
+ * Navigation: the main (horizontal) bar = देश + the 10 divisions;
+ * the ⋮ menu = everything else (MP overview, politics, crime, sports ... video, live).
+ */
+export function buildNav(menu = []) {
+  const sections = buildSections(menu);
+  const national = sections.find((s) => s.key === "national");
+  const main = [
+    national && { label: national.label, href: national.href },
+    ...divisionsOf(menu).map((d) => ({ label: d.name.trim(), href: `/category/${d._id}` })),
+  ].filter(Boolean);
+  const more = [
+    { label: "मध्य प्रदेश – सभी खबरें", href: "/category/mp" },
+    ...sections.filter((s) => s.key !== "mp" && s.key !== "national").map((s) => ({ label: s.label, href: s.href })),
+    { label: "वेब स्टोरीज़", href: "/web-stories" },
+    { label: "वीडियो", href: "/video" },
+    { label: "Live TV", href: "/live-tv" },
+  ];
+  return { main, more };
 }
 
 export const sectionOfNews = (n, sections) => sections.find((s) => s.key === sectionKeyOf(n));

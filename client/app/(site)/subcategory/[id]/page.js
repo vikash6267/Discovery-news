@@ -1,12 +1,16 @@
 import { redirect, notFound } from "next/navigation";
 import { getMenu } from "@/lib/api";
-import { MP } from "@/lib/news";
+import { MP, isDivision } from "@/lib/news";
 
-// Old links (/subcategory/<id>) keep working: only Madhya Pradesh stays a separate section,
-// every other state belongs to the national ("देश") column.
+// Old links (/subcategory/<id>) keep working: a district opens its division page filtered to that district;
+// the old "मध्य प्रदेश" sub-category opens the MP overview; every other state belongs to the national column.
 export default async function SubcategoryRedirect({ params }) {
   const menu = await getMenu();
-  const sub = menu.flatMap((c) => c.subCategories || []).find((s) => s._id === params.id);
-  if (!sub) notFound();
-  redirect(sub.name.trim() === MP ? "/category/mp" : "/category/national");
+  for (const c of menu) {
+    const sub = (c.subCategories || []).find((s) => s._id === params.id);
+    if (!sub) continue;
+    if (isDivision(c)) redirect(`/category/${c._id}?district=${sub._id}`);
+    redirect(sub.name.trim() === MP ? "/category/mp" : "/category/national");
+  }
+  notFound();
 }
