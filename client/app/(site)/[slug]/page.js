@@ -103,7 +103,7 @@ export default async function ArticlePage({ params }) {
             <span className="flex items-center gap-1.5"><FaRegEye className="text-red-600" />{news.view ?? 0}</span>
             {news.location && <span>📍 {news.location}</span>}
           </div>
-          <ShareBar url={url} title={news.title} />
+          <ShareBar url={url} title={news.title} image={`/api/share-image?slug=${encodeURIComponent(news.slug)}`} />
         </div>
 
         <figure className="mt-5">
@@ -132,7 +132,7 @@ export default async function ArticlePage({ params }) {
 
         <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-gray-200 pt-5">
           <Link href="/" className="rounded-full bg-red-600 px-5 py-2 text-sm font-bold text-white transition-colors hover:bg-black">← होम पेज पर जाएँ</Link>
-          <ShareBar url={url} title={news.title} />
+          <ShareBar url={url} title={news.title} image={`/api/share-image?slug=${encodeURIComponent(news.slug)}`} />
         </div>
       </article>
 
