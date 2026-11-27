@@ -14,10 +14,10 @@ export default function Header() {
     <header>
       {/* 1. red top bar */}
       <div className="bg-red-600">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2.5">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-1">
           <Today />
-          <Link href="/live-tv" className="flex items-center gap-2 rounded-full bg-red-700 px-4 py-1 text-sm font-extrabold tracking-wide text-white ring-1 ring-white/30 hover:bg-black">
-            <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-white" /> LIVE
+          <Link href="/live-tv" className="flex items-center gap-1.5 rounded-full bg-red-700 px-3 py-0.5 text-xs font-extrabold tracking-wide text-white ring-1 ring-white/30 hover:bg-black sm:px-4 sm:py-1 sm:text-sm">
+            <span className="h-2 w-2 animate-pulse rounded-full bg-white" /> LIVE
           </Link>
         </div>
       </div>

@@ -45,7 +45,7 @@ export default async function Home() {
 
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_340px]">
-      <div className="min-w-0 space-y-8">
+      <div className="min-w-0 space-y-5 sm:space-y-8">
         <HeroCarousel slides={slides} />
 
         <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">

@@ -17,7 +17,7 @@ export default async function SiteLayout({ children }) {
       <Header />
       <Navbar main={nav.main} more={nav.more} />
       <BreakingTicker items={breaking.map((b) => ({ name: b.name, url: b.url || "" }))} />
-      <main className="mx-auto max-w-7xl px-4 py-5">{children}</main>
+      <main className="mx-auto max-w-7xl px-3 py-3 sm:px-4 sm:py-5">{children}</main>
       <Footer />
     </>
   );

@@ -15,7 +15,7 @@ export default function Today() {
   const time = now ? now.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }) : "";
 
   return (
-    <div className="flex items-center gap-3 text-sm font-semibold text-white sm:text-base" suppressHydrationWarning>
+    <div className="flex items-center gap-3 text-xs font-semibold text-white sm:text-base" suppressHydrationWarning>
       <span className="flex items-center gap-2"><FaRegCalendarAlt />{date}</span>
       <span className="h-4 w-px bg-white/60" />
       <span className="flex items-center gap-2"><FaRegClock />{time}</span>
