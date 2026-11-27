@@ -1,4 +1,4 @@
-const { uploadImageToCloudinary } = require("../config/imageUploader");
+const { uploadImage } = require("../config/imageUploader");
 const adsModel = require("../models/adsModel")
 
 const createAddCtrl = async (req, res) => {
@@ -13,9 +13,9 @@ const createAddCtrl = async (req, res) => {
             })
         }
 
-        // either an uploaded file (Cloudinary) or a direct image link
+        // either an uploaded file (S3) or a direct image link
         const imageLink = image
-            ? (await uploadImageToCloudinary(image, process.env.FOLDER_NAME)).secure_url
+            ? (await uploadImage(image, "ads")).secure_url
             : imageUrl;
 
         const ad = await adsModel.create({

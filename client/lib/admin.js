@@ -52,7 +52,7 @@ export async function api(path, { method = "GET", body, form } = {}) {
   return data;
 }
 
-/** Upload one or more image files through the API (Cloudinary). Returns [{ url, public_id }]. */
+/** Upload one or more image files through the API (S3). Returns [{ url, public_id }]. */
 export async function uploadImages(files) {
   const form = new FormData();
   [...files].forEach((f) => form.append("thumbnail", f));

@@ -116,7 +116,7 @@ export default function AdsPage() {
               return (
                 <div key={a._id} className="rounded-xl border p-3">
                   {isDeadImg(a.image) ? (
-                    <div className="grid h-24 place-items-center rounded bg-red-50 px-2 text-center text-xs font-bold text-red-600">फोटो उपलब्ध नहीं (पुराना Cloudinary) — नई फोटो के साथ दोबारा बनाएँ</div>
+                    <div className="grid h-24 place-items-center rounded bg-red-50 px-2 text-center text-xs font-bold text-red-600">फोटो उपलब्ध नहीं (पुरानी फोटो खराब) — नई फोटो के साथ दोबारा बनाएँ</div>
                   ) : (
                     <img src={a.image} alt="" className="max-h-32 w-full rounded object-contain" />
                   )}

@@ -25,7 +25,7 @@ scp -r backend/* backend/.env.production.example user@VPS_IP:/var/www/mpupdate-a
 ```bash
 cd /var/www/mpupdate-api
 sudo bash deploy/setup-vps.sh      # pehli baar .env banake ruk jata hai
-nano .env                          # MONGODB_URL, JWT_SECRET, CORS_ORIGINS, Cloudinary, mail bharo
+nano .env                          # MONGODB_URL, JWT_SECRET, CORS_ORIGINS, S3 (bucket + keys), mail bharo
 sudo bash deploy/setup-vps.sh      # dobara chalao → API start + Nginx
 sudo certbot --nginx -d api.mpupdate.com --redirect -m you@example.com --agree-tos -n
 curl https://api.mpupdate.com/health        # {"ok":true,"mongo":"connected"}
@@ -64,5 +64,8 @@ curl -I "https://api.mpupdate.com/api/v1/public/news?limit=10"   # X-Edge-Cache:
 ## Dhyan dene wali baatein
 - `JWT_SECRET` naya lagao (purana repo me khula tha) – badalne par sab staff dobara login karenge.
 - Purani repo me jo `.env` commit hui hai, uske DB password / Cloudinary secret / mail password badal dena.
-- Cloudinary `dsvotvxhq` disabled hai; admin se photo upload ke liye nayi Cloudinary key `.env` me dalo.
+- Photo upload ab **S3** par hota hai (Cloudinary hata diya). `.env` me `S3_BUCKET`, `S3_REGION`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY` bharo.
+  Bucket me photos public-read honi chahiye, jaise bucket policy: `{"Effect":"Allow","Principal":"*","Action":"s3:GetObject","Resource":"arn:aws:s3:::BUCKET/mpupdate/*"}`
+  (Block Public Access me sirf "bucket policy" wali setting band karni hogi.) Photo ka link `https://BUCKET.s3.REGION.amazonaws.com/mpupdate/...` banta hai, ya `S3_PUBLIC_URL` (CloudFront) ho to wahi.
+  S3 ke liye IAM user ko sirf `s3:PutObject` is bucket par do. Purani Cloudinary wali khabron ki photo wapas nahi aayengi (wo cloud disabled hai), site un par category photo dikhati hai.
 - VPS me MongoDB nahi chal raha – Atlas hi use ho raha hai, isliye backup Atlas se aate hain.

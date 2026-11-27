@@ -8,7 +8,6 @@ const { cacheGet, clearOnWrite } = require("./utills/cache")
 const app = express();
 const cookieParser = require("cookie-parser")
 const cors = require("cors")
-const { cloudinaryConnect } = require("./config/cloudinary")
 const fileUpload = require("express-fileupload");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db")
@@ -73,8 +72,6 @@ app.get("/api/v1/story/getAll", cacheGet(120))
 app.get("/api/v1/yt/getAll", cacheGet(300))
 app.get("/api/v1/live/getAll", cacheGet(30))
 
-// cloudinary connect 
-cloudinaryConnect();
 
 
 // routes  
