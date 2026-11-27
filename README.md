@@ -12,7 +12,7 @@
 - `NEXT_PUBLIC_API_URL` = `https://api.mpupdate.com/api/v1`
 
 `server/.env.example` / `server/.env.production.example` → copy to `server/.env` on the server and fill in
-(`MONGODB_URL`, `JWT_SECRET`, `CORS_ORIGINS`, Cloudinary, mail). **Never commit `.env`.**
+(`MONGODB_URL`, `JWT_SECRET`, `CORS_ORIGINS`, AWS S3 keys, mail). **Never commit `.env`.**
 
 ## Run locally
 ```
