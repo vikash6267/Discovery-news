@@ -2,19 +2,18 @@ import { notFound } from "next/navigation";
 import PollWidget from "@/components/PollWidget";
 import SectionTitle from "@/components/SectionTitle";
 import { getPoll } from "@/lib/api";
-import { SITE_URL, SITE_NAME } from "@/lib/site";
+import { buildMeta } from "@/lib/seo";
 
 export const revalidate = 30;
 
 export async function generateMetadata({ params }) {
   const poll = await getPoll(params.id);
   if (!poll) return { title: "पोल नहीं मिला", robots: { index: false } };
-  return {
+  return buildMeta({
     title: `पोल: ${poll.question}`,
-    description: `${poll.question} – अपना वोट दें और नतीजे देखें।`,
-    alternates: { canonical: `/poll/${poll._id}` },
-    openGraph: { type: "website", title: `पोल: ${poll.question}`, url: `${SITE_URL}/poll/${poll._id}`, siteName: SITE_NAME, images: [{ url: "/og.jpg", width: 1200, height: 630 }] },
-  };
+    description: `${poll.question} – अपना वोट दें और नतीजे देखें। MP Update जनता की राय।`,
+    path: `/poll/${poll._id}`,
+  });
 }
 
 export default async function PollPage({ params }) {

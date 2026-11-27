@@ -8,8 +8,15 @@ export const metadata = {
   description: SITE_DESCRIPTION,
   applicationName: SITE_NAME,
   alternates: { canonical: "/" },
+  formatDetection: { telephone: false, email: false, address: false },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || undefined,
+    other: process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION ? { "msvalidate.01": process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION } : undefined,
+  },
+  category: "news",
   openGraph: {
     type: "website",
+    url: SITE_URL,
     siteName: SITE_NAME,
     locale: "hi_IN",
     title: `${SITE_NAME} | ${SITE_TAGLINE}`,

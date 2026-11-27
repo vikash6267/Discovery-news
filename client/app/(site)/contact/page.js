@@ -1,8 +1,9 @@
 import SectionTitle from "@/components/SectionTitle";
 import ContactForm from "@/components/ContactForm";
 import SocialIcons from "@/components/SocialIcons";
+import { buildMeta } from "@/lib/seo";
 
-export const metadata = { title: "संपर्क करें / विज्ञापन", description: "MP Update से संपर्क करें या विज्ञापन दें।", alternates: { canonical: "/contact" } };
+export const metadata = buildMeta({ title: "संपर्क करें / विज्ञापन", description: "MP Update से संपर्क करें, खबर भेजें या विज्ञापन दें।", path: "/contact" });
 
 export default function ContactPage() {
   return (

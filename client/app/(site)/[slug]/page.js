@@ -9,6 +9,7 @@ import SectionTitle from "@/components/SectionTitle";
 import { NewsRow } from "@/components/NewsCard";
 import { getNewsBySlug, getNewsList, getMenu, getAds, getPolls } from "@/lib/api";
 import { buildSections, sectionKeyOf, imgOf, stockImg, stripHtml, fmtDate, byLatest } from "@/lib/news";
+import { ogImageOf } from "@/lib/seo";
 import { cleanArticleHtml } from "@/lib/sanitize";
 import { SITE_URL, SITE_NAME } from "@/lib/site";
 
@@ -18,7 +19,7 @@ export async function generateMetadata({ params }) {
   const news = await getNewsBySlug(params.slug);
   if (!news) return { title: "खबर नहीं मिली", robots: { index: false } };
   const description = stripHtml(news.description).slice(0, 160);
-  const image = imgOf(news);
+  const image = ogImageOf(news);
   return {
     title: news.title,
     description,
@@ -32,6 +33,8 @@ export async function generateMetadata({ params }) {
       siteName: SITE_NAME,
       locale: "hi_IN",
       publishedTime: news.publish || news.createdAt,
+      section: news.category?.name,
+      tags: (news.tag || []).filter((t) => t !== "demo"),
       modifiedTime: news.updatedAt,
       images: [{ url: image, width: 1200, height: 630, alt: news.title }],
     },
@@ -40,7 +43,7 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function ArticlePage({ params }) {
-  const [news, list, menu, ads, polls] = await Promise.all([getNewsBySlug(params.slug), getNewsList("limit=300"), getMenu(), getAds(), getPolls()]);
+  const [news, list, menu, ads, polls] = await Promise.all([getNewsBySlug(params.slug), getNewsList("limit=80"), getMenu(), getAds(), getPolls()]);
   if (!news) notFound();
 
   const sections = buildSections(menu);
@@ -56,7 +59,7 @@ export default async function ArticlePage({ params }) {
     "@type": "NewsArticle",
     headline: news.title,
     description: stripHtml(news.description).slice(0, 200),
-    image: [imgOf(news)],
+    image: [ogImageOf(news)],
     datePublished: news.publish || news.createdAt,
     dateModified: news.updatedAt || news.publish || news.createdAt,
     inLanguage: "hi-IN",

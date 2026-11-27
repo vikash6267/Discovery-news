@@ -1,9 +1,10 @@
 import SectionTitle from "@/components/SectionTitle";
 import { getLive } from "@/lib/api";
 import { ytId } from "@/lib/youtube";
+import { buildMeta } from "@/lib/seo";
 
 export const revalidate = 60;
-export const metadata = { title: "Live TV", description: "MP Update लाइव – सीधा प्रसारण।", alternates: { canonical: "/live-tv" } };
+export const metadata = buildMeta({ title: "Live TV", description: "MP Update लाइव – सीधा प्रसारण।", path: "/live-tv" });
 
 export default async function LivePage() {
   const streams = await getLive();

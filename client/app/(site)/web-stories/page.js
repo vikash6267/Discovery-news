@@ -4,13 +4,10 @@ import SectionTitle from "@/components/SectionTitle";
 import { storyCover, storyTitle } from "@/components/StoriesStrip";
 import { getStories } from "@/lib/api";
 import { stockImg } from "@/lib/news";
+import { buildMeta } from "@/lib/seo";
 
 export const revalidate = 120;
-export const metadata = {
-  title: "वेब स्टोरीज़",
-  description: "MP Update की वेब स्टोरीज़ – तस्वीरों में ताज़ा खबरें।",
-  alternates: { canonical: "/web-stories" },
-};
+export const metadata = buildMeta({ title: "वेब स्टोरीज़", description: "MP Update की वेब स्टोरीज़ – तस्वीरों में ताज़ा खबरें।", path: "/web-stories" });
 
 export default async function StoriesPage() {
   const stories = await getStories();

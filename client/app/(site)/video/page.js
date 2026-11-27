@@ -3,9 +3,10 @@ import ShareBar from "@/components/ShareBar";
 import { getVideos } from "@/lib/api";
 import { ytId } from "@/lib/youtube";
 import { SITE_URL } from "@/lib/site";
+import { buildMeta } from "@/lib/seo";
 
 export const revalidate = 300;
-export const metadata = { title: "वीडियो न्यूज़", description: "MP Update की ताज़ा वीडियो खबरें।", alternates: { canonical: "/video" } };
+export const metadata = buildMeta({ title: "वीडियो न्यूज़", description: "MP Update की ताज़ा वीडियो खबरें – मध्य प्रदेश और देश-दुनिया।", path: "/video" });
 
 export default async function VideoPage() {
   const videos = (await getVideos()).map((v) => ({ ...v, id: ytId(v.url) })).filter((v) => v.id);

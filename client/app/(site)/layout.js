@@ -4,6 +4,7 @@ import BreakingTicker from "@/components/BreakingTicker";
 import Footer from "@/components/Footer";
 import { getMenu, getBreaking } from "@/lib/api";
 import { buildSections } from "@/lib/news";
+import { orgJsonLd, websiteJsonLd } from "@/lib/seo";
 
 export default async function SiteLayout({ children }) {
   const [menu, breaking] = await Promise.all([getMenu(), getBreaking()]);
@@ -15,6 +16,8 @@ export default async function SiteLayout({ children }) {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd()) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd()) }} />
       <Header />
       <Navbar items={items} />
       <BreakingTicker items={breaking.map((b) => ({ name: b.name, url: b.url || "" }))} />

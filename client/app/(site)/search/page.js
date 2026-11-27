@@ -2,8 +2,9 @@ import Link from "next/link";
 import SectionTitle from "@/components/SectionTitle";
 import { NewsRow } from "@/components/NewsCard";
 import { API_URL } from "@/lib/site";
+import { buildMeta } from "@/lib/seo";
 
-export const metadata = { title: "खबर खोजें", robots: { index: false, follow: true } };
+export const metadata = buildMeta({ title: "खबर खोजें", path: "/search", noindex: true });
 
 async function search(q) {
   if (!q) return [];
